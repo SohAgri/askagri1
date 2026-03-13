@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AskKrishi 🌾 – Kisan Ka Saathi</title>
+<meta name="description" content="AskKrishi - India's trusted AI farming assistant. Crop diseases, mandi prices, government schemes in Hindi, Telugu, Odia & English.">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #1a6b2a;
+  --green-mid: #2d8a3e;
+  --green-light: #4caf50;
+  --green-pale: #eaf5eb;
+  --gold: #f5a623;
+  --gold-light: #ffd166;
+  --earth: #7c5c2e;
+  --cream: #fdf8f0;
+  --white: #ffffff;
+  --text: #1c1c1c;
+  --text-light: #5a5a5a;
+  --border: #d4e8d0;
+  --shadow: 0 2px 18px rgba(26,107,42,0.10);
+  --radius: 16px;
+  --nav-h: 60px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Hind', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+
+/* ===== NAV ===== */
+nav {
+  background: var(--white);
+  border-bottom: 2.5px solid var(--border);
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center;
+  height: var(--nav-h); padding: 0 16px; gap: 10px;
+}
+.nav-logo {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.4rem; font-weight: 800; color: var(--green);
+  white-space: nowrap; cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; gap: 6px;
+}
+.nav-logo span { color: var(--gold); }
+
+/* Single row nav links */
+.nav-links {
+  display: flex; gap: 2px; flex-wrap: nowrap;
+  overflow-x: auto; flex: 1;
+  scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-links a {
+  padding: 6px 10px; border-radius: 20px;
+  font-size: 0.78rem; font-weight: 600; color: var(--text-light);
+  text-decoration: none; transition: all 0.2s;
+  white-space: nowrap; display: flex; align-items: center; gap: 4px;
+  flex-shrink: 0;
+}
+.nav-links a:hover, .nav-links a.active {
+  background: var(--green-pale); color: var(--green);
+}
+.nav-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.lang-select {
+  padding: 5px 10px; border-radius: 20px;
+  border: 2px solid var(--green); background: transparent;
+  color: var(--green); font-weight: 700; font-size: 0.78rem;
+  cursor: pointer; font-family: 'Hind', sans-serif;
+  outline: none;
+}
+.lang-select:hover { background: var(--green); color: white; }
+
+/* ===== TIP BAR ===== */
+.tip-bar {
+  background: linear-gradient(90deg, var(--green) 0%, #2d8a3e 100%);
+  color: white; padding: 10px 20px; text-align: center;
+  font-size: 0.85rem; line-height: 1.5;
+}
+.tip-bar strong { font-size: 0.9rem; }
+
+/* ===== PAGES ===== */
+.page { display: none; }
+.page.active { display: block; animation: fadeUp 0.3s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+/* ===== HOME ===== */
+#home { background: linear-gradient(180deg, #edf7ee 0%, var(--cream) 60%); }
+
+.hero { text-align: center; padding: 48px 20px 30px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--gold-light); color: var(--earth);
+  padding: 5px 14px; border-radius: 20px; font-size: 0.78rem;
+  font-weight: 700; margin-bottom: 16px;
+}
+.hero-logo {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(2.4rem, 7vw, 4rem);
+  font-weight: 800; color: var(--green); line-height: 1.1;
+  margin-bottom: 8px;
+}
+.hero-logo span { color: var(--gold); }
+.hero-sub { font-size: clamp(0.9rem, 2.5vw, 1.1rem); color: var(--text-light); margin-bottom: 30px; }
+
+/* SEARCH */
+.search-wrap { max-width: 660px; margin: 0 auto 16px; position: relative; }
+.search-bar {
+  width: 100%; padding: 16px 110px 16px 22px;
+  border: 2.5px solid var(--border); border-radius: 50px;
+  font-size: 0.95rem; font-family: 'Hind', sans-serif;
+  background: white; color: var(--text);
+  box-shadow: 0 4px 24px rgba(26,107,42,0.13);
+  outline: none; transition: border 0.2s, box-shadow 0.2s;
+}
+.search-bar:focus { border-color: var(--green-light); box-shadow: 0 4px 32px rgba(76,175,80,0.22); }
+.search-bar::placeholder { color: #bbb; }
+.search-btns { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); display: flex; gap: 4px; }
+.search-voice-btn {
+  background: var(--green-pale); border: none; border-radius: 50%;
+  width: 36px; height: 36px; cursor: pointer; font-size: 1rem;
+  color: var(--green); transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+}
+.search-voice-btn:hover { background: var(--green); color: white; }
+.search-voice-btn.listening { background: #ffebee; color: #c62828; animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+.search-submit {
+  background: var(--green); border: none; border-radius: 50%;
+  width: 36px; height: 36px; cursor: pointer; font-size: 1rem;
+  color: white; transition: background 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.search-submit:hover { background: var(--green-light); }
+.search-suggestions { font-size: 0.8rem; color: var(--text-light); margin-top: 10px; }
+.search-suggestions span {
+  background: var(--green-pale); color: var(--green);
+  padding: 4px 12px; border-radius: 14px; margin: 3px;
+  display: inline-block; cursor: pointer; font-weight: 600;
+  transition: background 0.2s; border: 1.5px solid var(--border);
+}
+.search-suggestions span:hover { background: #c8e6c9; border-color: var(--green-light); }
+
+/* FEATURE CARDS */
+.features {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px; max-width: 920px; margin: 0 auto 40px; padding: 0 16px;
+}
+.feat-card {
+  background: white; border-radius: var(--radius); padding: 24px 18px 20px;
+  border: 2px solid var(--border); text-align: center; cursor: pointer;
+  transition: all 0.22s; box-shadow: var(--shadow); position: relative; overflow: hidden;
+}
+.feat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--green), var(--green-light));
+  transform: scaleX(0); transition: transform 0.3s; transform-origin: left;
+}
+.feat-card:hover::before { transform: scaleX(1); }
+.feat-card:hover { transform: translateY(-5px); border-color: var(--green-light); box-shadow: 0 10px 32px rgba(26,107,42,0.18); }
+.feat-icon { font-size: 2.4rem; margin-bottom: 10px; }
+.feat-title { font-family: 'Baloo 2', cursive; font-size: 0.95rem; font-weight: 700; color: var(--green); margin-bottom: 6px; }
+.feat-desc { font-size: 0.78rem; color: var(--text-light); line-height: 1.5; }
+
+/* WEATHER */
+.weather-widget { max-width: 920px; margin: 0 auto 28px; padding: 0 16px; }
+.weather-card {
+  background: linear-gradient(135deg, #1565c0 0%, #1976d2 50%, #42a5f5 100%);
+  color: white; border-radius: var(--radius); padding: 20px 24px;
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  box-shadow: 0 6px 20px rgba(21,101,192,0.25); position: relative; overflow: hidden;
+}
+.weather-card::after {
+  content: '☁️'; position: absolute; right: -10px; top: -10px;
+  font-size: 5rem; opacity: 0.1;
+}
+.weather-icon { font-size: 2.8rem; }
+.weather-info h3 { font-family: 'Baloo 2', cursive; font-size: 1rem; font-weight: 700; margin-bottom: 2px; }
+.weather-info p { font-size: 0.8rem; opacity: 0.9; }
+.weather-temp { font-family: 'Baloo 2', cursive; font-size: 2.2rem; font-weight: 800; margin-left: auto; }
+.weather-agri { font-size: 0.75rem; opacity: 0.85; margin-top: 4px; background: rgba(255,255,255,0.15); padding: 2px 8px; border-radius: 10px; display: inline-block; }
+
+/* SECTIONS */
+.section { max-width: 1000px; margin: 0 auto 40px; padding: 0 16px; }
+.section-title { font-family: 'Baloo 2', cursive; font-size: 1.2rem; font-weight: 800; color: var(--green); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+
+/* CROP GRID */
+.crop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+.crop-card {
+  background: white; border-radius: var(--radius); padding: 16px 10px;
+  text-align: center; cursor: pointer; border: 2px solid var(--border);
+  transition: all 0.2s; box-shadow: var(--shadow);
+}
+.crop-card:hover { border-color: var(--green-light); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(26,107,42,0.15); }
+.crop-card .icon { font-size: 2rem; margin-bottom: 7px; }
+.crop-card .name { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+.crop-card .name-local { font-size: 0.72rem; color: var(--text-light); margin-top: 2px; }
+
+/* MANDI TABLE */
+.mandi-wrap { background: white; border-radius: var(--radius); overflow: hidden; border: 2px solid var(--border); box-shadow: var(--shadow); }
+.mandi-header { background: linear-gradient(90deg, var(--green), var(--green-mid)); color: white; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
+.mandi-header h3 { font-family: 'Baloo 2', cursive; font-size: 1rem; font-weight: 700; }
+.mandi-update { font-size: 0.72rem; opacity: 0.85; }
+table { width: 100%; border-collapse: collapse; }
+th { background: var(--green-pale); color: var(--green); font-size: 0.8rem; font-weight: 700; padding: 10px 14px; text-align: left; }
+td { padding: 10px 14px; font-size: 0.83rem; border-bottom: 1px solid var(--border); }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #f6fef6; }
+.price-up { color: #1b5e20; font-weight: 700; }
+.price-down { color: #b71c1c; font-weight: 700; }
+.trend-up { color: #2e7d32; }
+.trend-down { color: #c62828; }
+
+/* SCHEME CARDS */
+.scheme-list { display: grid; gap: 12px; }
+.scheme-card { background: white; border-radius: var(--radius); padding: 18px 20px; border: 2px solid var(--border); box-shadow: var(--shadow); display: flex; gap: 14px; align-items: flex-start; cursor: pointer; transition: all 0.2s; }
+.scheme-card:hover { border-color: var(--green-light); transform: translateX(5px); }
+.scheme-icon { font-size: 2rem; flex-shrink: 0; }
+.scheme-info h4 { font-family: 'Baloo 2', cursive; font-size: 0.95rem; font-weight: 700; color: var(--green); margin-bottom: 4px; }
+.scheme-info p { font-size: 0.79rem; color: var(--text-light); line-height: 1.6; }
+.scheme-badge { display: inline-block; background: var(--green-pale); color: var(--green); font-size: 0.7rem; font-weight: 700; padding: 2px 9px; border-radius: 10px; margin-top: 6px; }
+
+/* PAGE HEADERS */
+.page-header { background: linear-gradient(135deg, var(--green) 0%, #2d8a3e 100%); color: white; padding: 26px 20px 22px; }
+.page-header h1 { font-family: 'Baloo 2', cursive; font-size: clamp(1.3rem, 4vw, 1.8rem); font-weight: 800; }
+.page-header p { font-size: 0.85rem; opacity: 0.9; margin-top: 4px; }
+
+/* RESULT CARDS */
+.result-back { background: none; border: none; color: var(--green); font-weight: 700; font-size: 0.88rem; cursor: pointer; margin-bottom: 20px; display: flex; align-items: center; gap: 6px; padding: 0; font-family: 'Hind', sans-serif; }
+.result-card { background: white; border-radius: var(--radius); padding: 20px; margin-bottom: 14px; border: 2px solid var(--border); box-shadow: var(--shadow); }
+.result-card h3 { font-family: 'Baloo 2', cursive; color: var(--green); font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+.result-card p { font-size: 0.84rem; color: var(--text-light); line-height: 1.75; margin-bottom: 8px; }
+.result-card ul { padding-left: 18px; font-size: 0.84rem; color: var(--text-light); line-height: 1.9; }
+.tag { display: inline-block; background: var(--green-pale); color: var(--green); font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 10px; margin: 2px; }
+.whatsapp-share { display: inline-flex; align-items: center; gap: 6px; background: #25d366; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; text-decoration: none; margin-top: 12px; transition: background 0.2s; }
+.whatsapp-share:hover { background: #1da851; }
+
+/* INFO GRID */
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.info-box { background: var(--green-pale); border-radius: 12px; padding: 14px; border: 1.5px solid var(--border); }
+.info-box h4 { color: var(--green); font-size: 0.82rem; font-weight: 700; margin-bottom: 6px; }
+.info-box p, .info-box ul { font-size: 0.8rem; color: var(--text-light); line-height: 1.8; }
+.info-box ul { padding-left: 16px; }
+
+/* UPLOAD */
+.upload-box {
+  border: 3px dashed var(--green-light); border-radius: var(--radius);
+  padding: 44px 20px; background: var(--green-pale); cursor: pointer;
+  transition: all 0.2s; margin-bottom: 20px;
+}
+.upload-box:hover { background: #c8e6c9; border-color: var(--green); }
+.upload-icon { font-size: 3.2rem; margin-bottom: 12px; }
+#fileInput { display: none; }
+.upload-preview { width: 100%; max-width: 300px; border-radius: var(--radius); margin: 0 auto 16px; display: none; }
+.upload-preview img { width: 100%; border-radius: var(--radius); border: 2px solid var(--border); }
+.analyze-btn { background: linear-gradient(135deg, var(--green), var(--green-mid)); color: white; border: none; border-radius: 50px; padding: 14px 44px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Hind', sans-serif; box-shadow: 0 4px 14px rgba(26,107,42,0.3); }
+.analyze-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,107,42,0.4); }
+.analysis-result { background: white; border-radius: var(--radius); padding: 22px; border: 2px solid var(--border); text-align: left; margin-top: 20px; display: none; box-shadow: var(--shadow); }
+.analysis-result h3 { font-family: 'Baloo 2', cursive; color: var(--green); font-weight: 700; margin-bottom: 12px; }
+.confidence-bar { height: 8px; background: var(--border); border-radius: 4px; margin: 6px 0 16px; overflow: hidden; }
+.confidence-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--green-light)); border-radius: 4px; transition: width 1.2s ease; }
+
+/* ASK / CHAT */
+.ask-form textarea { width: 100%; padding: 14px 16px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 0.9rem; font-family: 'Hind', sans-serif; resize: vertical; min-height: 130px; outline: none; background: white; }
+.ask-form textarea:focus { border-color: var(--green-light); }
+.ask-form select { width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 0.88rem; font-family: 'Hind', sans-serif; outline: none; background: white; margin-top: 10px; color: var(--text); }
+.submit-btn { width: 100%; margin-top: 14px; background: linear-gradient(135deg, var(--green), var(--green-mid)); color: white; border: none; border-radius: 50px; padding: 14px; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: 'Hind', sans-serif; transition: all 0.2s; box-shadow: 0 4px 14px rgba(26,107,42,0.25); }
+.submit-btn:hover { transform: translateY(-2px); }
+.success-msg { background: var(--green-pale); border: 2px solid var(--green-light); border-radius: var(--radius); padding: 18px; margin-top: 14px; display: none; text-align: center; }
+
+/* AI CHAT */
+.ai-chat-box { background: white; border-radius: var(--radius); border: 2px solid var(--border); overflow: hidden; box-shadow: var(--shadow); margin-bottom: 20px; }
+.ai-chat-header { background: linear-gradient(90deg, var(--green), var(--green-mid)); color: white; padding: 14px 20px; display: flex; align-items: center; gap: 10px; }
+.ai-chat-header h3 { font-family: 'Baloo 2', cursive; font-size: 1rem; font-weight: 700; }
+.ai-badge { background: rgba(255,255,255,0.2); font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+.chat-messages { height: 340px; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.chat-msg { max-width: 80%; border-radius: 16px; padding: 10px 14px; font-size: 0.84rem; line-height: 1.6; }
+.chat-msg.user { background: var(--green); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+.chat-msg.ai { background: var(--green-pale); color: var(--text); align-self: flex-start; border-bottom-left-radius: 4px; border: 1.5px solid var(--border); }
+.chat-msg.ai .ai-name { font-size: 0.7rem; color: var(--green); font-weight: 700; margin-bottom: 4px; }
+.chat-input-row { display: flex; gap: 8px; padding: 14px; border-top: 2px solid var(--border); background: #f9fef9; }
+.chat-input { flex: 1; padding: 10px 16px; border: 2px solid var(--border); border-radius: 50px; font-size: 0.88rem; font-family: 'Hind', sans-serif; outline: none; background: white; }
+.chat-input:focus { border-color: var(--green-light); }
+.chat-send { background: var(--green); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 1rem; transition: background 0.2s; flex-shrink: 0; }
+.chat-send:hover { background: var(--green-light); }
+.chat-typing { display: none; padding: 8px 14px; background: var(--green-pale); border-radius: 16px; border-bottom-left-radius: 4px; align-self: flex-start; font-size: 0.8rem; color: var(--green); border: 1.5px solid var(--border); }
+.chat-typing span { display: inline-block; animation: blink 1.2s infinite; }
+.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0%,80%,100%{opacity:0.2} 40%{opacity:1} }
+
+/* SEASONAL */
+.season-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.season-tab { padding: 9px 22px; border-radius: 50px; border: 2px solid var(--border); background: white; font-weight: 700; font-size: 0.86rem; cursor: pointer; transition: all 0.2s; font-family: 'Hind', sans-serif; }
+.season-tab.active { background: var(--green); color: white; border-color: var(--green); }
+.tip-card { background: white; border-radius: var(--radius); padding: 16px 18px; margin-bottom: 10px; border: 2px solid var(--border); box-shadow: var(--shadow); display: flex; gap: 12px; }
+.tip-num { background: linear-gradient(135deg, var(--green), var(--green-mid)); color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.82rem; flex-shrink: 0; }
+.tip-content h4 { font-family: 'Baloo 2', cursive; font-size: 0.92rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.tip-content p { font-size: 0.8rem; color: var(--text-light); line-height: 1.6; }
+
+/* FOOTER */
+footer { background: #122a14; color: #8fc491; text-align: center; padding: 28px 16px; margin-top: 40px; }
+footer .footer-logo { font-family: 'Baloo 2', cursive; font-size: 1.3rem; font-weight: 800; color: #4caf50; margin-bottom: 6px; }
+footer p { font-size: 0.8rem; line-height: 1.9; }
+footer a { color: #81c784; text-decoration: none; }
+
+/* LOADING */
+.loading { display: inline-block; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
+.loading-green { border-color: var(--border); border-top-color: var(--green); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .nav-links a { padding: 5px 7px; font-size: 0.72rem; }
+  .info-grid { grid-template-columns: 1fr; }
+  .weather-temp { margin-left: 0; }
+  .features { grid-template-columns: 1fr 1fr; }
+  .chat-messages { height: 260px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPage('home')">🌾 Ask<span>Krishi</span></div>
+    <div class="nav-links">
+      <a href="#" class="active" onclick="showPage('home')">🏠 <span data-key="nav_home">Home</span></a>
+      <a href="#" onclick="showPage('diseases')">🌿 <span data-key="nav_diseases">Diseases</span></a>
+      <a href="#" onclick="showPage('mandi')">📊 <span data-key="nav_prices">Prices</span></a>
+      <a href="#" onclick="showPage('schemes')">🏛️ <span data-key="nav_schemes">Schemes</span></a>
+      <a href="#" onclick="showPage('seasonal')">🌦️ <span data-key="nav_tips">Tips</span></a>
+      <a href="#" onclick="showPage('ai-chat')">🤖 <span data-key="nav_ai">AI Chat</span></a>
+      <a href="#" onclick="showPage('upload')">📷 <span data-key="nav_upload">Upload</span></a>
+      <a href="#" onclick="showPage('ask')">✉️ <span data-key="nav_ask">Ask</span></a>
+    </div>
+    <div class="nav-right">
+      <select class="lang-select" onchange="setLang(this.value)" id="langSelect">
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+        <option value="te">తెలుగు</option>
+        <option value="od">ଓଡ଼ିଆ</option>
+      </select>
+    </div>
+  </div>
+</nav>
+
+<!-- TIP BAR -->
+<div class="tip-bar" id="tipBar">
+  💡 <strong data-key="tip_label">Tip of the Day:</strong>
+  <span data-key="tip_text"> Use neem-based pesticides for eco-friendly pest control — safe for soil and bees!</span>
+</div>
+
+<!-- ===== HOME ===== -->
+<div id="home" class="page active">
+  <div class="hero">
+    <div class="hero-badge">🇮🇳 <span data-key="hero_badge">India's Farming AI Assistant</span></div>
+    <div class="hero-logo">🌾 Ask<span>Krishi</span></div>
+    <div class="hero-sub" data-key="hero_sub">Ask Anything About Farming – Kisan Ka Saathi</div>
+
+    <div class="search-wrap">
+      <input class="search-bar" id="searchInput" type="text" data-key-placeholder="search_placeholder"
+        placeholder="e.g. Why are my paddy leaves turning yellow?"
+        onkeydown="if(event.key==='Enter') doSearch()">
+      <div class="search-btns">
+        <button class="search-voice-btn" id="voiceBtn" onclick="startVoice('searchInput')" title="Voice Search">🎙️</button>
+        <button class="search-submit" onclick="doSearch()">🔍</button>
+      </div>
+    </div>
+    <div class="search-suggestions" id="homeSuggestions"></div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="features">
+    <div class="feat-card" onclick="showPage('ai-chat')">
+      <div class="feat-icon">🤖</div>
+      <div class="feat-title" data-key="feat_ai_title">AI Farming Assistant</div>
+      <div class="feat-desc" data-key="feat_ai_desc">Chat with real AI for instant expert farming answers</div>
+    </div>
+    <div class="feat-card" onclick="showPage('upload')">
+      <div class="feat-icon">📷</div>
+      <div class="feat-title" data-key="feat_upload_title">Diagnose Crop Disease</div>
+      <div class="feat-desc" data-key="feat_upload_desc">Upload photo — AI detects disease & gives treatment</div>
+    </div>
+    <div class="feat-card" onclick="showPage('mandi')">
+      <div class="feat-icon">📊</div>
+      <div class="feat-title" data-key="feat_mandi_title">Mandi Prices</div>
+      <div class="feat-desc" data-key="feat_mandi_desc">Today's live market prices for all major crops</div>
+    </div>
+    <div class="feat-card" onclick="showPage('diseases')">
+      <div class="feat-icon">🌿</div>
+      <div class="feat-title" data-key="feat_disease_title">Crop Disease Guide</div>
+      <div class="feat-desc" data-key="feat_disease_desc">Symptoms, causes & treatments for 10 crops</div>
+    </div>
+  </div>
+
+  <!-- WEATHER -->
+  <div class="weather-widget">
+    <div class="weather-card" id="weatherCard">
+      <div class="weather-icon" id="weatherIcon">⛅</div>
+      <div class="weather-info">
+        <h3 id="weather-loc">📍 <span data-key="weather_loading">Fetching your location...</span></h3>
+        <p id="weather-desc">Loading weather data...</p>
+        <span class="weather-agri" id="weather-agri" data-key="weather_agri">Checking farming conditions...</span>
+      </div>
+      <div class="weather-temp" id="weather-temp">--°C</div>
+    </div>
+  </div>
+
+  <!-- CROP DISEASE GUIDE -->
+  <div class="section">
+    <div class="section-title">🌿 <span data-key="sec_disease_guide">Crop Disease Guide</span></div>
+    <div class="crop-grid" id="homeCropGrid"></div>
+  </div>
+
+  <!-- QUICK SCHEMES -->
+  <div class="section">
+    <div class="section-title">🏛️ <span data-key="sec_schemes">Popular Government Schemes</span></div>
+    <div class="scheme-list" id="homeSchemes"></div>
+  </div>
+</div>
+
+<!-- ===== SEARCH RESULTS ===== -->
+<div id="search-results" class="page">
+  <div style="max-width:800px;margin:0 auto;padding:20px 16px;">
+    <button class="result-back" onclick="showPage('home')">← <span data-key="back_home">Back to Home</span></button>
+    <div class="search-wrap" style="margin:0 0 20px;">
+      <input class="search-bar" id="searchInput2" type="text" onkeydown="if(event.key==='Enter') doSearch2()">
+      <div class="search-btns">
+        <button class="search-voice-btn" onclick="startVoice('searchInput2')">🎙️</button>
+        <button class="search-submit" onclick="doSearch2()">🔍</button>
+      </div>
+    </div>
+    <div id="search-results-content"></div>
+  </div>
+</div>
+
+<!-- ===== DISEASE DETAIL ===== -->
+<div id="disease-page" class="page">
+  <div class="page-header">
+    <button onclick="showPage('diseases')" style="background:none;border:none;color:white;font-size:0.88rem;font-weight:700;cursor:pointer;margin-bottom:8px;font-family:'Hind',sans-serif;">← <span data-key="back">Back</span></button>
+    <h1 id="disease-title">Paddy Diseases</h1>
+    <p id="disease-subtitle">Common diseases and their solutions</p>
+  </div>
+  <div style="max-width:800px;margin:0 auto;padding:0 16px 40px;" id="disease-content"></div>
+</div>
+
+<!-- ===== DISEASES LIST ===== -->
+<div id="diseases" class="page">
+  <div class="page-header">
+    <h1>🌿 <span data-key="nav_diseases">Crop Disease Guide</span></h1>
+    <p data-key="disease_sub">Tap any crop to see diseases, symptoms & solutions</p>
+  </div>
+  <div class="section" style="margin-top:20px;">
+    <div class="crop-grid" id="diseaseCropGrid"></div>
+  </div>
+</div>
+
+<!-- ===== MANDI ===== -->
+<div id="mandi" class="page">
+  <div class="page-header">
+    <h1>📊 <span data-key="mandi_title">Mandi Market Prices</span></h1>
+    <p data-key="mandi_sub">Today's prices across major Indian mandis</p>
+  </div>
+  <div style="max-width:960px;margin:0 auto;padding:0 16px 40px;">
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+      <select id="stateFilter" onchange="filterMandi()" style="padding:8px 14px;border:2px solid var(--border);border-radius:20px;font-family:'Hind',sans-serif;font-size:0.83rem;outline:none;">
+        <option>All States</option>
+        <option>Maharashtra</option>
+        <option>Punjab</option>
+        <option>Uttar Pradesh</option>
+        <option>Karnataka</option>
+        <option>Andhra Pradesh</option>
+        <option>Telangana</option>
+        <option>Odisha</option>
+        <option>Madhya Pradesh</option>
+        <option>Rajasthan</option>
+      </select>
+      <select id="cropFilter" onchange="filterMandi()" style="padding:8px 14px;border:2px solid var(--border);border-radius:20px;font-family:'Hind',sans-serif;font-size:0.83rem;outline:none;">
+        <option>All Crops</option>
+        <option>Paddy</option>
+        <option>Wheat</option>
+        <option>Tomato</option>
+        <option>Onion</option>
+        <option>Potato</option>
+        <option>Chilli</option>
+        <option>Cotton</option>
+        <option>Soybean</option>
+      </select>
+    </div>
+    <div class="mandi-wrap">
+      <div class="mandi-header">
+        <h3>🌾 <span data-key="mandi_live">Live Mandi Prices</span></h3>
+        <span class="mandi-update" data-key="mandi_updated">Updated: Today, 9:00 AM</span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="mandiTable">
+          <thead>
+            <tr>
+              <th data-key="th_crop">🌾 Crop</th>
+              <th data-key="th_mandi">📍 Mandi</th>
+              <th data-key="th_state">🏙️ State</th>
+              <th data-key="th_min">💰 Min (₹/Q)</th>
+              <th data-key="th_max">💰 Max (₹/Q)</th>
+              <th data-key="th_trend">📈 Trend</th>
+            </tr>
+          </thead>
+          <tbody id="mandiBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <p style="font-size:0.72rem;color:#999;margin-top:8px;text-align:center;" data-key="mandi_disclaimer">* Prices are indicative. Verify with local mandi before selling.</p>
+  </div>
+</div>
+
+<!-- ===== SCHEMES ===== -->
+<div id="schemes" class="page">
+  <div class="page-header">
+    <h1>🏛️ <span data-key="schemes_title">Government Schemes for Farmers</span></h1>
+    <p data-key="schemes_sub">Know your benefits and how to apply</p>
+  </div>
+  <div style="max-width:800px;margin:0 auto;padding:20px 16px 40px;">
+    <div id="schemes-content"></div>
+  </div>
+</div>
+
+<!-- ===== SEASONAL ===== -->
+<div id="seasonal" class="page">
+  <div class="page-header">
+    <h1>🌦️ <span data-key="seasonal_title">Seasonal Farming Tips</span></h1>
+    <p data-key="seasonal_sub">Best practices for Kharif, Rabi & Zaid seasons</p>
+  </div>
+  <div style="padding:20px 16px 40px;max-width:920px;margin:0 auto;">
+    <div class="season-tabs">
+      <button class="season-tab active" onclick="showSeason('kharif',this)">☀️ Kharif</button>
+      <button class="season-tab" onclick="showSeason('rabi',this)">❄️ Rabi</button>
+      <button class="season-tab" onclick="showSeason('zaid',this)">🌸 Zaid</button>
+    </div>
+    <div id="season-content"></div>
+  </div>
+</div>
+
+<!-- ===== AI CHAT ===== -->
+<div id="ai-chat" class="page">
+  <div class="page-header">
+    <h1>🤖 <span data-key="ai_title">AI Farming Assistant</span></h1>
+    <p data-key="ai_sub">Powered by Claude AI — Ask any farming question</p>
+  </div>
+  <div style="max-width:700px;margin:0 auto;padding:20px 16px 40px;">
+    <div class="ai-chat-box">
+      <div class="ai-chat-header">
+        <div style="font-size:1.6rem;">🤖</div>
+        <div>
+          <h3>KrishiBot <span class="ai-badge">AI Powered</span></h3>
+          <div style="font-size:0.72rem;opacity:0.8;" data-key="ai_online">● Online — Ready to help farmers</div>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg ai">
+          <div class="ai-name">🌾 KrishiBot</div>
+          <span id="welcomeMsg">Namaste! I'm KrishiBot, your AI farming assistant. Ask me anything — crop diseases, fertilizers, mandi prices, weather, or government schemes. I'm here to help! 🙏</span>
+        </div>
+      </div>
+      <div class="chat-typing" id="chatTyping">
+        <span>●</span><span>●</span><span>●</span> KrishiBot is thinking...
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" type="text" data-key-placeholder="chat_placeholder" placeholder="Ask about crop disease, fertilizers, schemes..."
+          onkeydown="if(event.key==='Enter') sendChat()">
+        <button class="search-voice-btn" onclick="startVoice('chatInput')" style="border-radius:50%;">🎙️</button>
+        <button class="chat-send" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+    <!-- Quick Questions -->
+    <div style="margin-top:16px;">
+      <p style="font-size:0.8rem;color:var(--text-light);margin-bottom:10px;font-weight:600;" data-key="quick_q">Quick Questions:</p>
+      <div id="quickQs"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== UPLOAD ===== -->
+<div id="upload" class="page">
+  <div class="page-header">
+    <h1>📷 <span data-key="upload_title">AI Crop Disease Detection</span></h1>
+    <p data-key="upload_sub">Upload a photo — AI identifies disease & recommends treatment</p>
+  </div>
+  <div style="max-width:600px;margin:0 auto;padding:20px 16px 40px;text-align:center;">
+    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-icon">📸</div>
+      <h3 style="font-family:'Baloo 2',cursive;color:var(--green);margin-bottom:8px;" data-key="upload_tap">Tap to Upload Crop Photo</h3>
+      <p style="font-size:0.84rem;color:var(--text-light);" data-key="upload_hint">Supports JPG, PNG — Take a clear photo of the affected leaf</p>
+    </div>
+    <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
+    <div class="upload-preview" id="uploadPreview">
+      <img id="previewImg" src="" alt="Preview">
+    </div>
+    <button class="analyze-btn" id="analyzeBtn" onclick="analyzeImage()" style="display:none;">
+      🔬 <span data-key="analyze_btn">Analyze Disease</span>
+    </button>
+    <div class="analysis-result" id="analysisResult"></div>
+  </div>
+</div>
+
+<!-- ===== ASK ===== -->
+<div id="ask" class="page">
+  <div class="page-header">
+    <h1>✉️ <span data-key="ask_title">Ask a Farming Question</span></h1>
+    <p data-key="ask_sub">Can't find an answer? Our experts will respond in 24 hours!</p>
+  </div>
+  <div style="max-width:600px;margin:0 auto;padding:20px 16px 40px;">
+    <div class="ask-form">
+      <label style="font-size:0.83rem;font-weight:700;color:var(--text-light);display:block;margin-bottom:6px;" data-key="ask_name_label">Your Name (optional)</label>
+      <input type="text" style="width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:var(--radius);font-size:0.88rem;font-family:'Hind',sans-serif;outline:none;background:white;margin-bottom:12px;" placeholder="e.g. Ramesh Kumar">
+      <label style="font-size:0.83rem;font-weight:700;color:var(--text-light);display:block;margin-bottom:6px;" data-key="ask_q_label">Your Question</label>
+      <textarea id="askTextarea" placeholder="Describe your crop problem in detail..."></textarea>
+      <select>
+        <option>🌾 Paddy / Rice</option><option>🍅 Tomato</option>
+        <option>🌿 Wheat</option><option>🌶️ Chilli</option>
+        <option>🍆 Brinjal</option><option>🥔 Potato</option>
+        <option>🧅 Onion</option><option>🌸 Cotton</option><option>Other</option>
+      </select>
+      <button class="submit-btn" onclick="submitQuestion()">
+        📨 <span data-key="submit_btn">Submit Question</span>
+      </button>
+      <div class="success-msg" id="successMsg">
+        <div style="font-size:2rem;margin-bottom:8px;">✅</div>
+        <p style="color:var(--green);font-weight:700;" data-key="success_msg">Question submitted! Our experts will respond within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🌾 AskKrishi</div>
+  <p data-key="footer_tagline">Helping Farmers Grow Better · किसानों को बेहतर उगाने में मदद</p>
+  <p style="margin-top:8px;">
+    <a href="#" onclick="showPage('home')">Home</a> · 
+    <a href="#" onclick="showPage('diseases')">Diseases</a> · 
+    <a href="#" onclick="showPage('mandi')">Mandi Prices</a> · 
+    <a href="#" onclick="showPage('schemes')">Schemes</a> · 
+    <a href="#" onclick="showPage('ask')">Contact</a>
+  </p>
+  <p style="margin-top:10px;font-size:0.73rem;opacity:0.5;">© 2024 AskKrishi. Built for Indian Farmers 🇮🇳 | Weather: Open-Meteo</p>
+</footer>
+
+<script>
+// ===== LANGUAGE SYSTEM =====
+const LANG = {
+  en: {
+    nav_home:'Home', nav_diseases:'Diseases', nav_prices:'Prices', nav_schemes:'Schemes',
+    nav_tips:'Tips', nav_ai:'AI Chat', nav_upload:'Upload', nav_ask:'Ask',
+    tip_label:'Tip of the Day:', tip_text:' Apply Urea in 3 splits — not all at once — for 20% better nitrogen use in wheat & paddy!',
+    hero_badge:"India's Farming AI Assistant", hero_sub:'Ask Anything About Farming – Kisan Ka Saathi',
+    search_placeholder:'e.g. Why are my paddy leaves turning yellow?',
+    feat_ai_title:'AI Farming Assistant', feat_ai_desc:'Chat with real AI for instant expert farming answers',
+    feat_upload_title:'Diagnose Crop Disease', feat_upload_desc:'Upload photo — AI detects disease & gives treatment',
+    feat_mandi_title:'Mandi Prices', feat_mandi_desc:"Today's live market prices for all major crops",
+    feat_disease_title:'Crop Disease Guide', feat_disease_desc:'Symptoms, causes & treatments for 10 crops',
+    weather_loading:'Fetching your location...', weather_agri:'Checking farming conditions...',
+    sec_disease_guide:'Crop Disease Guide', sec_schemes:'Popular Government Schemes',
+    back_home:'Back to Home', back:'Back', disease_sub:'Tap any crop to see diseases, symptoms & solutions',
+    mandi_title:'Mandi Market Prices', mandi_sub:"Today's prices across major Indian mandis",
+    mandi_live:'Live Mandi Prices', mandi_updated:'Updated: Today, 9:00 AM',
+    th_crop:'🌾 Crop', th_mandi:'📍 Mandi', th_state:'🏙️ State', th_min:'💰 Min (₹/Q)', th_max:'💰 Max (₹/Q)', th_trend:'📈 Trend',
+    mandi_disclaimer:'* Prices are indicative. Verify with local mandi before selling.',
+    schemes_title:'Government Schemes for Farmers', schemes_sub:'Know your benefits and how to apply',
+    seasonal_title:'Seasonal Farming Tips', seasonal_sub:'Best practices for Kharif, Rabi & Zaid seasons',
+    ai_title:'AI Farming Assistant', ai_sub:'Powered by Claude AI — Ask any farming question',
+    ai_online:'● Online — Ready to help farmers',
+    chat_placeholder:'Ask about crop disease, fertilizers, schemes...',
+    quick_q:'Quick Questions:',
+    upload_title:'AI Crop Disease Detection', upload_sub:'Upload a photo — AI identifies disease & recommends treatment',
+    upload_tap:'Tap to Upload Crop Photo', upload_hint:'Supports JPG, PNG — Take a clear photo of the affected leaf',
+    analyze_btn:'Analyze Disease',
+    ask_title:'Ask a Farming Question', ask_sub:"Can't find an answer? Our experts will respond in 24 hours!",
+    ask_name_label:'Your Name (optional)', ask_q_label:'Your Question',
+    submit_btn:'Submit Question', success_msg:'Question submitted! Our experts will respond within 24 hours.',
+    footer_tagline:"Helping Farmers Grow Better · किसानों को बेहतर उगाने में मदद",
+    trends_rising:'📈 Rising', trends_falling:'📉 Falling',
+    suggestions:['Paddy leaf yellowing','Tomato leaf curl','Best fertilizer wheat','Chilli pest control','Blast disease paddy','Urea application time'],
+    quickQuestions:['What fertilizer for wheat?','How to treat paddy blast?','PM-KISAN scheme details','Tomato early blight solution','Best time to sow paddy','Mandi price today'],
+    welcome:'Namaste! I\'m KrishiBot, your AI farming assistant. Ask me anything — crop diseases, fertilizers, mandi prices, or government schemes. I\'m here to help! 🙏',
+    agri_hot:'Very hot — avoid afternoon irrigation, irrigate at dawn',
+    agri_warm:'Good conditions for irrigation and spraying today',
+    agri_cool:'Cool weather — good for Rabi crops',
+    agri_rain:'Rain expected — postpone spraying, check drainage',
+  },
+  hi: {
+    nav_home:'होम', nav_diseases:'रोग', nav_prices:'मंडी', nav_schemes:'योजनाएं',
+    nav_tips:'सुझाव', nav_ai:'AI चैट', nav_upload:'फोटो', nav_ask:'पूछें',
+    tip_label:'आज की सलाह:', tip_text:' यूरिया को 3 बार में डालें — एक बार नहीं — गेहूं और धान में 20% बेहतर नाइट्रोजन उपयोग!',
+    hero_badge:'भारत का किसान AI सहायक', hero_sub:'खेती के बारे में कुछ भी पूछें – किसान का साथी',
+    search_placeholder:'जैसे: धान की पत्तियां पीली क्यों हो रही हैं?',
+    feat_ai_title:'AI कृषि सहायक', feat_ai_desc:'तुरंत खेती के जवाब के लिए AI से चैट करें',
+    feat_upload_title:'फसल रोग पहचानें', feat_upload_desc:'फोटो अपलोड करें — AI रोग बताएगा और उपचार देगा',
+    feat_mandi_title:'मंडी भाव', feat_mandi_desc:'सभी प्रमुख फसलों के आज के भाव',
+    feat_disease_title:'फसल रोग मार्गदर्शिका', feat_disease_desc:'10 फसलों के लक्षण, कारण और उपचार',
+    weather_loading:'आपकी लोकेशन खोज रहे हैं...', weather_agri:'खेती की स्थिति जांच रहे हैं...',
+    sec_disease_guide:'फसल रोग मार्गदर्शिका', sec_schemes:'लोकप्रिय सरकारी योजनाएं',
+    back_home:'होम पर वापस', back:'वापस', disease_sub:'किसी भी फसल पर टैप करें — रोग, लक्षण और समाधान देखें',
+    mandi_title:'मंडी बाजार भाव', mandi_sub:'प्रमुख भारतीय मंडियों में आज के भाव',
+    mandi_live:'लाइव मंडी भाव', mandi_updated:'अपडेट: आज, सुबह 9 बजे',
+    th_crop:'🌾 फसल', th_mandi:'📍 मंडी', th_state:'🏙️ राज्य', th_min:'💰 न्यूनतम', th_max:'💰 अधिकतम', th_trend:'📈 रुझान',
+    mandi_disclaimer:'* भाव सांकेतिक हैं। बेचने से पहले स्थानीय मंडी से जांचें।',
+    schemes_title:'किसानों के लिए सरकारी योजनाएं', schemes_sub:'अपने लाभ जानें और आवेदन कैसे करें',
+    seasonal_title:'मौसमी खेती सुझाव', seasonal_sub:'खरीफ, रबी और जायद मौसम के लिए सर्वोत्तम सुझाव',
+    ai_title:'AI कृषि सहायक', ai_sub:'Claude AI द्वारा संचालित — कोई भी खेती का सवाल पूछें',
+    ai_online:'● ऑनलाइन — किसानों की मदद के लिए तैयार',
+    chat_placeholder:'फसल रोग, खाद, योजनाओं के बारे में पूछें...',
+    quick_q:'त्वरित प्रश्न:',
+    upload_title:'AI फसल रोग पहचान', upload_sub:'फोटो अपलोड करें — AI रोग पहचानेगा और उपचार बताएगा',
+    upload_tap:'फसल फोटो अपलोड करने के लिए टैप करें', upload_hint:'JPG, PNG — प्रभावित पत्ती की स्पष्ट फोटो लें',
+    analyze_btn:'रोग विश्लेषण करें',
+    ask_title:'खेती का सवाल पूछें', ask_sub:'जवाब नहीं मिला? हमारे विशेषज्ञ 24 घंटे में जवाब देंगे!',
+    ask_name_label:'आपका नाम (वैकल्पिक)', ask_q_label:'आपका सवाल',
+    submit_btn:'सवाल भेजें', success_msg:'सवाल भेजा गया! हमारे विशेषज्ञ 24 घंटे में जवाब देंगे।',
+    footer_tagline:'किसानों को बेहतर उगाने में मदद करना',
+    trends_rising:'📈 बढ़ रहा', trends_falling:'📉 गिर रहा',
+    suggestions:['धान पत्ती पीली','टमाटर रोग','गेहूं खाद','मिर्च कीट नियंत्रण','धान ब्लास्ट','यूरिया कब डालें'],
+    quickQuestions:['गेहूं के लिए कौन सी खाद?','धान ब्लास्ट का उपचार?','PM-KISAN योजना','टमाटर अर्ली ब्लाइट','धान बोने का सही समय','आज का मंडी भाव'],
+    welcome:'नमस्ते! मैं KrishiBot हूं, आपका AI खेती सहायक। फसल रोग, खाद, मंडी भाव या सरकारी योजनाओं के बारे में कुछ भी पूछें। 🙏',
+    agri_hot:'बहुत गर्मी — दोपहर में सिंचाई न करें, सुबह करें',
+    agri_warm:'सिंचाई और छिड़काव के लिए अच्छा मौसम',
+    agri_cool:'ठंडा मौसम — रबी फसलों के लिए अच्छा',
+    agri_rain:'बारिश की संभावना — छिड़काव न करें, जल निकासी जांचें',
+  },
+  te: {
+    nav_home:'హోమ్', nav_diseases:'వ్యాధులు', nav_prices:'ధరలు', nav_schemes:'పథకాలు',
+    nav_tips:'చిట్కాలు', nav_ai:'AI చాట్', nav_upload:'ఫోటో', nav_ask:'అడగండి',
+    tip_label:'నేటి చిట్కా:', tip_text:' యూరియాను 3 సార్లు వేయండి — ఒకేసారి కాదు — గోధుమ & వరిలో 20% మెరుగైన నత్రజని వినియోగం!',
+    hero_badge:'భారత రైతు AI సహాయకుడు', hero_sub:'వ్యవసాయం గురించి ఏదైనా అడగండి – కిసాన్ కా సాథి',
+    search_placeholder:'ఉదా: నా వరి ఆకులు పసుపు రంగుకు మారడానికి కారణమేమిటి?',
+    feat_ai_title:'AI వ్యవసాయ సహాయకుడు', feat_ai_desc:'తక్షణ నిపుణ సమాధానాల కోసం AI తో చాట్ చేయండి',
+    feat_upload_title:'పంట వ్యాధి నిర్ధారణ', feat_upload_desc:'ఫోటో అప్‌లోడ్ చేయండి — AI వ్యాధిని గుర్తిస్తుంది',
+    feat_mandi_title:'మండి ధరలు', feat_mandi_desc:'నేటి మార్కెట్ ధరలు',
+    feat_disease_title:'పంట వ్యాధి గైడ్', feat_disease_desc:'10 పంటలకు లక్షణాలు మరియు చికిత్సలు',
+    weather_loading:'మీ స్థానాన్ని పొందుతున్నారు...', weather_agri:'వ్యవసాయ పరిస్థితులు తనిఖీ చేస్తున్నారు...',
+    sec_disease_guide:'పంట వ్యాధి గైడ్', sec_schemes:'ప్రముఖ ప్రభుత్వ పథకాలు',
+    back_home:'హోమ్‌కు తిరిగి', back:'వెనక్కి', disease_sub:'వ్యాధులు చూడటానికి పంటపై నొక్కండి',
+    mandi_title:'మండి మార్కెట్ ధరలు', mandi_sub:'ప్రధాన మండులలో నేటి ధరలు',
+    mandi_live:'లైవ్ మండి ధరలు', mandi_updated:'అప్‌డేట్: ఈరోజు, ఉదయం 9 గంటలు',
+    th_crop:'🌾 పంట', th_mandi:'📍 మండి', th_state:'🏙️ రాష్ట్రం', th_min:'💰 కనిష్ట', th_max:'💰 గరిష్ట', th_trend:'📈 ట్రెండ్',
+    mandi_disclaimer:'* ధరలు సూచనార్థమైనవి. అమ్మడానికి ముందు స్థానిక మండిని సంప్రదించండి.',
+    schemes_title:'రైతులకు ప్రభుత్వ పథకాలు', schemes_sub:'మీ ప్రయోజనాలు తెలుసుకోండి',
+    seasonal_title:'సీజనల్ వ్యవసాయ చిట్కాలు', seasonal_sub:'ఖరీఫ్, రబీ & జైద్ సీజన్‌ల కోసం',
+    ai_title:'AI వ్యవసాయ సహాయకుడు', ai_sub:'Claude AI ద్వారా — ఏ వ్యవసాయ ప్రశ్న అయినా అడగండి',
+    ai_online:'● ఆన్‌లైన్ — రైతులకు సహాయం చేయడానికి సిద్ధంగా ఉన్నారు',
+    chat_placeholder:'పంట వ్యాధి, ఎరువులు, పథకాల గురించి అడగండి...',
+    quick_q:'త్వరిత ప్రశ్నలు:',
+    upload_title:'AI పంట వ్యాధి గుర్తింపు', upload_sub:'ఫోటో అప్‌లోడ్ చేయండి — AI వ్యాధిని గుర్తిస్తుంది',
+    upload_tap:'పంట ఫోటో అప్‌లోడ్ చేయడానికి నొక్కండి', upload_hint:'JPG, PNG — ప్రభావిత ఆకు యొక్క స్పష్టమైన ఫోటో తీయండి',
+    analyze_btn:'వ్యాధి విశ్లేషించండి',
+    ask_title:'వ్యవసాయ ప్రశ్న అడగండి', ask_sub:'సమాధానం కనుగొనలేదా? మా నిపుణులు 24 గంటలలో స్పందిస్తారు!',
+    ask_name_label:'మీ పేరు (ఐచ్ఛికం)', ask_q_label:'మీ ప్రశ్న',
+    submit_btn:'ప్రశ్న సమర్పించండి', success_msg:'ప్రశ్న సమర్పించబడింది! మా నిపుణులు 24 గంటలలో స్పందిస్తారు.',
+    footer_tagline:'రైతులకు మెరుగైన వ్యవసాయం లో సహాయం',
+    trends_rising:'📈 పెరుగుతోంది', trends_falling:'📉 తగ్గుతోంది',
+    suggestions:['వరి ఆకు పసుపు','టమాటా వ్యాధి','గోధుమ ఎరువు','మిర్చి కీటకాలు','వరి బ్లాస్ట్','యూరియా సమయం'],
+    quickQuestions:['గోధుమకు ఏ ఎరువు?','వరి బ్లాస్ట్ చికిత్స?','PM-KISAN పథకం','టమాటా అర్లీ బ్లైట్','వరి నాటే సమయం','నేటి మండి ధర'],
+    welcome:'నమస్కారం! నేను KrishiBot, మీ AI వ్యవసాయ సహాయకుడిని. పంట వ్యాధులు, ఎరువులు, మండి ధరలు లేదా ప్రభుత్వ పథకాల గురించి ఏదైనా అడగండి. 🙏',
+    agri_hot:'చాలా వేడి — మధ్యాహ్నం నీటిపారుదల మానుకోండి, తెల్లవారుజామున చేయండి',
+    agri_warm:'నీటిపారుదల మరియు పిచికారీకి మంచి పరిస్థితులు',
+    agri_cool:'చల్లని వాతావరణం — రబీ పంటలకు మంచిది',
+    agri_rain:'వర్షం అంచనా — పిచికారీ చేయకండి, నీటి పారుదల తనిఖీ చేయండి',
+  },
+  od: {
+    nav_home:'ହୋମ', nav_diseases:'ରୋଗ', nav_prices:'ମୂଲ୍ୟ', nav_schemes:'ଯୋଜନା',
+    nav_tips:'ଟିପ୍ସ', nav_ai:'AI ଚାଟ', nav_upload:'ଫୋଟୋ', nav_ask:'ପଚାରନ୍ତୁ',
+    tip_label:'ଆଜିର ଟିପ୍:', tip_text:' ୟୁରିଆ ୩ ଭାଗରେ ପ୍ରୟୋଗ କରନ୍ତୁ — ଏକ ଥରରେ ନୁହେଁ — ଗହମ ଓ ଧାନରେ ୨୦% ଭଲ ଫଳ!',
+    hero_badge:'ଭାରତର କୃଷି AI ସହାୟକ', hero_sub:'ଚାଷ ବିଷୟରେ ଯେ କୌଣସି ପ୍ରଶ୍ନ ପଚାରନ୍ତୁ – କିସାନ୍ କା ସାଥି',
+    search_placeholder:'ଯଥା: ମୋ ଧାନ ପତ୍ର ହଳଦୀ ହେଉଛି କ\'ଣ?',
+    feat_ai_title:'AI କୃଷି ସହାୟକ', feat_ai_desc:'ତୁରନ୍ତ ଉତ୍ତର ପାଇଁ AI ସହ ଚାଟ କରନ୍ତୁ',
+    feat_upload_title:'ଫସଲ ରୋଗ ଚିହ୍ନଟ', feat_upload_desc:'ଫୋଟୋ ଅପଲୋଡ କରନ୍ତୁ — AI ରୋଗ ଚିହ୍ନଟ କରିବ',
+    feat_mandi_title:'ମଣ୍ଡି ମୂଲ୍ୟ', feat_mandi_desc:'ଆଜିର ବଜାର ମୂଲ୍ୟ',
+    feat_disease_title:'ଫସଲ ରୋଗ ଗାଇଡ', feat_disease_desc:'୧୦ ଫସଲ ପାଇଁ ଲକ୍ଷଣ ଓ ଚିକିତ୍ସା',
+    weather_loading:'ଆପଣଙ୍କ ଅବସ୍ଥାନ ଖୋଜୁଛୁ...', weather_agri:'କୃଷି ପରିସ୍ଥିତି ଯାଞ୍ଚ କରୁଛୁ...',
+    sec_disease_guide:'ଫସଲ ରୋଗ ଗାଇଡ', sec_schemes:'ଲୋକପ୍ରିୟ ସରକାରୀ ଯୋଜନା',
+    back_home:'ହୋମ୍ ଫେରନ୍ତୁ', back:'ଫେରନ୍ତୁ', disease_sub:'ରୋଗ ଦେଖିବାକୁ ଯେ କୌଣସି ଫସଲ ଉପରେ ଟ୍ୟାପ କରନ୍ତୁ',
+    mandi_title:'ମଣ୍ଡି ବଜାର ମୂଲ୍ୟ', mandi_sub:'ପ୍ରଧାନ ଭାରତୀୟ ମଣ୍ଡିଗୁଡ଼ିକରେ ଆଜିର ମୂଲ୍ୟ',
+    mandi_live:'ଲାଇଭ ମଣ୍ଡି ମୂଲ୍ୟ', mandi_updated:'ଅଦ୍ୟତନ: ଆଜି, ସକାଳ ୯ ଟା',
+    th_crop:'🌾 ଫସଲ', th_mandi:'📍 ମଣ୍ଡି', th_state:'🏙️ ରାଜ୍ୟ', th_min:'💰 ସର୍ବନିମ୍ନ', th_max:'💰 ସର୍ବୋଚ୍ଚ', th_trend:'📈 ଟ୍ରେଣ୍ଡ',
+    mandi_disclaimer:'* ମୂଲ୍ୟ ସୂଚକ। ବିକ୍ରୟ ପୂର୍ବରୁ ସ୍ଥାନୀୟ ମଣ୍ଡି ଯାଞ୍ଚ କରନ୍ତୁ।',
+    schemes_title:'କୃଷକଙ୍କ ପାଇଁ ସରକାରୀ ଯୋଜନା', schemes_sub:'ଆପଣଙ୍କ ସୁବିଧା ଜାଣନ୍ତୁ',
+    seasonal_title:'ଋତୁ ଅନୁଯାୟୀ ଚାଷ ଟିପ୍ସ', seasonal_sub:'ଖରିଫ, ରବି ଓ ଜାୟଦ ଋତୁ ପାଇଁ',
+    ai_title:'AI କୃଷି ସହାୟକ', ai_sub:'Claude AI ଦ୍ୱାରା — ଯେ କୌଣସି ଚାଷ ପ୍ରଶ୍ନ ପଚାରନ୍ତୁ',
+    ai_online:'● ଅନ୍‌ଲାଇନ — କୃଷକଙ୍କ ସାହାଯ୍ୟ ପାଇଁ ପ୍ରସ୍ତୁତ',
+    chat_placeholder:'ଫସଲ ରୋଗ, ସାର, ଯୋଜନା ବିଷୟରେ ପଚାରନ୍ତୁ...',
+    quick_q:'ଦ୍ରୁତ ପ୍ରଶ୍ନ:',
+    upload_title:'AI ଫସଲ ରୋଗ ଚିହ୍ନଟ', upload_sub:'ଫୋଟୋ ଅପଲୋଡ କରନ୍ତୁ — AI ରୋଗ ଚିହ୍ନଟ କରିବ',
+    upload_tap:'ଫସଲ ଫୋଟୋ ଅପଲୋଡ କରିବାକୁ ଟ୍ୟାପ କରନ୍ତୁ', upload_hint:'JPG, PNG — ଆକ୍ରାନ୍ତ ପତ୍ରର ସ୍ପଷ୍ଟ ଫୋଟୋ ନିଅନ୍ତୁ',
+    analyze_btn:'ରୋଗ ବିଶ୍ଳେଷଣ କରନ୍ତୁ',
+    ask_title:'ଚାଷ ପ୍ରଶ୍ନ ପଚାରନ୍ତୁ', ask_sub:'ଉତ୍ତର ମିଳୁ ନାହିଁ? ଆମ ବିଶେଷଜ୍ଞ ୨୪ ଘଣ୍ଟାରେ ଉତ୍ତର ଦେବେ!',
+    ask_name_label:'ଆପଣଙ୍କ ନାମ (ଐଚ୍ଛିକ)', ask_q_label:'ଆପଣଙ୍କ ପ୍ରଶ୍ନ',
+    submit_btn:'ପ୍ରଶ୍ନ ଦାଖଲ କରନ୍ତୁ', success_msg:'ପ୍ରଶ୍ନ ଦାଖଲ ହୋଇଛି! ଆମ ବିଶେଷଜ୍ଞ ୨୪ ଘଣ୍ଟାରେ ଉତ୍ତର ଦେବେ।',
+    footer_tagline:'କୃଷକଙ୍କ ଭଲ ଚାଷ ପାଇଁ ସାହାଯ୍ୟ',
+    trends_rising:'📈 ବଢ଼ୁଛି', trends_falling:'📉 ଖସୁଛି',
+    suggestions:['ଧାନ ପତ୍ର ହଳଦୀ','ଟମାଟୋ ରୋଗ','ଗହମ ସାର','ଲଙ୍କା କୀଟ ନିୟନ୍ତ୍ରଣ','ଧାନ ବ୍ଲାଷ୍ଟ','ୟୁରିଆ ସମୟ'],
+    quickQuestions:['ଗହମ ପାଇଁ ସାର?','ଧାନ ବ୍ଲାଷ୍ଟ ଚିକିତ୍ସା?','PM-KISAN ଯୋଜନା','ଟମାଟୋ ଅର୍ଲି ବ୍ଲାଇଟ','ଧାନ ଲଗାଇବା ସମୟ','ଆଜିର ମଣ୍ଡି ମୂଲ୍ୟ'],
+    welcome:'ନମସ୍କାର! ମୁଁ KrishiBot, ଆପଣଙ୍କ AI କୃଷି ସହାୟକ। ଫସଲ ରୋଗ, ସାର, ମଣ୍ଡି ମୂଲ୍ୟ ବା ସରକାରୀ ଯୋଜନା ବିଷୟରେ ଯାହା ହେଉ ପଚାରନ୍ତୁ। 🙏',
+    agri_hot:'ବହୁତ ଗରମ — ଦ୍ୱିପ୍ରହରରେ ଜଳ ସେଚ ଏଡ଼ାନ୍ତୁ, ଭୋରରୁ କରନ୍ତୁ',
+    agri_warm:'ଜଳ ସେଚ ଓ ସ୍ପ୍ରେ ପାଇଁ ଭଲ ପାଣିଆ',
+    agri_cool:'ଥଣ୍ଡା ପାଣିଆ — ରବି ଫସଲ ପାଇଁ ଭଲ',
+    agri_rain:'ବର୍ଷା ସଂଭାବନା — ସ୍ପ୍ରେ ଏଡ଼ାନ୍ତୁ, ଜଳ ନିଷ୍କାଶନ ଯାଞ୍ଚ କରନ୍ତୁ',
+  }
+};
+
+let currentLang = 'en';
+
+function t(key) { return LANG[currentLang][key] || LANG['en'][key] || key; }
+
+function setLang(lang) {
+  currentLang = lang;
+  // Update all data-key elements
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if (LANG[lang][key] !== undefined) el.textContent = LANG[lang][key];
+  });
+  // Update placeholders
+  document.querySelectorAll('[data-key-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-key-placeholder');
+    if (LANG[lang][key] !== undefined) el.placeholder = LANG[lang][key];
+  });
+  // Update suggestions
+  renderSuggestions();
+  renderQuickQuestions();
+  // Update welcome
+  const wm = document.getElementById('welcomeMsg');
+  if (wm) wm.textContent = t('welcome');
+  // Re-render dynamic content
+  loadSchemes();
+  renderHomeCropGrid();
+  renderDiseaseCropGrid();
+}
+
+// ===== PAGE NAVIGATION =====
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  window.scrollTo(0,0);
+  if (id === 'mandi') loadMandi();
+  if (id === 'schemes') loadSchemes();
+  if (id === 'seasonal') showSeason('kharif', document.querySelector('.season-tab'));
+  if (id === 'diseases') renderDiseaseCropGrid();
+  if (id === 'ai-chat') {
+    setTimeout(() => {
+      const ci = document.getElementById('chatInput');
+      if(ci) ci.focus();
+    }, 300);
+  }
+}
+
+// ===== CROPS DATA =====
+const crops = [
+  { id:'paddy', icon:'🌾', en:'Paddy/Rice', hi:'धान/चावल', te:'వరి/బియ్యం', od:'ଧାନ/ଚାଉଳ' },
+  { id:'tomato', icon:'🍅', en:'Tomato', hi:'टमाटर', te:'టమాటా', od:'ଟମାଟୋ' },
+  { id:'wheat', icon:'🌿', en:'Wheat', hi:'गेहूं', te:'గోధుమ', od:'ଗହମ' },
+  { id:'chilli', icon:'🌶️', en:'Chilli', hi:'मिर्च', te:'మిర్చి', od:'ଲଙ୍କା' },
+  { id:'brinjal', icon:'🍆', en:'Brinjal', hi:'बैंगन', te:'వంకాయ', od:'ବାଇଗଣ' },
+  { id:'potato', icon:'🥔', en:'Potato', hi:'आलू', te:'బంగాళాదుంప', od:'ଆଳୁ' },
+  { id:'onion', icon:'🧅', en:'Onion', hi:'प्याज', te:'ఉల్లిపాయ', od:'ପିଆଜ' },
+  { id:'cotton', icon:'🌸', en:'Cotton', hi:'कपास', te:'పత్తి', od:'କପା' },
+  { id:'sugarcane', icon:'🎋', en:'Sugarcane', hi:'गन्ना', te:'చెరకు', od:'କ୍ଷୀରରଜ' },
+  { id:'maize', icon:'🌽', en:'Maize', hi:'मक्का', te:'మొక్కజొన్న', od:'ମକା' },
+];
+
+function cropName(c) {
+  return c[currentLang] || c.en;
+}
+
+function renderHomeCropGrid() {
+  const grid = document.getElementById('homeCropGrid');
+  if (!grid) return;
+  grid.innerHTML = crops.slice(0,8).map(c => `
+    <div class="crop-card" onclick="showDisease('${c.id}')">
+      <div class="icon">${c.icon}</div>
+      <div class="name">${c.en}</div>
+      <div class="name-local">${c[currentLang] || ''}</div>
+    </div>`).join('');
+}
+
+function renderDiseaseCropGrid() {
+  const grid = document.getElementById('diseaseCropGrid');
+  if (!grid) return;
+  grid.innerHTML = crops.map(c => `
+    <div class="crop-card" onclick="showDisease('${c.id}')">
+      <div class="icon">${c.icon}</div>
+      <div class="name">${c.en}</div>
+      <div class="name-local">${c[currentLang] || ''}</div>
+    </div>`).join('');
+}
+
+function renderSuggestions() {
+  const sugg = t('suggestions');
+  const el = document.getElementById('homeSuggestions');
+  if (!el) return;
+  el.innerHTML = sugg.map(s => `<span onclick="quickSearch('${s}')">${s}</span>`).join('');
+}
+
+function renderQuickQuestions() {
+  const qs = t('quickQuestions');
+  const el = document.getElementById('quickQs');
+  if (!el) return;
+  el.innerHTML = qs.map(q => `
+    <span onclick="setQuickChat('${q}')" style="display:inline-block;background:var(--green-pale);color:var(--green);padding:6px 14px;border-radius:14px;margin:3px;font-size:0.8rem;cursor:pointer;font-weight:600;border:1.5px solid var(--border);transition:background 0.2s;"
+    onmouseover="this.style.background='#c8e6c9'" onmouseout="this.style.background='var(--green-pale)'">${q}</span>`).join('');
+}
+
+function setQuickChat(q) {
+  document.getElementById('chatInput').value = q;
+  sendChat();
+}
+
+// ===== REAL WEATHER =====
+async function loadWeather() {
+  const weatherIcons = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️'};
+  const weatherDesc = {0:'Clear Sky',1:'Mostly Clear',2:'Partly Cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Drizzle',53:'Drizzle',55:'Drizzle',61:'Rain',63:'Moderate Rain',65:'Heavy Rain',80:'Showers',81:'Heavy Showers',82:'Violent Showers',95:'Thunderstorm'};
+
+  try {
+    const pos = await new Promise((res, rej) => {
+      if (!navigator.geolocation) return rej('no geo');
+      navigator.geolocation.getCurrentPosition(res, rej, {timeout: 8000});
+    });
+
+    const {latitude:lat, longitude:lon} = pos.coords;
+
+    // Reverse geocode with Open-Meteo geocoding
+    let locName = 'Your Location';
+    try {
+      const geoResp = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
+      const geoData = await geoResp.json();
+      locName = geoData.address?.city || geoData.address?.town || geoData.address?.village || geoData.address?.county || 'Your Location';
+    } catch(e) {}
+
+    // Weather data
+    const wxResp = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation&timezone=auto`);
+    const wxData = await wxResp.json();
+    const c = wxData.current;
+
+    const temp = Math.round(c.temperature_2m);
+    const humidity = c.relative_humidity_2m;
+    const wind = Math.round(c.wind_speed_10m);
+    const code = c.weather_code;
+    const precip = c.precipitation;
+
+    document.getElementById('weather-loc').textContent = `📍 ${locName}`;
+    document.getElementById('weather-temp').textContent = `${temp}°C`;
+    document.getElementById('weatherIcon').textContent = weatherIcons[code] || '⛅';
+    document.getElementById('weather-desc').textContent = `${weatherDesc[code]||'Partly Cloudy'} · Humidity ${humidity}% · Wind ${wind} km/h`;
+
+    // Agri advice
+    let agriKey = 'agri_warm';
+    if (temp > 38) agriKey = 'agri_hot';
+    else if (temp < 15) agriKey = 'agri_cool';
+    else if (precip > 1 || code >= 61) agriKey = 'agri_rain';
+    document.getElementById('weather-agri').textContent = t(agriKey);
+
+    // Card color for rain
+    if (code >= 61 && code <= 82) {
+      document.getElementById('weatherCard').style.background = 'linear-gradient(135deg, #1a237e 0%, #1565c0 50%, #1976d2 100%)';
+    }
+
+  } catch(e) {
+    document.getElementById('weather-loc').textContent = '📍 India (Enable location for local weather)';
+    document.getElementById('weather-desc').textContent = 'Allow location access for real-time weather';
+    document.getElementById('weather-temp').textContent = '--°C';
+  }
+}
+
+// ===== VOICE SEARCH =====
+function startVoice(inputId) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return alert('Voice search not supported on this browser.');
+  const r = new SR();
+  r.lang = currentLang === 'hi' ? 'hi-IN' : currentLang === 'te' ? 'te-IN' : currentLang === 'od' ? 'or-IN' : 'en-IN';
+  r.start();
+  const btn = document.getElementById('voiceBtn');
+  if (btn) btn.classList.add('listening');
+  const inp = document.getElementById(inputId);
+  inp.placeholder = '🎙️ Listening...';
+  r.onresult = e => {
+    inp.value = e.results[0][0].transcript;
+    if (inputId === 'searchInput') doSearch();
+    else if (inputId === 'chatInput') sendChat();
+  };
+  r.onend = () => {
+    if (btn) btn.classList.remove('listening');
+    inp.placeholder = t(inputId === 'chatInput' ? 'chat_placeholder' : 'search_placeholder');
+  };
+}
+
+// ===== SEARCH =====
+const knowledgeBase = {
+  'paddy leaf yellowing': {
+    title:'Paddy Leaf Yellowing – Causes & Solution',
+    tags:['Paddy','Yellowing','Nitrogen Deficiency'],
+    content:[
+      {h:'🔍 Possible Causes',b:'Paddy leaf yellowing is commonly caused by: (1) Nitrogen deficiency – most common, leaves turn pale yellow from older leaves first. (2) Iron deficiency – young leaves turn yellow with green veins. (3) Blast disease – yellow-brown diamond-shaped spots. (4) Waterlogging reducing nutrient uptake. (5) Sulfur deficiency – newer leaves turn yellow.'},
+      {h:'🔬 Symptoms to Identify',b:'Uniform yellowing of older leaves → Nitrogen deficiency. Yellowing of young leaves with green veins → Iron deficiency. Diamond-shaped spots → Blast disease. Yellowing near roots with foul smell → Root rot. Pale green young leaves → Sulfur deficiency.'},
+      {h:'✅ Treatment',b:'Nitrogen deficiency: Apply Urea 30-40 kg/acre in 3 splits. Iron deficiency: Spray Ferrous Sulphate (0.5%) solution. Blast disease: Spray Tricyclazole 75 WP @ 6g/15L water. Improve drainage immediately if waterlogged.'},
+      {h:'💡 Prevention',b:'Soil test before sowing. Apply basal DAP + MOP. Use resistant varieties IR-64, Swarna. Maintain 2-3 cm water in paddy field. Monitor twice weekly.'}
+    ]
+  },
+  'tomato leaf curl': {
+    title:'Tomato Leaf Curl Virus – Causes & Solution',
+    tags:['Tomato','Leaf Curl','Virus','Whitefly'],
+    content:[
+      {h:'🔍 What is Tomato Leaf Curl?',b:'Tomato Leaf Curl Virus (ToLCV) is spread by whiteflies (Bemisia tabaci). Can destroy 80-100% crop if uncontrolled. Major pest in India especially in summer and post-rainy season.'},
+      {h:'🌿 Symptoms',b:'Leaves curl upward and inward. Young leaves turn yellow. Plants become stunted and bushy. Flowers drop before fruit set. Fruits become small and malformed. Severe cases: complete plant loss.'},
+      {h:'✅ Solution',b:'Control whiteflies immediately: Spray Imidacloprid 17.8 SL @ 0.3ml/L or Thiamethoxam 25 WG @ 0.3g/L. Remove and destroy infected plants immediately. Yellow sticky traps @ 10/acre. Neem oil 5% as preventive spray.'},
+      {h:'💡 Prevention',b:'Resistant varieties: Arka Rakshak, Pusa Ruby, NS 585. Cover nursery beds with nylon nets (50 mesh). Avoid planting near older infected fields. Marigold as border crop to repel insects.'}
+    ]
+  },
+  'best fertilizer wheat': {
+    title:'Complete Fertilizer Guide for Wheat',
+    tags:['Wheat','NPK','Urea','DAP'],
+    content:[
+      {h:'🌿 Recommended NPK Schedule',b:'Per acre: Nitrogen (N) = 60 kg, Phosphorus (P) = 30 kg, Potassium (K) = 20 kg. Use DAP (18-46-0) as base fertilizer at sowing = provides N + full P in one shot.'},
+      {h:'📅 Application Timing',b:'At sowing: Full DAP (75 kg/acre) + half Urea (30 kg) + full MOP (33 kg). First irrigation (CRI – 21 days): Remaining half Urea (30 kg). Second irrigation (40-45 days): Extra Urea 15 kg if crop looks pale.'},
+      {h:'✅ Organic Options',b:'FYM 4-5 tonnes/acre improves soil. Vermicompost 1 tonne/acre is excellent. Zinc Sulphate 10 kg/acre if zinc deficient. Bio-fertilizer Azotobacter saves 20% chemical N.'},
+      {h:'⚠️ Key Tips',b:'NEVER apply Urea in standing water – loses N as ammonia. Split Urea always better than single dose. Spray 2% Urea at grain filling stage for better protein content. Do soil test every 3 years.'}
+    ]
+  },
+  'chilli pest control': {
+    title:'Chilli Pest Control – Complete Guide',
+    tags:['Chilli','Thrips','Mites','Aphids'],
+    content:[
+      {h:'🐛 Major Pests',b:'Thrips (Scirtothrips dorsalis): Tiny insects causing silvery leaf streaks and curling. Mites (Polyphagotarsonemus latus): Cause bronze/rusty appearance, leaf distortion. Aphids: Yellow colonies under leaves, honeydew secretion. Fruit Borer (Helicoverpa): Holes in fruits. Whitefly: Spreads viral diseases.'},
+      {h:'✅ Chemical Control',b:'Thrips: Spinosad 45 SC @ 0.3ml/L or Fipronil 5 SC @ 1.5ml/L. Mites: Dicofol 18.5 EC @ 2.5ml/L or Spiromesifen 240 SC @ 0.9ml/L. Fruit Borer: Chlorantraniliprole 18.5 SC @ 0.3ml/L.'},
+      {h:'🌿 Organic/Neem Control',b:'Neem oil 50ml/L every 7 days. Verticillium lecanii bio-pesticide for thrips. Yellow sticky traps 10/acre. Blue sticky traps specifically for thrips monitoring. Garlic + chilli extract spray.'},
+      {h:'💡 Prevention',b:'Avoid water stress. Proper plant spacing 45x30 cm. Remove weeds. Crop rotation every season. Scout twice weekly. Use IPM approach – combine biological + cultural + chemical.'}
+    ]
+  },
+  'blast disease paddy': {
+    title:'Paddy Blast Disease – Complete Management',
+    tags:['Paddy','Blast','Fungal Disease','Tricyclazole'],
+    content:[
+      {h:'🔍 About Blast Disease',b:'Blast (Magnaporthe oryzae) is the most devastating paddy disease worldwide. Affects all above-ground parts. Leaf blast, neck blast (most severe – causes grain sterility), node blast, collar blast. Heavy losses in high N conditions + cool humid weather.'},
+      {h:'🌿 Symptoms',b:'Leaf blast: Diamond/eye-shaped gray-brown spots with dark borders. Neck blast: Rotting at panicle base → entire panicle dies (white ear). Node blast: Black rotting nodes. High humidity + temperature 20-28°C = ideal for outbreak.'},
+      {h:'✅ Treatment',b:'Chemical: Tricyclazole 75 WP @ 6g/15L water. Or Isoprothiolane 40 EC @ 1.5ml/L. Spray at first sign of disease. Repeat after 10-12 days. Preventive spray at booting stage is critical.'},
+      {h:'💡 Management',b:'Use resistant varieties: Pusa Basmati 1509, IR-64, Swarna Sub1. Avoid excess Nitrogen. Maintain adequate soil moisture. Do not spray urea after blast appears. Silicon soil amendment improves resistance.'}
+    ]
+  },
+  'urea application time': {
+    title:'Correct Time & Method for Urea Application',
+    tags:['Urea','Fertilizer','Nitrogen','Timing'],
+    content:[
+      {h:'⏰ Best Time to Apply Urea',b:'Always in the early morning (6-9 AM) or late evening (4-7 PM). Never during midday – 30-40% N lost as ammonia. Never apply to wet/flooded soil for standing crops (except paddy after draining).'},
+      {h:'📅 Split Application Schedule',b:'Wheat: 1/3 at sowing + 1/3 at CRI (21 days) + 1/3 at jointing (45 days). Paddy: 1/3 at transplanting + 1/3 at tillering (25 days) + 1/3 at panicle initiation. Maize: 1/3 at sowing + 1/3 at knee height + 1/3 at tasseling.'},
+      {h:'✅ Correct Method',b:'Broadcast uniformly in moist soil. Incorporate into soil immediately (by irrigation or light hoeing). For paddy, apply 4-5 days after drainage of water. Foliar spray: 1-2% urea solution for micronutrient correction only.'},
+      {h:'⚠️ Common Mistakes',b:'Applying whole dose at once → big N loss. Applying in waterlogged conditions → denitrification. Using urea in alkaline soils without sulfur → poor absorption. Old/caked urea – break lumps before application.'}
+    ]
+  },
+  'default': {
+    title:'Farming Information',
+    tags:['General','Farming'],
+    content:[
+      {h:'🌾 General Advice',b:'For best results, always test your soil before sowing. Use certified seeds from government outlets. Follow proper irrigation schedule.'},
+      {h:'🔬 Pest & Disease Management',b:'Scout your fields regularly (twice a week). Use Integrated Pest Management (IPM). Always read pesticide labels before use.'},
+      {h:'💰 Get Better Prices',b:'Check mandi prices before selling. Store crops properly. Consider FPOs for better bargaining power. Sell through e-NAM platform.'}
+    ]
+  }
+};
+
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+  showPage('search-results');
+  document.getElementById('searchInput2').value = q;
+  renderResults(q);
+}
+function doSearch2() {
+  const q = document.getElementById('searchInput2').value.trim();
+  if (!q) return;
+  renderResults(q);
+}
+function quickSearch(q) {
+  document.getElementById('searchInput').value = q;
+  doSearch();
+}
+function renderResults(q) {
+  const ql = q.toLowerCase();
+  let found = null;
+  for (const key in knowledgeBase) {
+    if (key === 'default') continue;
+    if (ql.includes(key) || key.split(' ').some(w => ql.includes(w))) { found = knowledgeBase[key]; break; }
+  }
+  if (!found) found = knowledgeBase['default'];
+  const c = document.getElementById('search-results-content');
+  const shareUrl = `https://wa.me/?text=AskKrishi: ${encodeURIComponent(found.title)} - sohagri.github.io/askkrishi`;
+  let html = `<h2 style="font-size:1rem;color:var(--text-light);margin-bottom:16px;">Results for: <strong style="color:var(--green)">"${q}"</strong></h2>`;
+  found.content.forEach(item => html += `<div class="result-card"><h3>${item.h}</h3><p>${item.b}</p></div>`);
+  if (found.tags) html += `<div style="margin-bottom:12px;">${found.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
+  html += `<a class="whatsapp-share" href="${shareUrl}" target="_blank">📲 Share on WhatsApp</a>`;
+  c.innerHTML = html;
+}
+
+// ===== DISEASE DATA =====
+const diseases = {
+  paddy:{title:'Paddy / Rice Diseases 🌾',sub:'Common diseases affecting paddy crop in India',items:[
+    {name:'Blast Disease',cause:'Fungus Magnaporthe oryzae',symptoms:'Diamond-shaped grey-brown spots on leaves; neck blast causes white sterile panicles (white ear)',solution:'Spray Tricyclazole 75WP @ 6g/15L. Preventive spray at booting stage. Use resistant varieties.'},
+    {name:'Brown Plant Hopper (BPH)',cause:'Insect Nilaparvata lugens',symptoms:'Plants dry up suddenly (hopper burn), yellowing at base, masses of brown insects at stem base',solution:'Drain field, spray Imidacloprid 17.8 SL @ 0.25ml/L or Buprofezin 25 SC @ 1ml/L'},
+    {name:'Bacterial Leaf Blight',cause:'Bacteria Xanthomonas oryzae pv. oryzae',symptoms:'Water-soaked lesions on leaf tips, turn yellow then straw colored, leaves dry up',solution:'Spray Streptocycline 500ppm + Copper oxychloride 0.3% (3g/L)'},
+    {name:'Sheath Blight',cause:'Fungus Rhizoctonia solani',symptoms:'Oval water-soaked lesions on leaf sheath near water level, white mycelium visible',solution:'Spray Hexaconazole 5EC @ 2ml/L or Validamycin 3SL @ 2ml/L. Reduce plant density.'},
+    {name:'False Smut',cause:'Fungus Ustilaginoidea virens',symptoms:'Individual grains replaced by orange/green powdery balls (smut balls)',solution:'Spray Propiconazole 25EC @ 0.1% at boot leaf stage. Use certified seeds.'}
+  ]},
+  tomato:{title:'Tomato Diseases 🍅',sub:'Common diseases affecting tomato crop',items:[
+    {name:'Early Blight',cause:'Fungus Alternaria solani',symptoms:'Dark brown spots with concentric rings (target-board pattern) on older leaves first',solution:'Spray Mancozeb 75 WP @ 2.5g/L or Copper oxychloride @ 3g/L every 10 days'},
+    {name:'Late Blight',cause:'Oomycete Phytophthora infestans',symptoms:'Water-soaked dark lesions on leaves/stems, white fungal growth on underside in humid conditions, fruit rot',solution:'Spray Metalaxyl + Mancozeb 72 WP @ 2.5g/L. Remove infected plants.'},
+    {name:'Leaf Curl Virus (ToLCV)',cause:'Begomovirus, spread by whitefly Bemisia tabaci',symptoms:'Upward curling of leaves, yellowing, stunted growth, reduced fruit set',solution:'Control whiteflies with Imidacloprid @ 0.3ml/L. Remove infected plants. Use resistant varieties.'},
+    {name:'Fusarium Wilt',cause:'Soil fungus Fusarium oxysporum f.sp. lycopersici',symptoms:'Yellowing lower leaves, brown vascular discoloration inside stem, plant wilts and dies',solution:'No chemical cure. Use resistant varieties. Trichoderma viride seed treatment. Avoid waterlogging.'}
+  ]},
+  wheat:{title:'Wheat Diseases 🌿',sub:'Common diseases affecting wheat crop',items:[
+    {name:'Yellow Rust (Stripe Rust)',cause:'Fungus Puccinia striiformis',symptoms:'Bright yellow-orange pustules in stripes along leaf veins; white powdery strips visible',solution:'Spray Propiconazole 25 EC @ 0.1% at first sign. Resistant varieties: HD-2967, PBW-550.'},
+    {name:'Loose Smut',cause:'Fungus Ustilago segetum var. tritici',symptoms:'All grains in ear replaced by black powdery mass (smut spores)',solution:'Treat seeds with Carboxin 37.5% + Thiram 37.5% (Vitavax) @ 3g/kg seed before sowing.'},
+    {name:'Powdery Mildew',cause:'Fungus Blumeria graminis f.sp. tritici',symptoms:'White powdery patches on leaves; severe in cool humid weather 15-20°C',solution:'Spray Karathane (Dinocap) @ 1ml/L or Sulfex (Wettable Sulfur) @ 3g/L'},
+    {name:'Root Rot (Karnal Bunt)',cause:'Fungus Tilletia indica',symptoms:'Partial replacement of grain with black powdery smut; fishy smell from grains',solution:'Treat seeds with Thiram @ 2.5g/kg. Use certified disease-free seeds.'}
+  ]},
+  chilli:{title:'Chilli Diseases 🌶️',sub:'Common diseases affecting chilli crop',items:[
+    {name:'Anthracnose (Fruit Rot)',cause:'Fungus Colletotrichum capsici',symptoms:'Circular dark sunken spots on ripe fruits, orange spore mass in humid conditions',solution:'Spray Mancozeb 75 WP @ 2g/L. Remove infected fruits. Avoid wetting foliage.'},
+    {name:'Powdery Mildew',cause:'Fungus Leveillula taurica',symptoms:'White powdery coating on underside of leaves, yellowing of upper surface, defoliation',solution:'Spray Wettable Sulfur @ 3g/L or Hexaconazole @ 1ml/L'},
+    {name:'Leaf Curl (Chilli Virus)',cause:'Multiple viruses spread by thrips/mites',symptoms:'Downward curling of leaves, yellowing, stunted growth, reduced flowering',solution:'Control thrips with Spinosad 45 SC @ 0.3ml/L. Use virus-free seedlings. Spray neem oil.'},
+    {name:'Damping Off',cause:'Soil fungi Pythium aphanidermatum',symptoms:'Seedlings collapse at soil level, brown constriction visible at stem base',solution:'Drench nursery with Copper oxychloride @ 3g/L. Use sterile nursery soil + Trichoderma.'}
+  ]},
+  brinjal:{title:'Brinjal (Eggplant) Diseases 🍆',sub:'Common diseases affecting brinjal crop',items:[
+    {name:'Shoot & Fruit Borer',cause:'Moth larvae Leucinodes orbonalis',symptoms:'Wilting of young shoots, entry holes in fruits, frass visible, maggots inside',solution:'Remove infested shoots weekly. Spray Chlorantraniliprole 18.5 SC @ 0.3ml/L'},
+    {name:'Little Leaf Disease',cause:'Phytoplasma (spread by leafhopper Amrasca biguttula)',symptoms:'Leaves become tiny, flower petals leaf-like, severe stunting, no fruit set',solution:'Remove infected plants immediately. Control leafhoppers with Imidacloprid. No cure.'},
+    {name:'Phomopsis Blight',cause:'Fungus Phomopsis vexans',symptoms:'Brown circular spots on leaves, dark lesions on stems, fruit rot',solution:'Spray Copper oxychloride 3g/L + Mancozeb 2g/L alternately every 10 days.'},
+    {name:'Bacterial Wilt',cause:'Bacteria Ralstonia solanacearum',symptoms:'Sudden wilting without leaf yellowing, stem shows brown discoloration when cut',solution:'No effective cure. Remove plants. Use resistant rootstock grafting. Rotate crops.'}
+  ]},
+  potato:{title:'Potato Diseases 🥔',sub:'Common diseases affecting potato crop',items:[
+    {name:'Late Blight',cause:'Oomycete Phytophthora infestans',symptoms:'Water-soaked dark lesions on leaves, white mold on underside, tuber rot with brown discoloration',solution:'Spray Metalaxyl + Mancozeb @ 2.5g/L every 7-10 days. Avoid overhead irrigation.'},
+    {name:'Early Blight',cause:'Alternaria solani',symptoms:'Dark brown circular spots with yellow halo and concentric rings on older leaves',solution:'Spray Mancozeb 75 WP @ 2.5g/L or Chlorothalonil 75 WP @ 2g/L'},
+    {name:'Common Scab',cause:'Bacteria Streptomyces scabies',symptoms:'Raised, pitted or sunken brown corky lesions on tuber skin',solution:'Maintain acidic soil (pH 5.0-5.2). Ensure steady soil moisture at tuber initiation.'},
+    {name:'Black Scurf (Rhizoctonia)',cause:'Fungus Rhizoctonia solani',symptoms:'Black hard sclerotia on tuber surface, stem canker, stunted plants with aerial tubers',solution:'Treat seed tubers with Carbendazim 50 WP @ 2g/kg before planting.'}
+  ]},
+  onion:{title:'Onion Diseases 🧅',sub:'Common diseases affecting onion crop',items:[
+    {name:'Purple Blotch',cause:'Fungus Alternaria porri',symptoms:'Small white lesions with purple center on leaves/stalks; severe infection causes crop lodging',solution:'Spray Mancozeb 75 WP @ 2.5g/L or Iprodione 50 WP @ 2g/L at 10-day intervals.'},
+    {name:'Thrips (Thrips tabaci)',cause:'Insect pest; spreads IYSV virus',symptoms:'Silvery streaks and speckling on leaves, severe distortion, reduced bulb size',solution:'Spray Spinosad 45 SC @ 0.3ml/L or Fipronil 5 SC @ 1.5ml/L. Blue sticky traps.'},
+    {name:'Downy Mildew',cause:'Peronospora destructor',symptoms:'Pale green to yellow lesions covered with violet-grey fungal growth',solution:'Spray Metalaxyl + Mancozeb 72 WP @ 2.5g/L. Avoid overhead irrigation.'},
+    {name:'Basal Rot',cause:'Fusarium oxysporum f.sp. cepae',symptoms:'Roots rot from tip, basal plate turns pink-brown, bulbs shrivel and rot',solution:'Treat sets with Thiram. Practice crop rotation minimum 3 years. Improve drainage.'}
+  ]},
+  cotton:{title:'Cotton Diseases 🌸',sub:'Common diseases affecting cotton crop',items:[
+    {name:'American Bollworm',cause:'Helicoverpa armigera larvae',symptoms:'Holes in buds, flowers, and bolls; partially eaten bolls with frass',solution:'Spray Profenofos 50 EC @ 2ml/L or Chlorantraniliprole @ 0.3ml/L. Pheromone traps.'},
+    {name:'Bacterial Blight',cause:'Xanthomonas citri pv. malvacearum',symptoms:'Angular water-soaked leaf spots, stem blackening (black arm), boll rot',solution:'Spray Streptocycline 500ppm + Copper oxychloride 0.3%. Use certified disease-free seeds.'},
+    {name:'Alternaria Leaf Spot',cause:'Alternaria macrospora',symptoms:'Circular brown spots with yellow halo; severe defoliation in humid conditions',solution:'Spray Mancozeb 75 WP @ 2.5g/L. Maintain proper plant spacing 90x60 cm.'},
+    {name:'Root Rot (Phytophthora)',cause:'Phytophthora parasitica var. camphora',symptoms:'Reddish-brown root discoloration, sudden plant wilting and death',solution:'Improve field drainage. Drench Metalaxyl 25 WP @ 2g/L around root zone.'}
+  ]},
+  sugarcane:{title:'Sugarcane Diseases 🎋',sub:'Common diseases affecting sugarcane crop',items:[
+    {name:'Red Rot',cause:'Fungus Colletotrichum falcatum',symptoms:'Drying of leaves from tips downward, red discoloration inside cane with white patches and smell',solution:'Use disease-free setts. Treat setts with Carbendazim @ 1g/L for 10 min. Remove infected canes.'},
+    {name:'Wilt',cause:'Fungus Fusarium sacchari + moist heat',symptoms:'Yellowing leaves, shriveled stalks, hollow canes with internal brown discoloration',solution:'Use resistant varieties. Hot water sett treatment at 50°C for 2 hours. Use healthy nursery material.'},
+    {name:'Smut',cause:'Fungus Sporisorium scitamineum',symptoms:'Long black whip (smut sorus) emerging from the growing point of plant',solution:'Remove and destroy smutted shoots immediately. Use resistant varieties. Hot water treatment.'},
+    {name:'Grassy Shoot Disease',cause:'Phytoplasma (insect-borne)',symptoms:'Excessive tillering, pale yellow thin shoots, no normal cane formation',solution:'Use healthy setts. Destroy affected clumps. Control insect vectors.'}
+  ]},
+  maize:{title:'Maize Diseases 🌽',sub:'Common diseases affecting maize crop',items:[
+    {name:'Turcicum Blight (N. Leaf Blight)',cause:'Fungus Exserohilum turcicum',symptoms:'Long tan-colored cigar-shaped lesions (5-15 cm) on leaves',solution:'Spray Mancozeb 75 WP @ 2g/L or Propiconazole @ 1ml/L. Use resistant hybrids.'},
+    {name:'Fall Armyworm (FAW)',cause:'Spodoptera frugiperda (invasive pest)',symptoms:'Ragged holes in leaves, frass in whorls, damage to cobs; caterpillar with inverted Y on head',solution:'Apply Chlorantraniliprole 18.5 SC @ 0.3ml/L inside whorls. Spinetoram 11.7 SC @ 0.5ml/L.'},
+    {name:'Common Rust',cause:'Puccinia sorghi',symptoms:'Oval to elongate reddish-brown powdery pustules on both leaf surfaces',solution:'Spray Propiconazole 25 EC @ 0.1% at first sign. Use resistant hybrids.'},
+    {name:'Downy Mildew',cause:'Peronosclerospora sorghi',symptoms:'Yellow striping on young leaves, white downy growth on underside, stunted plants',solution:'Treat seeds with Metalaxyl 35 WS @ 6g/kg. Remove infected plants early.'}
+  ]}
+};
+
+function showDisease(crop) {
+  const d = diseases[crop];
+  if (!d) return;
+  document.getElementById('disease-title').textContent = d.title;
+  document.getElementById('disease-subtitle').textContent = d.sub;
+  let html = '';
+  d.items.forEach(item => {
+    html += `<div class="result-card">
+      <h3>🌿 ${item.name}</h3>
+      <div class="info-grid">
+        <div class="info-box"><h4>📋 Cause</h4><p>${item.cause}</p></div>
+        <div class="info-box"><h4>🔍 Symptoms</h4><p>${item.symptoms}</p></div>
+      </div>
+      <div class="info-box" style="margin-bottom:10px;"><h4>✅ Solution</h4><p>${item.solution}</p></div>
+      <a class="whatsapp-share" href="https://wa.me/?text=AskKrishi: ${encodeURIComponent(item.name + ' – ' + item.solution)}" target="_blank">📲 Share</a>
+    </div>`;
+  });
+  document.getElementById('disease-content').innerHTML = html;
+  showPage('disease-page');
+}
+
+// ===== MANDI DATA =====
+const mandiData = [
+  {crop:'🌾 Paddy', mandi:'Amritsar', state:'Punjab', min:1940, max:2160, trend:'up'},
+  {crop:'🌾 Paddy', mandi:'Cuttack', state:'Odisha', min:1850, max:2050, trend:'up'},
+  {crop:'🌿 Wheat', mandi:'Hapur', state:'Uttar Pradesh', min:2050, max:2280, trend:'up'},
+  {crop:'🌿 Wheat', mandi:'Kota', state:'Rajasthan', min:2020, max:2200, trend:'up'},
+  {crop:'🍅 Tomato', mandi:'Pune', state:'Maharashtra', min:800, max:1800, trend:'down'},
+  {crop:'🍅 Tomato', mandi:'Kurnool', state:'Andhra Pradesh', min:600, max:1600, trend:'down'},
+  {crop:'🧅 Onion', mandi:'Lasalgaon', state:'Maharashtra', min:600, max:1450, trend:'up'},
+  {crop:'🥔 Potato', mandi:'Agra', state:'Uttar Pradesh', min:700, max:1250, trend:'up'},
+  {crop:'🌶️ Chilli', mandi:'Guntur', state:'Andhra Pradesh', min:5000, max:12500, trend:'up'},
+  {crop:'🌶️ Chilli', mandi:'Khammam', state:'Telangana', min:4800, max:11000, trend:'up'},
+  {crop:'🌽 Maize', mandi:'Gulbarga', state:'Karnataka', min:1450, max:1740, trend:'down'},
+  {crop:'🌱 Soybean', mandi:'Indore', state:'Madhya Pradesh', min:4200, max:4850, trend:'up'},
+  {crop:'🌻 Sunflower', mandi:'Raichur', state:'Karnataka', min:4800, max:5650, trend:'up'},
+  {crop:'🎋 Sugarcane', mandi:'Lucknow', state:'Uttar Pradesh', min:290, max:320, trend:'up'},
+  {crop:'🌸 Cotton', mandi:'Akola', state:'Maharashtra', min:6200, max:7500, trend:'down'},
+  {crop:'🫘 Moong Dal', mandi:'Jaipur', state:'Rajasthan', min:7200, max:8600, trend:'up'},
+  {crop:'🌾 Paddy (Sona Masuri)', mandi:'Nalgonda', state:'Telangana', min:2200, max:2600, trend:'up'},
+];
+
+function loadMandi() {
+  renderMandiTable(mandiData);
+}
+function filterMandi() {
+  const stateF = document.getElementById('stateFilter').value;
+  const cropF = document.getElementById('cropFilter').value;
+  const filtered = mandiData.filter(r => {
+    const stateMatch = stateF === 'All States' || r.state === stateF;
+    const cropMatch = cropF === 'All Crops' || r.crop.toLowerCase().includes(cropF.toLowerCase());
+    return stateMatch && cropMatch;
+  });
+  renderMandiTable(filtered);
+}
+function renderMandiTable(data) {
+  const tbody = document.getElementById('mandiBody');
+  tbody.innerHTML = '';
+  if (data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-light);padding:20px;">No data found for this filter.</td></tr>`;
+    return;
+  }
+  data.forEach(r => {
+    const tr = document.createElement('tr');
+    const isUp = r.trend === 'up';
+    tr.innerHTML = `<td><strong>${r.crop}</strong></td><td>${r.mandi}</td><td>${r.state}</td><td>₹${r.min}</td><td class="${isUp?'price-up':'price-down'}">₹${r.max} ${isUp?'▲':'▼'}</td><td>${isUp?`<span class="trend-up">${t('trends_rising')}</span>`:`<span class="trend-down">${t('trends_falling')}</span>`}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ===== SCHEMES =====
+const schemesData = [
+  {icon:'💰',name:'PM-KISAN Samman Nidhi',badge:'₹6,000/year',desc:'Provides ₹6,000/year to eligible farmers in 3 installments of ₹2,000. For small/marginal farmers owning up to 2 hectares. Register at Common Service Centre.',apply:'pmkisan.gov.in'},
+  {icon:'🌧️',name:'PM Fasal Bima Yojana',badge:'Crop Insurance',desc:'Crop insurance at very low premium: 1.5% for Kharif, 1% for Rabi. Covers natural calamities, pests and diseases. Claim through bank or insurance company.',apply:'pmfby.gov.in'},
+  {icon:'💧',name:'PM Krishi Sinchayee Yojana',badge:'55% Subsidy',desc:"'Har Khet Ko Pani' — 55% subsidy on drip/sprinkler irrigation for all farmers. Saves 40-50% water. Apply through state agriculture department.",apply:'pmksy.gov.in'},
+  {icon:'🏦',name:'Kisan Credit Card (KCC)',badge:'Loan @ 4%',desc:'Easy credit at just 4% per annum for crop production, post-harvest expenses and farm assets. Apply at any nationalized bank with land documents.',apply:'Your nearest bank'},
+  {icon:'📱',name:'e-NAM (Electronic Market)',badge:'Better Prices',desc:'Online trading platform connecting farmers directly to buyers across India. Reduces middlemen, better prices. Register through nearest APMC mandi.',apply:'enam.gov.in'},
+  {icon:'🧪',name:'Soil Health Card Scheme',badge:'Free Soil Test',desc:'Free soil testing and recommendations for fertilizer use. Test every 2 years. Leads to 10-15% reduction in fertilizer cost with better yields.',apply:'Agriculture Department'},
+  {icon:'🌾',name:'Pradhan Mantri Annadata Aay SanraksHan Abhiyan',badge:'MSP Protection',desc:'Ensures farmers get Minimum Support Price for their produce. Price Deficiency Payment and Procurement support when market prices fall below MSP.',apply:'State Agriculture Dept.'},
+];
+
+function loadSchemes() {
+  const el = document.getElementById('schemes-content');
+  if (!el) return;
+  let html = '';
+  schemesData.forEach(s => {
+    html += `<div class="scheme-card">
+      <div class="scheme-icon">${s.icon}</div>
+      <div class="scheme-info">
+        <h4>${s.name}</h4>
+        <p>${s.desc}</p>
+        <span class="scheme-badge">${s.badge}</span>
+        <span class="scheme-badge" style="background:#fff3e0;color:#e65100;margin-left:6px;">🌐 ${s.apply}</span>
+      </div>
+    </div>`;
+  });
+  el.innerHTML = html;
+  // Also render home schemes preview
+  const homeSchemes = document.getElementById('homeSchemes');
+  if (homeSchemes) {
+    homeSchemes.innerHTML = schemesData.slice(0,2).map(s => `
+      <div class="scheme-card" onclick="showPage('schemes')">
+        <div class="scheme-icon">${s.icon}</div>
+        <div class="scheme-info">
+          <h4>${s.name}</h4>
+          <p>${s.desc.substring(0,100)}...</p>
+          <span class="scheme-badge">${s.badge}</span>
+        </div>
+      </div>`).join('');
+  }
+}
+
+// ===== SEASONAL =====
+const seasonData = {
+  kharif:[
+    {title:'Soil Preparation (May–June)',body:'Deep plough in summer to expose soil to sunlight — kills pests and fungi naturally. Add 4-5 tonnes FYM or compost per acre before sowing.'},
+    {title:'Seed Treatment',body:'Treat seeds with Thiram + Carbendazim @ 3g/kg before sowing. Use certified seeds from government outlets. Paddy: Use 25 kg/acre seed rate for direct seeding.'},
+    {title:'Sowing Time',body:'Paddy: June–July after monsoon onset. Maize: June. Soybean: June 20–July 15. Cotton: May–June. Timely sowing is critical for maximum yield.'},
+    {title:'Water Management',body:'Paddy: maintain 2–3 cm standing water. Other crops: irrigate at 50% field capacity depletion. Drain excess water within 24 hours of heavy rain.'},
+    {title:'Fertilizer Management',body:'Apply basal dose of DAP + Potash at sowing. Split Urea into 3 applications. Never apply all at once — reduces N efficiency by 30-40%.'},
+    {title:'Pest Monitoring',body:'Scout fields twice weekly. Record pest numbers. Use Economic Threshold Level (ETL) for spray decisions. Combine IPM: biological + cultural + chemical.'},
+  ],
+  rabi:[
+    {title:'Post-Kharif Soil Care (October)',body:'Deep ploughing after Kharif. Apply lime if pH < 6.0. Incorporate crop residues. This is best time for soil testing.'},
+    {title:'Wheat Sowing (Nov 1–20)',body:'Sow at 100-125 kg seed/acre. Row spacing 22-23 cm. Treat seed with Carboxin + Thiram. HD-2967, HD-3086, PBW-550 for north India.'},
+    {title:'Wheat Irrigation (5–6 times)',body:'Critical stages: Crown Root Initiation (CRI, 21 days), Tillering (40 days), Jointing, Flowering, Milking, Dough stage. Never skip CRI irrigation.'},
+    {title:'Mustard & Oilseeds',body:'Sow mustard October. Apply sulfur 15 kg/acre — essential for oil content. Boron deficiency causes hollow heart — apply Borax 2 kg/acre.'},
+    {title:'Cold Wave/Frost Protection',body:'Light irrigation before predicted frost night. Spray Potassium nitrate 1% or burn biomass in field corners. Frost damages wheat at ear emergence stage.'},
+    {title:'Post-Harvest Storage',body:'Harvest at 20-25% moisture, dry to 12% before storage. Use hermetic bags (PICS bags) for safe storage without pesticides. Protects against weevils.'},
+  ],
+  zaid:[
+    {title:'Summer Crops (Feb–March)',body:'Moong, Watermelon, Cucumber, Bitter gourd, Bottle gourd, Fodder crops. Moong adds 30-40 kg N/acre through N-fixation when plowed under.'},
+    {title:'Critical Water Management',body:'Summer crops need frequent irrigation. Drip irrigation saves 40-50% water. Always irrigate in morning or evening — never afternoon. High evaporation in summer.'},
+    {title:'Vegetable Opportunity',body:'Summer vegetables (Bottle gourd, Ridge gourd, Bitter gourd) fetch premium prices. Poly mulch saves 40% moisture and controls weeds.'},
+    {title:'Green Manuring',body:'Grow Dhaincha/Sunhemp in summer and plow before monsoon. Adds 60-80 kg N/acre naturally. Reduces fertilizer cost significantly.'},
+    {title:'Soil Health Activities',body:'Best time for: soil testing, land leveling, irrigation channel repair, bund strengthening, applying lime/gypsum, and preparing for next Kharif season.'},
+  ]
+};
+
+function showSeason(s, btn) {
+  document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const tips = seasonData[s];
+  document.getElementById('season-content').innerHTML = tips.map((tip, i) =>
+    `<div class="tip-card"><div class="tip-num">${i+1}</div><div class="tip-content"><h4>${tip.title}</h4><p>${tip.body}</p></div></div>`
+  ).join('');
+}
+
+// ===== UPLOAD / AI ANALYSIS =====
+function previewImage(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('previewImg').src = ev.target.result;
+    document.getElementById('uploadPreview').style.display = 'block';
+    document.getElementById('analyzeBtn').style.display = 'inline-block';
+    document.getElementById('analysisResult').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function analyzeImage() {
+  const btn = document.getElementById('analyzeBtn');
+  btn.innerHTML = '<span class="loading"></span> Analyzing...';
+  btn.disabled = true;
+
+  const img = document.getElementById('previewImg').src;
+  const base64 = img.split(',')[1];
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `You are an expert Indian agricultural pathologist. Analyze crop disease images and provide structured JSON responses. Always respond ONLY with valid JSON, no markdown.`,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: base64 } },
+            { type: 'text', text: `Analyze this crop image. Respond ONLY with JSON in this exact format:
+{"disease":"disease name or Healthy","crop":"crop type","confidence":85,"severity":"Mild/Moderate/High/Healthy","symptoms":"visible symptoms described","treatment":"specific chemical/organic treatment with doses","prevention":"2-3 prevention tips","urgent":false}` }
+          ]
+        }]
+      })
+    });
+
+    const data = await response.json();
+    let result;
+    try {
+      const txt = data.content[0].text;
+      result = JSON.parse(txt.replace(/```json|```/g,'').trim());
+    } catch(e) {
+      throw new Error('Parse error');
+    }
+
+    btn.innerHTML = `🔬 <span data-key="analyze_btn">${t('analyze_btn')}</span>`;
+    btn.disabled = false;
+
+    const box = document.getElementById('analysisResult');
+    box.style.display = 'block';
+    const conf = result.confidence || 82;
+    const sevColor = result.severity === 'High' ? '#c62828' : result.severity === 'Moderate' ? '#e65100' : '#2e7d32';
+
+    box.innerHTML = `
+      <h3>🔬 AI Analysis Result</h3>
+      <p style="font-size:1.05rem;font-weight:800;color:var(--green);margin-bottom:4px;">${result.disease}</p>
+      <p style="font-size:0.8rem;color:var(--text-light);margin-bottom:8px;">
+        Crop: <strong>${result.crop}</strong> &nbsp;|&nbsp; 
+        Severity: <strong style="color:${sevColor}">${result.severity}</strong>
+        ${result.urgent ? ' &nbsp;⚠️ <strong style="color:#c62828">URGENT ACTION NEEDED</strong>' : ''}
+      </p>
+      <p style="font-size:0.8rem;font-weight:700;color:var(--text-light);margin-bottom:4px;">Confidence</p>
+      <div class="confidence-bar"><div class="confidence-fill" id="confFill" style="width:0%"></div></div>
+      <p style="font-size:0.8rem;color:var(--green);font-weight:700;margin-bottom:14px;">${conf}% match</p>
+      <div class="info-grid">
+        <div class="info-box"><h4>🔍 Symptoms</h4><p>${result.symptoms}</p></div>
+        <div class="info-box"><h4>✅ Treatment</h4><p>${result.treatment}</p></div>
+      </div>
+      <div class="info-box" style="margin-top:10px;"><h4>💡 Prevention</h4><p>${result.prevention}</p></div>
+      <a class="whatsapp-share" style="margin-top:14px;" href="https://wa.me/?text=${encodeURIComponent('AskKrishi Disease: ' + result.disease + '\nTreatment: ' + result.treatment)}" target="_blank">📲 Share with Farmers</a>
+    `;
+    setTimeout(() => { document.getElementById('confFill').style.width = conf + '%'; }, 100);
+
+  } catch(err) {
+    // Fallback to simulated result
+    btn.innerHTML = `🔬 ${t('analyze_btn')}`;
+    btn.disabled = false;
+    const fallbacks = [
+      {disease:'Leaf Blast Disease',crop:'Paddy',confidence:87,severity:'Moderate',symptoms:'Grey-brown diamond-shaped spots on leaves with dark borders',treatment:'Spray Tricyclazole 75 WP @ 6g/15L. Repeat after 10 days.',prevention:'Use resistant varieties, avoid excess nitrogen, spray preventively at booting stage',urgent:false},
+      {disease:'Early Blight',crop:'Tomato',confidence:82,severity:'Moderate',symptoms:'Dark concentric ring spots on older leaves (target-board pattern)',treatment:'Spray Mancozeb 75 WP @ 2.5g/L every 10 days.',prevention:'Avoid wet foliage, crop rotation, remove infected leaves',urgent:false},
+      {disease:'Nitrogen Deficiency',crop:'Any Crop',confidence:79,severity:'Mild',symptoms:'Uniform yellowing of older/lower leaves starting from leaf tip',treatment:'Apply Urea 30-40 kg/acre or spray 1% Urea solution as foliar.',prevention:'Soil test before sowing, split urea application',urgent:false},
+    ];
+    const r = fallbacks[Math.floor(Math.random()*fallbacks.length)];
+    const box = document.getElementById('analysisResult');
+    box.style.display = 'block';
+    box.innerHTML = `
+      <h3>🔬 Analysis Result <span style="font-size:0.72rem;background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:8px;margin-left:8px;">Demo Mode</span></h3>
+      <p style="font-size:1rem;font-weight:800;color:var(--green);margin-bottom:4px;">${r.disease}</p>
+      <p style="font-size:0.8rem;color:var(--text-light);margin-bottom:8px;">Crop: <strong>${r.crop}</strong> | Severity: <strong>${r.severity}</strong></p>
+      <div class="confidence-bar"><div class="confidence-fill" id="confFill" style="width:0%"></div></div>
+      <p style="font-size:0.78rem;color:var(--green);margin-bottom:12px;">${r.confidence}% match</p>
+      <div class="info-grid">
+        <div class="info-box"><h4>🔍 Symptoms</h4><p>${r.symptoms}</p></div>
+        <div class="info-box"><h4>✅ Treatment</h4><p>${r.treatment}</p></div>
+      </div>
+      <div class="info-box" style="margin-top:10px;"><h4>💡 Prevention</h4><p>${r.prevention}</p></div>
+      <a class="whatsapp-share" style="margin-top:14px;" href="https://wa.me/?text=${encodeURIComponent('AskKrishi: ' + r.disease + ' – ' + r.treatment)}" target="_blank">📲 Share</a>
+    `;
+    setTimeout(() => { document.getElementById('confFill').style.width = r.confidence + '%'; }, 100);
+  }
+}
+
+// ===== AI CHAT =====
+let chatHistory = [];
+
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const q = input.value.trim();
+  if (!q) return;
+  input.value = '';
+
+  appendMsg(q, 'user');
+  chatHistory.push({role: 'user', content: q});
+
+  const typing = document.getElementById('chatTyping');
+  typing.style.display = 'block';
+  scrollChat();
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `You are KrishiBot, an expert AI assistant for Indian farmers. You specialize in:
+- Crop diseases, pests and their management (paddy, wheat, tomato, chilli, cotton, etc.)
+- Fertilizer recommendations with specific doses and timing
+- Indian government schemes (PM-KISAN, PMFBY, KCC, etc.) 
+- Mandi prices and market guidance
+- Seasonal farming tips for Kharif, Rabi and Zaid seasons
+- Soil health and management
+
+Current language: ${currentLang === 'hi' ? 'Hindi' : currentLang === 'te' ? 'Telugu' : currentLang === 'od' ? 'Odia' : 'English'}
+
+IMPORTANT: Respond in the user's language (${currentLang === 'hi' ? 'Hindi' : currentLang === 'te' ? 'Telugu' : currentLang === 'od' ? 'Odia' : 'English'}).
+Keep answers practical, specific, and actionable for Indian farmers.
+Include specific product names, doses, and timing when relevant.
+Be concise but helpful. Use bullet points when listing treatments or tips.`,
+        messages: chatHistory.slice(-8)
+      })
+    });
+
+    const data = await resp.json();
+    const aiText = data.content[0].text;
+    chatHistory.push({role: 'assistant', content: aiText});
+    typing.style.display = 'none';
+    appendMsg(aiText, 'ai');
+
+  } catch(err) {
+    typing.style.display = 'none';
+    const fallbackResponses = [
+      "I'm having trouble connecting right now. For paddy blast, spray Tricyclazole 75 WP @ 6g/15L water. For general queries, check the Disease Guide section! 🌾",
+      "Connection issue. Quick tip: Always split Urea into 3 applications for wheat — at sowing, CRI stage (21 days), and jointing (45 days). 💡",
+      "Offline mode. Remember: PM-KISAN gives ₹6,000/year in 3 installments. Register at your nearest Common Service Centre or pmkisan.gov.in 🏛️"
+    ];
+    appendMsg(fallbackResponses[Math.floor(Math.random()*fallbackResponses.length)], 'ai');
+  }
+  scrollChat();
+}
+
+function appendMsg(text, type) {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${type}`;
+  if (type === 'ai') {
+    div.innerHTML = `<div class="ai-name">🌾 KrishiBot</div>${text.replace(/\n/g, '<br>')}`;
+  } else {
+    div.textContent = text;
+  }
+  msgs.appendChild(div);
+  scrollChat();
+}
+
+function scrollChat() {
+  const msgs = document.getElementById('chatMessages');
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// ===== ASK FORM =====
+function submitQuestion() {
+  const msg = document.getElementById('successMsg');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 4000);
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  renderHomeCropGrid();
+  renderDiseaseCropGrid();
+  renderSuggestions();
+  renderQuickQuestions();
+  loadMandi();
+  loadSchemes();
+  showSeason('kharif', document.querySelector('.season-tab'));
+  loadWeather();
+});
+</script>
+</body>
+</html>
