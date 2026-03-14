@@ -1,4 +1,4 @@
-const fertilizers = [
+[
 
 { name:"Urea", type:"fertilizer", desc:"Nitrogen fertilizer for fast leaf growth."},
 { name:"DAP (Diammonium Phosphate)", type:"fertilizer", desc:"Provides nitrogen and phosphorus for roots."},
@@ -46,4 +46,4 @@ const fertilizers = [
 { name:"Cow Dung Manure", type:"organic", desc:"Traditional organic fertilizer."},
 { name:"Mustard Cake", type:"organic", desc:"Organic fertilizer used in many crops."}
 
-];
+]
