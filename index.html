@@ -2521,13 +2521,13 @@ document.addEventListener('DOMContentLoaded', () => {
   loadWeather();
 
   // Fertilizer data
-const fertilizers = [
- {name:"Urea", type:"fertilizer", desc:"High nitrogen fertilizer used for crop growth."},
- {name:"DAP", type:"fertilizer", desc:"Diammonium phosphate used for root development."},
- {name:"Glyphosate", type:"herbicide", desc:"Used to control weeds in crops."},
- {name:"Carbendazim", type:"fungicide", desc:"Controls fungal diseases in plants."},
- {name:"Neem Oil", type:"organic", desc:"Natural pesticide used in organic farming."}
-];
+let fertilizers = [];
+
+async function loadFertilizers(){
+ const res = await fetch("fertilizers.json");
+ fertilizers = await res.json();
+ renderFert("all");
+}
 
 function renderFert(type){
  const grid = document.getElementById("fertGrid");
@@ -2539,12 +2539,12 @@ function renderFert(type){
  .filter(f => type==="all" || f.type===type)
  .forEach(f=>{
    grid.innerHTML += `
-     <div class="fert-card">
-       <h4>${f.name}</h4>
-       <span class="fert-tag">${f.type}</span>
-       <p>${f.desc}</p>
-     </div>
-   `;
+<div class="fert-card">
+<h4>${f.name}</h4>
+<span class="fert-tag">${f.type}</span>
+<p>${f.desc}</p>
+</div>
+`;
  });
 }
 
@@ -2556,6 +2556,9 @@ function filterFert(type,btn){
 
  renderFert(type);
 }
+
+document.addEventListener("DOMContentLoaded", loadFertilizers);
+
   
 });
 </script>
