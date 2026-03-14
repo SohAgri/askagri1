@@ -1,0 +1,49 @@
+const fertilizers = [
+
+{ name:"Urea", type:"fertilizer", desc:"Nitrogen fertilizer for fast leaf growth."},
+{ name:"DAP (Diammonium Phosphate)", type:"fertilizer", desc:"Provides nitrogen and phosphorus for roots."},
+{ name:"NPK 19:19:19", type:"fertilizer", desc:"Balanced fertilizer for overall plant growth."},
+{ name:"NPK 10:26:26", type:"fertilizer", desc:"High phosphorus fertilizer for strong roots."},
+{ name:"MOP (Muriate of Potash)", type:"fertilizer", desc:"Improves fruit quality and plant strength."},
+{ name:"SSP (Single Super Phosphate)", type:"fertilizer", desc:"Provides phosphorus and sulfur."},
+{ name:"Calcium Ammonium Nitrate", type:"fertilizer", desc:"Nitrogen fertilizer suitable for many crops."},
+{ name:"Ammonium Sulphate", type:"fertilizer", desc:"Nitrogen fertilizer that also adds sulfur."},
+{ name:"Zinc Sulphate", type:"fertilizer", desc:"Corrects zinc deficiency in crops."},
+{ name:"Magnesium Sulphate", type:"fertilizer", desc:"Improves chlorophyll formation."},
+
+{ name:"Imidacloprid", type:"pesticide", desc:"Controls sucking pests like aphids and whiteflies."},
+{ name:"Chlorpyrifos", type:"pesticide", desc:"Used against termites and soil insects."},
+{ name:"Cypermethrin", type:"pesticide", desc:"Broad-spectrum insecticide for many crops."},
+{ name:"Lambda Cyhalothrin", type:"pesticide", desc:"Controls caterpillars and sucking insects."},
+{ name:"Thiamethoxam", type:"pesticide", desc:"Systemic insecticide for sucking pests."},
+{ name:"Acetamiprid", type:"pesticide", desc:"Effective against aphids and leafhoppers."},
+{ name:"Spinosad", type:"pesticide", desc:"Used against caterpillars and thrips."},
+{ name:"Malathion", type:"pesticide", desc:"Used to control many agricultural pests."},
+
+{ name:"Carbendazim", type:"fungicide", desc:"Controls fungal diseases in crops."},
+{ name:"Mancozeb", type:"fungicide", desc:"Protects crops from blight and leaf spots."},
+{ name:"Hexaconazole", type:"fungicide", desc:"Controls powdery mildew and rust."},
+{ name:"Propiconazole", type:"fungicide", desc:"Systemic fungicide for many crops."},
+{ name:"Metalaxyl", type:"fungicide", desc:"Controls downy mildew diseases."},
+{ name:"Copper Oxychloride", type:"fungicide", desc:"Used against bacterial and fungal diseases."},
+{ name:"Tricyclazole", type:"fungicide", desc:"Used mainly for rice blast disease."},
+{ name:"Tebuconazole", type:"fungicide", desc:"Effective against rust and leaf diseases."},
+
+{ name:"Glyphosate", type:"herbicide", desc:"Non-selective herbicide used to kill weeds."},
+{ name:"Paraquat", type:"herbicide", desc:"Fast acting weed killer."},
+{ name:"Atrazine", type:"herbicide", desc:"Used mainly in maize fields."},
+{ name:"Butachlor", type:"herbicide", desc:"Controls weeds in rice cultivation."},
+{ name:"2,4-D", type:"herbicide", desc:"Selective herbicide for broadleaf weeds."},
+{ name:"Pendimethalin", type:"herbicide", desc:"Pre-emergence weed control."},
+{ name:"Metolachlor", type:"herbicide", desc:"Used in soybean and maize fields."},
+
+{ name:"Neem Oil", type:"organic", desc:"Natural pesticide used in organic farming."},
+{ name:"Vermicompost", type:"organic", desc:"Organic fertilizer improving soil health."},
+{ name:"Panchagavya", type:"organic", desc:"Traditional organic growth promoter."},
+{ name:"Fish Amino Acid", type:"organic", desc:"Natural plant growth stimulant."},
+{ name:"Bone Meal", type:"organic", desc:"Organic phosphorus fertilizer."},
+{ name:"Seaweed Extract", type:"organic", desc:"Improves plant growth and stress resistance."},
+{ name:"Cow Dung Manure", type:"organic", desc:"Traditional organic fertilizer."},
+{ name:"Mustard Cake", type:"organic", desc:"Organic fertilizer used in many crops."}
+
+];
