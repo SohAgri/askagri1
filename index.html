@@ -2520,56 +2520,7 @@ document.addEventListener('DOMContentLoaded', () => {
   showDistricts('odisha', document.querySelector('.state-tab'));
   loadWeather();
 
-  // Fertilizer data
-let fertilizers = [];
-
-async function loadFertilizers(){
- const res = await fetch("fertilizers.json");
- fertilizers = await res.json();
- renderFert("all");
-}
-
-function renderFert(type){
- const grid = document.getElementById("fertGrid");
- if(!grid) return;
-
- grid.innerHTML="";
-
- fertilizers
- .filter(f => type==="all" || f.type===type)
- .forEach(f=>{
-   grid.innerHTML += `
-<div class="fert-card">
-<h4>${f.name}</h4>
-<span class="fert-tag">${f.type}</span>
-<p>${f.desc}</p>
-</div>
-`;
- });
-}
-
-function filterFert(type,btn){
- document.querySelectorAll("#fertFilter .fv-btn")
- .forEach(b=>b.classList.remove("active"));
-
- btn.classList.add("active");
-
- renderFert(type);
-}
-
-document.addEventListener("DOMContentLoaded", loadFertilizers);
-
-   }); 
+});
 </script>
-
-<h2>Crop Disease Detection for Farmers</h2>
-<p>AskKrishi helps Indian farmers detect crop diseases using AI technology.</p>
-
-<h2>Check Live Mandi Prices</h2>
-<p>Farmers can check mandi prices across India easily.</p>
-
-<h2>Government Schemes for Farmers</h2>
-<p>Learn about PM-Kisan and other agriculture schemes.</p>
-
 </body>
 </html>
