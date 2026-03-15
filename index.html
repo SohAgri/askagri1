@@ -466,7 +466,7 @@ footer a { color: #81c784; text-decoration: none; }
       <a href="#" onclick="showPage('seasonal')">🌦️ Tips</a>
       <a href="#" onclick="showPage('glossary')">📖 Glossary</a>
       <a href="#" onclick="showPage('faq')">❓ FAQ</a>
-      <a href="#" onclick="showPage('ai-chat')">🤖 AI Chat</a>
+      <a href="#" onclick="showPage('ai-chat')">🤖 AI Assistant</a>
       <a href="#" onclick="showPage('upload')">📷 Photo AI</a>
     </div>
     <div class="nav-right">
@@ -533,7 +533,7 @@ footer a { color: #81c784; text-decoration: none; }
     <div class="qn-card" onclick="showPage('schemes')"><div class="qn-icon">🏛️</div><div class="qn-title">Schemes</div></div>
     <div class="qn-card" onclick="showPage('glossary')"><div class="qn-icon">📖</div><div class="qn-title">Glossary</div></div>
     <div class="qn-card" onclick="showPage('faq')"><div class="qn-icon">❓</div><div class="qn-title">FAQ</div></div>
-    <div class="qn-card" onclick="showPage('ai-chat')"><div class="qn-icon">🤖</div><div class="qn-title">AI Chat</div></div>
+    <div class="qn-card" onclick="showPage('ai-chat')"><div class="qn-icon">🤖</div><div class="qn-title">AI Assistant</div></div>
     <div class="qn-card" onclick="showPage('upload')"><div class="qn-icon">📷</div><div class="qn-title">Photo AI</div></div>
     <div class="qn-card" onclick="showPage('seasonal')"><div class="qn-icon">🌦️</div><div class="qn-title">Seasonal Tips</div></div>
   </div>
@@ -543,7 +543,7 @@ footer a { color: #81c784; text-decoration: none; }
     <div class="feat-card" onclick="showPage('ai-chat')">
       <div class="feat-icon">🤖</div>
       <div class="feat-title" data-key="feat_ai_title">AI Farming Assistant</div>
-      <div class="feat-desc" data-key="feat_ai_desc">Chat with real AI for instant expert farming answers</div>
+      <div class="feat-desc" data-key="feat_ai_desc">Chat with local AI assistant demo for practical farming guidance</div>
     </div>
     <div class="feat-card" onclick="showPage('upload')">
       <div class="feat-icon">📷</div>
@@ -683,31 +683,31 @@ footer a { color: #81c784; text-decoration: none; }
     <div id="season-content"></div>
   </div>
       </div>
-
   <!-- ===== AI CHAT ===== -->
 <div id="ai-chat" class="page">
   <div class="page-header">
-    <h1>🤖 <span data-key="ai_title">AI Farming Assistant</span></h1>
-    <p data-key="ai_sub">Powered by Claude AI — Ask any farming question</p>
+    <h1>🤖 <span data-key="ai_title">AI Agriculture Assistant</span></h1>
+    <p data-key="ai_sub">Local demo assistant — simple farming guidance in easy language</p>
   </div>
   <div style="max-width:700px;margin:0 auto;padding:20px 16px 40px;">
     <div class="ai-chat-box">
       <div class="ai-chat-header">
         <div style="font-size:1.6rem;">🤖</div>
         <div>
-          <h3>KrishiBot <span class="ai-badge">AI Powered</span></h3>
+          <h3>KrishiBot <span class="ai-badge">Demo Assistant</span></h3>
           <div style="font-size:0.72rem;opacity:0.8;" data-key="ai_online">● Online — Ready to help farmers</div>
         </div>
       </div>
       <div class="chat-messages" id="chatMessages">
         <div class="chat-msg ai">
           <div class="ai-name">🌾 KrishiBot</div>
-          <span id="welcomeMsg">Namaste! I'm KrishiBot, your AI farming assistant. Ask me anything — crop diseases, fertilizers, mandi prices, weather, or government schemes. I'm here to help! 🙏</span>
+          <span id="welcomeMsg">Namaste! I am your AI Agriculture Assistant demo. Ask about crop diseases, fertilizers, pest control, and crop planning. 🙏</span>
         </div>
       </div>
       <div class="chat-typing" id="chatTyping">
-        <span>●</span><span>●</span><span>●</span> KrishiBot is thinking...
+        <span>●</span><span>●</span><span>●</span> KrishiBot is preparing answer...
       </div>
+      <div id="chatError" style="display:none;background:#ffebee;border:1.5px solid #ffcdd2;color:#b71c1c;padding:9px 12px;font-size:0.78rem;">Unable to process now. Please try again in a moment.</div>
       <div class="chat-input-row">
         <input class="chat-input" id="chatInput" type="text" data-key-placeholder="chat_placeholder" placeholder="Ask about crop disease, fertilizers, schemes..."
           onkeydown="if(event.key==='Enter') sendChat()">
@@ -715,10 +715,20 @@ footer a { color: #81c784; text-decoration: none; }
         <button class="chat-send" onclick="sendChat()">➤</button>
       </div>
     </div>
-    <!-- Quick Questions -->
+
+    <div style="margin-top:12px;">
+      <p style="font-size:0.8rem;color:var(--text-light);margin-bottom:8px;font-weight:600;">Try asking:</p>
+      <div id="assistantExamples" class="search-suggestions"></div>
+    </div>
+
     <div style="margin-top:16px;">
       <p style="font-size:0.8rem;color:var(--text-light);margin-bottom:10px;font-weight:600;" data-key="quick_q">Quick Questions:</p>
       <div id="quickQs"></div>
+    </div>
+
+    <div class="info-box" style="margin-top:14px;">
+      <h4>⚠️ Advisory Note</h4>
+      <p>This assistant gives educational guidance only. Please verify pesticide and fertilizer use with local agriculture officer, KVK, or input expert before field application.</p>
     </div>
   </div>
 </div>
@@ -954,7 +964,7 @@ footer a { color: #81c784; text-decoration: none; }
     <a href="#" onclick="showPage('schemes')">Schemes</a> ·
     <a href="#" onclick="showPage('glossary')">Glossary</a> ·
     <a href="#" onclick="showPage('faq')">FAQ</a> ·
-    <a href="#" onclick="showPage('ai-chat')">AI Chat</a>
+    <a href="#" onclick="showPage('ai-chat')">AI Assistant</a>
   </p>
   <p style="margin-top:7px;font-size:0.78rem;line-height:1.8;">
     <a href="#" style="color:#81c784;">Privacy Policy</a> &nbsp;|&nbsp;
@@ -976,7 +986,7 @@ const LANG = {
     tip_label:'Tip of the Day:', tip_text:' Apply Urea in 3 splits — not all at once — for 20% better nitrogen use in wheat & paddy!',
     hero_badge:"India's Farming AI Assistant", hero_sub:'Ask Anything About Farming – Kisan Ka Saathi',
     search_placeholder:'e.g. Why are my paddy leaves turning yellow?',
-    feat_ai_title:'AI Farming Assistant', feat_ai_desc:'Chat with real AI for instant expert farming answers',
+    feat_ai_title:'AI Farming Assistant', feat_ai_desc:'Chat with local AI assistant demo for practical farming guidance',
     feat_upload_title:'Diagnose Crop Disease', feat_upload_desc:'Upload photo — AI detects disease & gives treatment',
     feat_mandi_title:'Mandi Prices', feat_mandi_desc:"Today's live market prices for all major crops",
     feat_disease_title:'Crop Disease Guide', feat_disease_desc:'Symptoms, causes & treatments for 10 crops',
@@ -989,7 +999,7 @@ const LANG = {
     mandi_disclaimer:'* Prices are indicative. Verify with local mandi before selling.',
     schemes_title:'Government Schemes for Farmers', schemes_sub:'Know your benefits and how to apply',
     seasonal_title:'Seasonal Farming Tips', seasonal_sub:'Best practices for Kharif, Rabi & Zaid seasons',
-    ai_title:'AI Farming Assistant', ai_sub:'Powered by Claude AI — Ask any farming question',
+    ai_title:'AI Agriculture Assistant', ai_sub:'Local demo assistant — ask any farming question',
     ai_online:'● Online — Ready to help farmers',
     chat_placeholder:'Ask about crop disease, fertilizers, schemes...',
     quick_q:'Quick Questions:',
@@ -1028,7 +1038,7 @@ const LANG = {
     mandi_disclaimer:'* भाव सांकेतिक हैं। बेचने से पहले स्थानीय मंडी से जांचें।',
     schemes_title:'किसानों के लिए सरकारी योजनाएं', schemes_sub:'अपने लाभ जानें और आवेदन कैसे करें',
     seasonal_title:'मौसमी खेती सुझाव', seasonal_sub:'खरीफ, रबी और जायद मौसम के लिए सर्वोत्तम सुझाव',
-    ai_title:'AI कृषि सहायक', ai_sub:'Claude AI द्वारा संचालित — कोई भी खेती का सवाल पूछें',
+    ai_title:'AI कृषि सहायक', ai_sub:'स्थानीय डेमो सहायक — खेती का कोई भी सवाल पूछें',
     ai_online:'● ऑनलाइन — किसानों की मदद के लिए तैयार',
     chat_placeholder:'फसल रोग, खाद, योजनाओं के बारे में पूछें...',
     quick_q:'त्वरित प्रश्न:',
@@ -1067,7 +1077,7 @@ const LANG = {
     mandi_disclaimer:'* ధరలు సూచనార్థమైనవి. అమ్మడానికి ముందు స్థానిక మండిని సంప్రదించండి.',
     schemes_title:'రైతులకు ప్రభుత్వ పథకాలు', schemes_sub:'మీ ప్రయోజనాలు తెలుసుకోండి',
     seasonal_title:'సీజనల్ వ్యవసాయ చిట్కాలు', seasonal_sub:'ఖరీఫ్, రబీ & జైద్ సీజన్‌ల కోసం',
-    ai_title:'AI వ్యవసాయ సహాయకుడు', ai_sub:'Claude AI ద్వారా — ఏ వ్యవసాయ ప్రశ్న అయినా అడగండి',
+    ai_title:'AI వ్యవసాయ సహాయకుడు', ai_sub:'లోకల్ డెమో సహాయకుడు — ఏ వ్యవసాయ ప్రశ్న అయినా అడగండి',
     ai_online:'● ఆన్‌లైన్ — రైతులకు సహాయం చేయడానికి సిద్ధంగా ఉన్నారు',
     chat_placeholder:'పంట వ్యాధి, ఎరువులు, పథకాల గురించి అడగండి...',
     quick_q:'త్వరిత ప్రశ్నలు:',
@@ -1106,7 +1116,7 @@ const LANG = {
     mandi_disclaimer:'* ମୂଲ୍ୟ ସୂଚକ। ବିକ୍ରୟ ପୂର୍ବରୁ ସ୍ଥାନୀୟ ମଣ୍ଡି ଯାଞ୍ଚ କରନ୍ତୁ।',
     schemes_title:'କୃଷକଙ୍କ ପାଇଁ ସରକାରୀ ଯୋଜନା', schemes_sub:'ଆପଣଙ୍କ ସୁବିଧା ଜାଣନ୍ତୁ',
     seasonal_title:'ଋତୁ ଅନୁଯାୟୀ ଚାଷ ଟିପ୍ସ', seasonal_sub:'ଖରିଫ, ରବି ଓ ଜାୟଦ ଋତୁ ପାଇଁ',
-    ai_title:'AI କୃଷି ସହାୟକ', ai_sub:'Claude AI ଦ୍ୱାରା — ଯେ କୌଣସି ଚାଷ ପ୍ରଶ୍ନ ପଚାରନ୍ତୁ',
+    ai_title:'AI କୃଷି ସହାୟକ', ai_sub:'ସ୍ଥାନୀୟ ଡେମୋ ସହାୟକ — ଯେକୌଣସି ଚାଷ ପ୍ରଶ୍ନ ପଚାରନ୍ତୁ',
     ai_online:'● ଅନ୍‌ଲାଇନ — କୃଷକଙ୍କ ସାହାଯ୍ୟ ପାଇଁ ପ୍ରସ୍ତୁତ',
     chat_placeholder:'ଫସଲ ରୋଗ, ସାର, ଯୋଜନା ବିଷୟରେ ପଚାରନ୍ତୁ...',
     quick_q:'ଦ୍ରୁତ ପ୍ରଶ୍ନ:',
@@ -1739,8 +1749,118 @@ async function analyzeImage() {
     setTimeout(() => { document.getElementById('confFill').style.width = r.confidence + '%'; }, 100);
   }
     }
+    // ===== AI AGRICULTURE ASSISTANT (LOCAL DEMO) =====
+const assistantConfig = {
+  mode: 'local', // future: 'api'
+  apiEndpoint: '',
+};
 
-    // ===== AI CHAT =====
+const assistantExamples = [
+  'Why are my rice leaves turning yellow?',
+  'Best fertilizer for tomato?',
+  'How to control chilli pests?',
+  'Which crop is best for my district?'
+];
+
+const assistantKnowledgeBase = [
+  {
+    keys: ['rice blast', 'paddy blast', 'blast disease'],
+    answer: `Rice blast is a fungal disease.
+• Symptoms: Diamond-shaped grey spots on leaves, neck infection near panicle.
+• Immediate step: Spray Tricyclazole 75 WP @ 6g per 15L water (follow label/local advice).
+• Field care: Avoid excess nitrogen, keep proper plant spacing, drain standing water when possible.`
+  },
+  {
+    keys: ['bacterial leaf blight', 'blb', 'rice leaf blight'],
+    answer: `Bacterial leaf blight in rice spreads fast in humid weather.
+• Symptoms: Yellow to straw-colored leaf edges with drying from tip.
+• First actions: Avoid heavy urea dose, keep field clean, remove badly infected leaves.
+• Guidance: Copper-based/bactericide use should be confirmed with local expert for correct product and dose.`
+  },
+  {
+    keys: ['tomato early blight', 'early blight tomato', 'tomato leaf spots'],
+    answer: `Tomato early blight is usually fungal.
+• Symptoms: Brown concentric ring spots on older leaves.
+• Management: Remove infected leaves, avoid overhead irrigation late evening.
+• Spray option: Mancozeb/Chlorothalonil products are commonly used — verify dose and waiting period locally.`
+  },
+  {
+    keys: ['chilli leaf curl', 'chili leaf curl', 'mirchi leaf curl'],
+    answer: `Chilli leaf curl is often viral and spread by whiteflies/thrips.
+• Symptoms: Upward curling leaves, stunted plants, poor fruit set.
+• Action: Remove badly affected plants early.
+• Control vector: Use yellow sticky traps and need-based spray for whitefly/thrips after local recommendation.`
+  },
+  {
+    keys: ['powdery mildew', 'powder on leaves', 'white powder leaves'],
+    answer: `Powdery mildew appears as white powder on leaves.
+• Favours dry days + humid nights.
+• Management: Improve air movement, avoid dense canopy.
+• Common option: Wettable sulphur products are used in many crops — check crop label and local advisory first.`
+  },
+  {
+    keys: ['fertilizer', 'best fertilizer', 'npk', 'urea', 'dap'],
+    answer: `Basic fertilizer guidance:
+• Start with soil test whenever possible.
+• Use balanced nutrients (N:P:K) instead of only urea.
+• Split nitrogen dose (2-3 times) for better uptake.
+• Add organic matter (FYM/compost) for long-term soil health.`
+  },
+  {
+    keys: ['pest control', 'insect control', 'pests'],
+    answer: `Pest control basics (IPM):
+• Monitor field twice weekly.
+• Use traps (yellow/pheromone) for early detection.
+• Keep weeds and alternate hosts under control.
+• Use recommended pesticide only when threshold is crossed; rotate molecules to avoid resistance.`
+  },
+  {
+    keys: ['best crop for my district', 'which crop is best for my district', 'district crop'],
+    answer: `To select best crop for your district:
+• Check rainfall + irrigation availability.
+• Match crop to soil type and market demand.
+• Prefer locally proven varieties from KVK/agri university.
+• Share your district name and season; I can suggest 3 suitable crops.`
+  }
+];
+
+function renderAssistantExamples() {
+  const el = document.getElementById('assistantExamples');
+  if (!el) return;
+  el.innerHTML = assistantExamples.map(q => `<span onclick="askAssistantExample('${q.replace(/'/g, "\'")}')">${q}</span>`).join('');
+}
+
+function askAssistantExample(q) {
+  const input = document.getElementById('chatInput');
+  if (!input) return;
+  input.value = q;
+  sendChat();
+}
+
+function getAssistantResponseLocal(question) {
+  const q = question.toLowerCase();
+  const matched = assistantKnowledgeBase.find(item => item.keys.some(k => q.includes(k)));
+  if (matched) return matched.answer;
+  return `I can help with crop diseases, fertilizer planning, pest control, and crop selection.
+Please share:
+• Crop name
+• Problem/symptoms
+• Crop stage
+• Your district/state
+Then I will give a practical step-by-step answer.`;
+}
+
+async function getAssistantResponseAPI(question) {
+  throw new Error('API mode not configured yet');
+}
+
+async function getAssistantResponse(question) {
+  if (assistantConfig.mode === 'api') {
+    return getAssistantResponseAPI(question);
+  }
+  return getAssistantResponseLocal(question);
+}
+
 let chatHistory = [];
 
 async function sendChat() {
@@ -1750,51 +1870,24 @@ async function sendChat() {
   input.value = '';
 
   appendMsg(q, 'user');
-  chatHistory.push({role: 'user', content: q});
+  chatHistory.push({ role: 'user', content: q });
 
   const typing = document.getElementById('chatTyping');
-  typing.style.display = 'block';
+  const errBox = document.getElementById('chatError');
+  if (errBox) errBox.style.display = 'none';
+  if (typing) typing.style.display = 'block';
   scrollChat();
 
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: `You are KrishiBot, an expert AI assistant for Indian farmers. You specialize in:
-- Crop diseases, pests and their management (paddy, wheat, tomato, chilli, cotton, etc.)
-- Fertilizer recommendations with specific doses and timing
-- Indian government schemes (PM-KISAN, PMFBY, KCC, etc.) 
-- Mandi prices and market guidance
-- Seasonal farming tips for Kharif, Rabi and Zaid seasons
-- Soil health and management
-
-Current language: ${currentLang === 'hi' ? 'Hindi' : currentLang === 'te' ? 'Telugu' : currentLang === 'od' ? 'Odia' : 'English'}
-
-IMPORTANT: Respond in the user's language (${currentLang === 'hi' ? 'Hindi' : currentLang === 'te' ? 'Telugu' : currentLang === 'od' ? 'Odia' : 'English'}).
-Keep answers practical, specific, and actionable for Indian farmers.
-Include specific product names, doses, and timing when relevant.
-Be concise but helpful. Use bullet points when listing treatments or tips.`,
-        messages: chatHistory.slice(-8)
-      })
-    });
-
-    const data = await resp.json();
-    const aiText = data.content[0].text;
-    chatHistory.push({role: 'assistant', content: aiText});
-    typing.style.display = 'none';
+    await new Promise(res => setTimeout(res, 450));
+    const aiText = await getAssistantResponse(q);
+    chatHistory.push({ role: 'assistant', content: aiText });
+    if (typing) typing.style.display = 'none';
     appendMsg(aiText, 'ai');
-
-  } catch(err) {
-    typing.style.display = 'none';
-    const fallbackResponses = [
-      "I'm having trouble connecting right now. For paddy blast, spray Tricyclazole 75 WP @ 6g/15L water. For general queries, check the Disease Guide section! 🌾",
-      "Connection issue. Quick tip: Always split Urea into 3 applications for wheat — at sowing, CRI stage (21 days), and jointing (45 days). 💡",
-      "Offline mode. Remember: PM-KISAN gives ₹6,000/year in 3 installments. Register at your nearest Common Service Centre or pmkisan.gov.in 🏛️"
-    ];
-    appendMsg(fallbackResponses[Math.floor(Math.random()*fallbackResponses.length)], 'ai');
+  } catch (err) {
+    if (typing) typing.style.display = 'none';
+    if (errBox) errBox.style.display = 'block';
+    appendMsg('Sorry, I could not answer right now. Please try again.', 'ai');
   }
   scrollChat();
 }
@@ -2562,6 +2655,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderDiseaseCropGrid();
   renderSuggestions();
   renderQuickQuestions();
+  renderAssistantExamples();
   loadMandi(); // original mandi for home preview
   loadMandiNew('odisha'); // new expanded mandi
   loadSchemes();
