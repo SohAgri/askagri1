@@ -1541,6 +1541,7 @@ function filterMandi() {
 }
 function renderMandiTable(data) {
   const tbody = document.getElementById('mandiBody');
+  if (!tbody) return;
   tbody.innerHTML = '';
   if (data.length === 0) {
     tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-light);padding:20px;">No data found for this filter.</td></tr>`;
@@ -1817,14 +1818,6 @@ function scrollChat() {
 }
 
 
-// Override doSearch to use new page system
-function doSearch(){
-  const q=document.getElementById('searchInput').value.trim();
-  if(!q)return;
-  document.getElementById('chatInput').value=q;
-  showPage('ai-chat');
-  sendChat();
-}
 // ===== ASK FORM =====
 function submitQuestion() {
   const msg = document.getElementById('successMsg');
@@ -2183,6 +2176,74 @@ function showFVDetail(id){
   </div>`;
   det.scrollIntoView({behavior:'smooth'});
     }
+
+
+// ===== FERTILIZERS / INPUTS =====
+let fertData = [];
+let currentFertFilter = 'all';
+let fertDataLoaded = false;
+
+async function ensureFertData() {
+  if (fertDataLoaded) return;
+  const resp = await fetch('fertilizers.json');
+  if (!resp.ok) throw new Error('Failed to load fertilizers data');
+  fertData = await resp.json();
+  fertDataLoaded = true;
+}
+
+function filterFert(type, btn) {
+  currentFertFilter = type;
+  document.querySelectorAll('#fertFilter .fv-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderFert(type);
+}
+
+async function renderFert(type = 'all') {
+  const grid = document.getElementById('fertGrid');
+  const det = document.getElementById('fertDetail');
+  if (!grid) return;
+
+  try {
+    await ensureFertData();
+    const data = type === 'all' ? fertData : fertData.filter(i => i.type === type);
+    if (!data.length) {
+      grid.innerHTML = `<div class="result-card"><p>No input data found for this filter.</p></div>`;
+      if (det) det.style.display = 'none';
+      return;
+    }
+    grid.innerHTML = data.map(i => `
+      <div class="fert-card" onclick="showFertDetail('${(i.name || '').replace(/'/g, "&#39;")}')">
+        <span class="fert-tag">${i.type}</span>
+        <h4>${i.name}</h4>
+        <p>${i.desc}</p>
+      </div>
+    `).join('');
+    if (det) det.style.display = 'none';
+  } catch (err) {
+    grid.innerHTML = `<div class="result-card"><h3>⚠️ Unable to load inputs</h3><p>Please refresh the page and try again.</p></div>`;
+    if (det) det.style.display = 'none';
+  }
+}
+
+function showFertDetail(name) {
+  const item = fertData.find(x => x.name === name);
+  const det = document.getElementById('fertDetail');
+  if (!item || !det) return;
+  det.style.display = 'block';
+  det.innerHTML = `
+    <button class="result-back" onclick="document.getElementById('fertDetail').style.display='none'">← Back</button>
+    <div class="result-card">
+      <h3>🧪 ${item.name}</h3>
+      <span class="tag">${item.type}</span>
+      <p style="margin-top:8px;">${item.desc}</p>
+      <div class="info-box" style="margin-top:10px;">
+        <h4>✅ Usage Note</h4>
+        <p>Always follow label dose, wear protective gear, and consult local agri officer/KVK for crop-stage specific recommendations.</p>
+      </div>
+    </div>
+  `;
+  det.scrollIntoView({ behavior: 'smooth' });
+}
 
     // ===== ORGANIC FARMING =====
 const organicData=[
