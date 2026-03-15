@@ -78,7 +78,7 @@ nav {
   padding: 5px 10px; border-radius: 20px;
   border: 2px solid var(--green); background: transparent;
   color: var(--green); font-weight: 700; font-size: 0.78rem;
-  cursor: pointer; font-family: 'Hind', font-familyyy;
+  cursor: pointer; font-family: 'Hind', sans-serif;
   outline: none;
 }
 .lang-select:hover { background: var(--green); color: white; }
@@ -157,6 +157,68 @@ nav {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 14px; max-width: 920px; margin: 0 auto 40px; padding: 0 16px;
 }
+.section-hub {
+  max-width: 1000px;
+  margin: 0 auto 30px;
+  padding: 0 16px;
+  display: grid;
+  gap: 14px;
+}
+.hub-block {
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+.hub-block h3 {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.15rem;
+  margin-bottom: 4px;
+}
+.hub-block p {
+  color: var(--text-light);
+  font-size: 0.84rem;
+  margin-bottom: 12px;
+}
+.hub-items { display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 12px; }
+.hub-chip {
+  font-size:0.75rem;
+  padding:5px 10px;
+  border-radius:999px;
+  border:1.5px solid;
+  font-weight:700;
+  background:#fff;
+}
+.hub-action {
+  border:none;
+  border-radius:10px;
+  padding:9px 14px;
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+}
+.hub-agri { border-color:#c8e6c9; }
+.hub-agri h3 { color:#1b5e20; }
+.hub-agri .hub-chip{ border-color:#c8e6c9; color:#1b5e20; background:#f2fbf3; }
+.hub-agri .hub-action{ background:#2e7d32; }
+.hub-fish { border-color:#bbdefb; }
+.hub-fish h3 { color:#0d47a1; }
+.hub-fish .hub-chip{ border-color:#bbdefb; color:#0d47a1; background:#eff7ff; }
+.hub-fish .hub-action{ background:#1565c0; }
+.hub-live { border-color:#ffe0b2; }
+.hub-live h3 { color:#bf360c; }
+.hub-live .hub-chip{ border-color:#ffe0b2; color:#bf360c; background:#fff6eb; }
+.hub-live .hub-action{ background:#e65100; }
+.sector-card{
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  padding:12px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.04);
+}
+.sector-card h3{font-size:0.92rem;margin-bottom:5px;}
+.sector-card p{font-size:0.78rem;color:var(--text-light);line-height:1.45;}
 .feat-card {
   background: white; border-radius: var(--radius); padding: 24px 18px 20px;
   border: 2px solid var(--border); text-align: center; cursor: pointer;
@@ -513,9 +575,9 @@ footer a { color: #81c784; text-decoration: none; }
     <div class="stat-item"><div class="stat-num">100+</div><div class="stat-label">Glossary Terms</div></div>
     <div class="stat-item"><div class="stat-num">AI</div><div class="stat-label">Powered</div></div>
   </div>
-  <!-- QUICK NAV -->
+  <!-- SECTION HUB -->
   <div class="section-inner" style="padding-top:0;padding-bottom:4px;">
-    <div class="section-title">⚡ Quick Navigation</div>
+    <div class="section-title">🧭 Explore by Sector</div>
   </div>
   <div class="quick-nav-grid">
     <div class="qn-card" onclick="showPage('mandi')"><div class="qn-icon">📊</div><div class="qn-title">Mandi Prices</div></div>
@@ -586,6 +648,69 @@ footer a { color: #81c784; text-decoration: none; }
   <div class="section">
     <div class="section-title">🏛️ <span data-key="sec_schemes">Popular Government Schemes</span></div>
     <div class="scheme-list" id="homeSchemes"></div>
+  </div>
+</div>
+
+<!-- ===== AGRICULTURE HUB ===== -->
+<div id="agriculture" class="page">
+  <div class="page-header" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);">
+    <h1>🌱 Agriculture</h1>
+    <p>All crop and farming services in one place.</p>
+  </div>
+  <div class="section-inner">
+    <div class="quick-nav-grid">
+      <div class="qn-card" onclick="showPage('mandi')"><div class="qn-icon">📊</div><div class="qn-title">Mandi Prices</div></div>
+      <div class="qn-card" onclick="showPage('crop-guide')"><div class="qn-icon">🌱</div><div class="qn-title">Crop Guide</div></div>
+      <div class="qn-card" onclick="showPage('diseases')"><div class="qn-icon">🔬</div><div class="qn-title">Diseases</div></div>
+      <div class="qn-card" onclick="showPage('fruits-veg')"><div class="qn-icon">🍎</div><div class="qn-title">Fruits &amp; Veg</div></div>
+      <div class="qn-card" onclick="showPage('fertilizers')"><div class="qn-icon">🧪</div><div class="qn-title">Inputs</div></div>
+      <div class="qn-card" onclick="showPage('organic-farming')"><div class="qn-icon">🍃</div><div class="qn-title">Organic</div></div>
+      <div class="qn-card" onclick="showPage('special-farming')"><div class="qn-icon">🍄</div><div class="qn-title">Mushroom/Honey</div></div>
+      <div class="qn-card" onclick="showPage('seed-varieties')"><div class="qn-icon">🌾</div><div class="qn-title">Seed Varieties</div></div>
+      <div class="qn-card" onclick="showPage('women-agri')"><div class="qn-icon">👩‍🌾</div><div class="qn-title">Women Agri</div></div>
+      <div class="qn-card" onclick="showPage('student-notes')"><div class="qn-icon">📚</div><div class="qn-title">Students</div></div>
+      <div class="qn-card" onclick="showPage('calendar')"><div class="qn-icon">📅</div><div class="qn-title">Calendar</div></div>
+      <div class="qn-card" onclick="showPage('district-guide')"><div class="qn-icon">🗺️</div><div class="qn-title">Districts</div></div>
+      <div class="qn-card" onclick="showPage('schemes')"><div class="qn-icon">🏛️</div><div class="qn-title">Schemes</div></div>
+      <div class="qn-card" onclick="showPage('glossary')"><div class="qn-icon">📖</div><div class="qn-title">Glossary</div></div>
+      <div class="qn-card" onclick="showPage('faq')"><div class="qn-icon">❓</div><div class="qn-title">FAQ</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FISHERY ===== -->
+<div id="fishery" class="page">
+  <div class="page-header" style="background:linear-gradient(135deg,#0d47a1,#1976d2);">
+    <h1>🐟 Fishery</h1>
+    <p>Practical fish farming support for small and medium farmers.</p>
+  </div>
+  <div class="section-inner">
+    <div class="info-grid">
+      <div class="sector-card"><h3>🐠 Fish Species</h3><p>Popular options: Rohu, Catla, Mrigal, Tilapia and Pangasius based on local market demand.</p></div>
+      <div class="sector-card"><h3>🏞️ Pond Preparation</h3><p>Dry pond, remove weeds, apply lime, and fill clean water before stocking seed.</p></div>
+      <div class="sector-card"><h3>💧 Water Quality</h3><p>Keep pH 7-8.5, monitor dissolved oxygen, avoid overfeeding and dirty inflow water.</p></div>
+      <div class="sector-card"><h3>🌾 Feed</h3><p>Use balanced feed as per fish size and growth stage. Feed in fixed points daily.</p></div>
+      <div class="sector-card"><h3>🩺 Fish Diseases</h3><p>Watch for ulcers, gasping, white patches and sudden mortality. Isolate and consult fisheries officer.</p></div>
+      <div class="sector-card"><h3>🏛️ Schemes & FAQ</h3><p>Check PMMSY and state fisheries department support for pond, seed and cold-chain subsidies.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LIVESTOCK ===== -->
+<div id="livestock" class="page">
+  <div class="page-header" style="background:linear-gradient(135deg,#8d6e63,#a1887f);">
+    <h1>🐄 Poultry &amp; Livestock</h1>
+    <p>Simple guidance for poultry, dairy and goat-based income.</p>
+  </div>
+  <div class="section-inner">
+    <div class="info-grid">
+      <div class="sector-card"><h3>🐔 Poultry Farming</h3><p>Maintain dry litter, proper ventilation and clean water for healthy growth.</p></div>
+      <div class="sector-card"><h3>🥛 Dairy Farming</h3><p>Balanced ration, regular deworming and clean shed improve milk yield and animal health.</p></div>
+      <div class="sector-card"><h3>🐐 Goat Farming</h3><p>Choose hardy breeds, provide shade and mineral mixture, and prevent overgrazing.</p></div>
+      <div class="sector-card"><h3>🌿 Feed Management</h3><p>Mix green fodder, dry fodder and concentrate feed according to age and production stage.</p></div>
+      <div class="sector-card"><h3>💉 Vaccination</h3><p>Follow local vaccination calendar for FMD, HS, BQ, PPR and poultry diseases.</p></div>
+      <div class="sector-card"><h3>🩺 Common Diseases & Schemes</h3><p>Early diagnosis saves loss. Contact veterinary doctor and explore animal husbandry schemes.</p></div>
+    </div>
   </div>
 </div>
 
@@ -1181,22 +1306,6 @@ function setLang(lang) {
 }
 
 // ===== PAGE NAVIGATION =====
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-  window.scrollTo(0,0);
-  if (id === 'mandi') loadMandi();
-  if (id === 'schemes') loadSchemes();
-  if (id === 'seasonal') showSeason('kharif', document.querySelector('.season-tab'));
-  if (id === 'diseases') renderDiseaseCropGrid();
-  if (id === 'ai-chat') {
-    setTimeout(() => {
-      const ci = document.getElementById('chatInput');
-      if(ci) ci.focus();
-    }, 300);
-  }
-}
 
 // ===== CROPS DATA =====
 const crops = [
@@ -2716,7 +2825,6 @@ function toggleFAQ(i,el){
 }
 
 // ===== PAGE NAVIGATION (extended) =====
-const origShowPage=showPage;
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const pg=document.getElementById(id);if(pg)pg.classList.add('active');
