@@ -512,11 +512,24 @@ footer a { color: #81c784; text-decoration: none; }
     <div class="nav-logo" onclick="showPage('home')">🌾 Ask<span>Krishi</span></div>
     <div class="nav-links">
       <a href="#" class="active" onclick="showPage('home')">🏠 Home</a>
-      <a href="#" onclick="showPage('agriculture')">🌱 Agriculture</a>
-      <a href="#" onclick="showPage('fishery')">🐟 Fishery</a>
-      <a href="#" onclick="showPage('livestock')">🐄 Poultry &amp; Livestock</a>
+      <a href="#" onclick="showPage('mandi')">📊 Mandi</a>
+      <a href="#" onclick="showPage('crop-guide')">🌱 Crops</a>
+      <a href="#" onclick="showPage('fruits-veg')">🍎 Fruits &amp; Veg</a>
+      <a href="#" onclick="showPage('diseases')">🌿 Diseases</a>
+      <a href="#" onclick="showPage('fertilizers')">🧪 Inputs</a>
+      <a href="#" onclick="showPage('organic-farming')">🍃 Organic</a>
+      <a href="#" onclick="showPage('special-farming')">🍄 Special</a>
+      <a href="#" onclick="showPage('seed-varieties')">🌾 Seeds</a>
+      <a href="#" onclick="showPage('women-agri')">👩‍🌾 Women</a>
+      <a href="#" onclick="showPage('student-notes')">📚 Students</a>
+      <a href="#" onclick="showPage('calendar')">📅 Calendar</a>
+      <a href="#" onclick="showPage('district-guide')">🗺️ Districts</a>
+      <a href="#" onclick="showPage('schemes')">🏛️Schemes</a>
+      <a href="#" onclick="showPage('seasonal')">🌦️ Tips</a>
+      <a href="#" onclick="showPage('glossary')">📖 Glossary</a>
+      <a href="#" onclick="showPage('faq')">❓ FAQ</a>
       <a href="#" onclick="showPage('ai-chat')">🤖 AI Assistant</a>
-      <a href="#" onclick="showPage('upload')">📷 Crop Scanner</a>
+      <a href="#" onclick="showPage('upload')">📷 Photo AI</a>
     </div>
     <div class="nav-right">
       <select class="lang-select"onchange="setLang(this.value)" id="langSelect">
@@ -566,31 +579,25 @@ footer a { color: #81c784; text-decoration: none; }
   <div class="section-inner" style="padding-top:0;padding-bottom:4px;">
     <div class="section-title">🧭 Explore by Sector</div>
   </div>
-  <div class="section-hub">
-    <div class="hub-block hub-agri">
-      <h3>🌱 Agriculture</h3>
-      <p>Crop planning, disease guidance, market prices, inputs and schemes in one place.</p>
-      <div class="hub-items">
-        <span class="hub-chip">Mandi Prices</span><span class="hub-chip">Crop Guide</span><span class="hub-chip">Diseases</span><span class="hub-chip">Fertilizers</span><span class="hub-chip">Schemes</span>
-      </div>
-      <button class="hub-action" onclick="showPage('agriculture')">Explore Agriculture</button>
-    </div>
-    <div class="hub-block hub-fish">
-      <h3>🐟 Fishery</h3>
-      <p>Start fish farming with simple guides on pond setup, feed, water quality and fish health.</p>
-      <div class="hub-items">
-        <span class="hub-chip">Fish Species</span><span class="hub-chip">Pond Prep</span><span class="hub-chip">Water Quality</span><span class="hub-chip">Diseases</span><span class="hub-chip">Schemes</span>
-      </div>
-      <button class="hub-action" onclick="showPage('fishery')">Explore Fishery</button>
-    </div>
-    <div class="hub-block hub-live">
-      <h3>🐄 Poultry &amp; Livestock</h3>
-      <p>Daily care guides for poultry, dairy and goat farming with vaccination and feed basics.</p>
-      <div class="hub-items">
-        <span class="hub-chip">Poultry</span><span class="hub-chip">Dairy</span><span class="hub-chip">Goat</span><span class="hub-chip">Vaccination</span><span class="hub-chip">Common Diseases</span>
-      </div>
-      <button class="hub-action" onclick="showPage('livestock')">Explore Poultry &amp; Livestock</button>
-    </div>
+  <div class="quick-nav-grid">
+    <div class="qn-card" onclick="showPage('mandi')"><div class="qn-icon">📊</div><div class="qn-title">Mandi Prices</div></div>
+    <div class="qn-card" onclick="showPage('crop-guide')"><div class="qn-icon">🌱</div><div class="qn-title">Crop Guide</div></div>
+    <div class="qn-card" onclick="showPage('diseases')"><div class="qn-icon">🔬</div><div class="qn-title">Diseases</div></div>
+    <div class="qn-card" onclick="showPage('fruits-veg')"><div class="qn-icon">🍎</div><div class="qn-title">Fruits &amp; Veg</div></div>
+    <div class="qn-card" onclick="showPage('fertilizers')"><div class="qn-icon">🧪</div><div class="qn-title">Fertilizers</div></div>
+    <div class="qn-card" onclick="showPage('organic-farming')"><div class="qn-icon">🍃</div><div class="qn-title">Organic</div></div>
+    <div class="qn-card" onclick="showPage('special-farming')"><div class="qn-icon">🍄</div><div class="qn-title">Mushroom/Honey</div></div>
+    <div class="qn-card" onclick="showPage('seed-varieties')"><div class="qn-icon">🌾</div><div class="qn-title">Seed Varieties</div></div>
+    <div class="qn-card" onclick="showPage('women-agri')"><div class="qn-icon">👩‍🌾</div><div class="qn-title">Women Agri</div></div>
+    <div class="qn-card" onclick="showPage('student-notes')"><div class="qn-icon">📚</div><div class="qn-title">Students</div></div>
+    <div class="qn-card" onclick="showPage('calendar')"><div class="qn-icon">📅</div><div class="qn-title">Calendar</div></div>
+    <div class="qn-card" onclick="showPage('district-guide')"><div class="qn-icon">🗺️</div><div class="qn-title">Districts</div></div>
+    <div class="qn-card" onclick="showPage('schemes')"><div class="qn-icon">🏛️</div><div class="qn-title">Schemes</div></div>
+    <div class="qn-card" onclick="showPage('glossary')"><div class="qn-icon">📖</div><div class="qn-title">Glossary</div></div>
+    <div class="qn-card" onclick="showPage('faq')"><div class="qn-icon">❓</div><div class="qn-title">FAQ</div></div>
+    <div class="qn-card" onclick="showPage('ai-chat')"><div class="qn-icon">🤖</div><div class="qn-title">AI Assistant</div></div>
+    <div class="qn-card" onclick="showPage('upload')"><div class="qn-icon">📷</div><div class="qn-title">Photo AI</div></div>
+    <div class="qn-card" onclick="showPage('seasonal')"><div class="qn-icon">🌦️</div><div class="qn-title">Seasonal Tips</div></div>
   </div>
 
   <!-- FEATURES -->
@@ -1084,11 +1091,19 @@ footer a { color: #81c784; text-decoration: none; }
   <p data-key="footer_tagline">Helping Farmers Grow Better 🌱</p>
   <p style="margin-top:8px;font-size:0.79rem;line-height:2;">
     <a href="#" onclick="showPage('home')">Home</a> ·
-    <a href="#" onclick="showPage('agriculture')">Agriculture</a> ·
-    <a href="#" onclick="showPage('fishery')">Fishery</a> ·
-    <a href="#" onclick="showPage('livestock')">Poultry &amp; Livestock</a> ·
-    <a href="#" onclick="showPage('ai-chat')">AI Assistant</a> ·
-    <a href="#" onclick="showPage('upload')">Crop Scanner</a>
+    <a href="#" onclick="showPage('mandi')">Mandi</a> ·
+    <a href="#" onclick="showPage('crop-guide')">Crops</a> ·
+    <a href="#" onclick="showPage('diseases')">Diseases</a> ·
+    <a href="#" onclick="showPage('organic-farming')">Organic</a> ·
+    <a href="#" onclick="showPage('special-farming')">Mushroom &amp; Honey</a> ·
+    <a href="#" onclick="showPage('seed-varieties')">Seeds</a> ·
+    <a href="#" onclick="showPage('women-agri')">Women Agri</a> ·
+    <a href="#" onclick="showPage('student-notes')">Students</a> ·
+    <a href="#" onclick="showPage('district-guide')">Districts</a> ·
+    <a href="#" onclick="showPage('schemes')">Schemes</a> ·
+    <a href="#" onclick="showPage('glossary')">Glossary</a> ·
+    <a href="#" onclick="showPage('faq')">FAQ</a> ·
+    <a href="#" onclick="showPage('ai-chat')">AI Assistant</a>
   </p>
   <p style="margin-top:7px;font-size:0.78rem;line-height:1.8;">
     <a href="#" style="color:#81c784;">Privacy Policy</a> &nbsp;|&nbsp;
@@ -1111,7 +1126,7 @@ const LANG = {
     hero_badge:"India's Farming AI Assistant", hero_sub:'Ask Anything About Farming – Kisan Ka Saathi',
     search_placeholder:'e.g. Why are my paddy leaves turning yellow?',
     feat_ai_title:'AI Farming Assistant', feat_ai_desc:'Chat with local AI assistant demo for practical farming guidance',
-    feat_upload_title:'Crop Disease Scanner', feat_upload_desc:'Upload photo to scan crop disease and get practical guidance',
+    feat_upload_title:'Diagnose Crop Disease', feat_upload_desc:'Upload photo — AI detects disease & gives treatment',
     feat_mandi_title:'Mandi Prices', feat_mandi_desc:"Today's live market prices for all major crops",
     feat_disease_title:'Crop Disease Guide', feat_disease_desc:'Symptoms, causes & treatments for 10 crops',
     weather_loading:'Fetching your location...', weather_agri:'Checking farming conditions...',
@@ -1934,9 +1949,7 @@ async function analyzeImage() {
     btn.innerHTML = `🔬 <span data-key="analyze_btn">${t('analyze_btn')}</span>`;
     btn.disabled = false;
   }
-}
-
-
+    }
     // ===== AI AGRICULTURE ASSISTANT (LOCAL DEMO) =====
 const assistantConfig = {
   mode: 'local', // future: 'api'
