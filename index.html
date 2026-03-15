@@ -1541,6 +1541,7 @@ function filterMandi() {
 }
 function renderMandiTable(data) {
   const tbody = document.getElementById('mandiBody');
+  if (!tbody) return;
   tbody.innerHTML = '';
   if (data.length === 0) {
     tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-light);padding:20px;">No data found for this filter.</td></tr>`;
