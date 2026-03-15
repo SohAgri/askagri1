@@ -467,7 +467,7 @@ footer a { color: #81c784; text-decoration: none; }
       <a href="#" onclick="showPage('glossary')">📖 Glossary</a>
       <a href="#" onclick="showPage('faq')">❓ FAQ</a>
       <a href="#" onclick="showPage('ai-chat')">🤖 AI Assistant</a>
-      <a href="#" onclick="showPage('upload')">📷 Crop Scanner</a>
+      <a href="#" onclick="showPage('upload')">📷 Photo AI</a>
     </div>
     <div class="nav-right">
       <select class="lang-select"onchange="setLang(this.value)" id="langSelect">
@@ -534,7 +534,7 @@ footer a { color: #81c784; text-decoration: none; }
     <div class="qn-card" onclick="showPage('glossary')"><div class="qn-icon">📖</div><div class="qn-title">Glossary</div></div>
     <div class="qn-card" onclick="showPage('faq')"><div class="qn-icon">❓</div><div class="qn-title">FAQ</div></div>
     <div class="qn-card" onclick="showPage('ai-chat')"><div class="qn-icon">🤖</div><div class="qn-title">AI Assistant</div></div>
-    <div class="qn-card" onclick="showPage('upload')"><div class="qn-icon">📷</div><div class="qn-title">Crop Scanner</div></div>
+    <div class="qn-card" onclick="showPage('upload')"><div class="qn-icon">📷</div><div class="qn-title">Photo AI</div></div>
     <div class="qn-card" onclick="showPage('seasonal')"><div class="qn-icon">🌦️</div><div class="qn-title">Seasonal Tips</div></div>
   </div>
 
@@ -1001,7 +1001,7 @@ const LANG = {
     hero_badge:"India's Farming AI Assistant", hero_sub:'Ask Anything About Farming – Kisan Ka Saathi',
     search_placeholder:'e.g. Why are my paddy leaves turning yellow?',
     feat_ai_title:'AI Farming Assistant', feat_ai_desc:'Chat with local AI assistant demo for practical farming guidance',
-    feat_upload_title:'Crop Disease Scanner', feat_upload_desc:'Upload photo to scan crop disease and get practical guidance',
+    feat_upload_title:'Diagnose Crop Disease', feat_upload_desc:'Upload photo — AI detects disease & gives treatment',
     feat_mandi_title:'Mandi Prices', feat_mandi_desc:"Today's live market prices for all major crops",
     feat_disease_title:'Crop Disease Guide', feat_disease_desc:'Symptoms, causes & treatments for 10 crops',
     weather_loading:'Fetching your location...', weather_agri:'Checking farming conditions...',
@@ -1840,9 +1840,7 @@ async function analyzeImage() {
     btn.innerHTML = `🔬 <span data-key="analyze_btn">${t('analyze_btn')}</span>`;
     btn.disabled = false;
   }
-}
-
-
+    }
     // ===== AI AGRICULTURE ASSISTANT (LOCAL DEMO) =====
 const assistantConfig = {
   mode: 'local', // future: 'api'
