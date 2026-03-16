@@ -551,6 +551,13 @@ footer a { color: #81c784; text-decoration: none; }
 .fishery-faq .faq-item{background:#fff;border:1px solid #d4e4f8;border-radius:12px;padding:10px 12px;margin-bottom:8px;}
 .fishery-faq .faq-item h4{font-size:0.81rem;color:#0f4f96;margin-bottom:4px;}
 .fishery-faq .faq-item p{font-size:0.76rem;color:#4c6072;line-height:1.55;}
+.livestock-section{margin-bottom:18px;}
+.livestock-section h3{font-family:'Poppins',sans-serif;font-size:0.96rem;color:#7a3e12;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.livestock-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;}
+.livestock-card{background:#fff;border:1px solid #f0dfcf;border-radius:12px;padding:12px;}
+.livestock-card h4{font-size:0.84rem;color:#7a3e12;margin-bottom:5px;}
+.livestock-card p{font-size:0.78rem;color:#6b5a4a;line-height:1.5;}
+.livestock-list{margin:0;padding-left:18px;color:#5c4b3b;font-size:0.82rem;line-height:1.6;}
 @media(max-width:600px){
   .quick-nav-grid{grid-template-columns:repeat(3,1fr);}
   .women-grid,.organic-grid,.special-grid{grid-template-columns:1fr;}
@@ -584,6 +591,7 @@ footer a { color: #81c784; text-decoration: none; }
       <a href="#" onclick="showPage('district-guide')">🗺️ Districts</a>
       <a href="#" onclick="showPage('schemes')">🏛️Schemes</a>
       <a href="#" onclick="showPage('fishery')">🐟 Fishery</a>
+      <a href="#" onclick="showPage('livestock')">🐔 Poultry</a>
       <a href="#" onclick="showPage('seasonal')">🌦️ Tips</a>
       <a href="#" onclick="showPage('glossary')">📖 Glossary</a>
       <a href="#" onclick="showPage('faq')">❓ FAQ</a>
@@ -645,6 +653,7 @@ footer a { color: #81c784; text-decoration: none; }
     <div class="qn-card" onclick="showPage('calendar')"><div class="qn-icon">📅</div><div class="qn-title">Calendar</div></div>
     <div class="qn-card" onclick="showPage('district-guide')"><div class="qn-icon">🗺️</div><div class="qn-title">Districts</div></div>
     <div class="qn-card" onclick="showPage('fishery')"><div class="qn-icon">🐟</div><div class="qn-title">Fishery</div></div>
+    <div class="qn-card" onclick="showPage('livestock')"><div class="qn-icon">🐔</div><div class="qn-title">Poultry</div></div>
     <div class="qn-card" onclick="showPage('schemes')"><div class="qn-icon">🏛️</div><div class="qn-title">Schemes</div></div>
     <div class="qn-card" onclick="showPage('glossary')"><div class="qn-icon">📖</div><div class="qn-title">Glossary</div></div>
     <div class="qn-card" onclick="showPage('faq')"><div class="qn-icon">❓</div><div class="qn-title">FAQ</div></div>
@@ -852,16 +861,36 @@ footer a { color: #81c784; text-decoration: none; }
 <div id="livestock" class="page">
   <div class="page-header" style="background:linear-gradient(135deg,#8d6e63,#a1887f);">
     <h1>🐄 Poultry &amp; Livestock</h1>
-    <p>Simple guidance for poultry, dairy and goat-based income.</p>
+    <p>Updated guidance for poultry, dairy and goat-based income.</p>
   </div>
   <div class="section-inner">
-    <div class="info-grid">
-      <div class="sector-card"><h3>🐔 Poultry Farming</h3><p>Maintain dry litter, proper ventilation and clean water for healthy growth.</p></div>
-      <div class="sector-card"><h3>🥛 Dairy Farming</h3><p>Balanced ration, regular deworming and clean shed improve milk yield and animal health.</p></div>
-      <div class="sector-card"><h3>🐐 Goat Farming</h3><p>Choose hardy breeds, provide shade and mineral mixture, and prevent overgrazing.</p></div>
-      <div class="sector-card"><h3>🌿 Feed Management</h3><p>Mix green fodder, dry fodder and concentrate feed according to age and production stage.</p></div>
-      <div class="sector-card"><h3>💉 Vaccination</h3><p>Follow local vaccination calendar for FMD, HS, BQ, PPR and poultry diseases.</p></div>
-      <div class="sector-card"><h3>🩺 Common Diseases & Schemes</h3><p>Early diagnosis saves loss. Contact veterinary doctor and explore animal husbandry schemes.</p></div>
+    <div id="poultry-overview" class="livestock-section">
+      <h3>🐔 Poultry Section</h3>
+      <div class="livestock-card-grid">
+        <div class="livestock-card"><h4>Broiler Farming</h4><p>Maintain shed temperature, provide clean water, and use age-wise feed for fast weight gain.</p></div>
+        <div class="livestock-card"><h4>Layer Farming</h4><p>Use calcium-rich feed and proper lighting hours to support better egg production and shell quality.</p></div>
+        <div class="livestock-card"><h4>Housing &amp; Hygiene</h4><p>Keep litter dry, ensure good airflow, and sanitize drinkers/feeder trays daily to prevent disease spread.</p></div>
+      </div>
+    </div>
+
+    <div id="poultry-health" class="livestock-section">
+      <h3>💉 Poultry Health &amp; Vaccination</h3>
+      <ul class="livestock-list">
+        <li>Follow local vaccination schedule for Newcastle disease, Marek's, IBD (Gumboro), and fowl pox.</li>
+        <li>Isolate sick birds immediately and consult a veterinary doctor for diagnosis.</li>
+        <li>Use biosecurity: footbaths, restricted visitor entry, and regular shed disinfection.</li>
+        <li>Store feed in dry area to avoid fungal contamination and mycotoxin risk.</li>
+      </ul>
+    </div>
+
+    <div class="livestock-section">
+      <h3>🐄 Dairy &amp; Goat Basics</h3>
+      <div class="info-grid">
+        <div class="sector-card"><h3>🥛 Dairy Farming</h3><p>Balanced ration, regular deworming and clean shed improve milk yield and animal health.</p></div>
+        <div class="sector-card"><h3>🐐 Goat Farming</h3><p>Choose hardy breeds, provide shade and mineral mixture, and prevent overgrazing.</p></div>
+        <div class="sector-card"><h3>🌿 Feed Management</h3><p>Mix green fodder, dry fodder and concentrate feed according to age and production stage.</p></div>
+        <div class="sector-card"><h3>🩺 Common Diseases &amp; Schemes</h3><p>Early diagnosis saves loss. Contact veterinary doctor and explore animal husbandry schemes.</p></div>
+      </div>
     </div>
   </div>
 </div>
