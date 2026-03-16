@@ -1716,6 +1716,33 @@ function filterFisheryContent(query=''){
 }
 
 // ===== PAGE NAVIGATION (extended) =====
+
+function initScrollReveal(){
+  const items=document.querySelectorAll('.reveal-on-scroll');
+  if(!items.length) return;
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.15, rootMargin:'0px 0px -10% 0px'});
+  items.forEach((item,idx)=>{
+    item.style.transitionDelay=`${Math.min(idx*0.06,0.32)}s`;
+    io.observe(item);
+  });
+}
+
+function initHeroVideo(){
+  const video=document.querySelector('.hero-video');
+  if(!video) return;
+  video.muted=true;
+  const tryPlay=()=>video.play().catch(()=>{});
+  if(video.readyState>=2) tryPlay();
+  else video.addEventListener('canplay', tryPlay, {once:true});
+}
+
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const pg=document.getElementById(id);if(pg)pg.classList.add('active');
@@ -1770,5 +1797,7 @@ document.addEventListener('DOMContentLoaded', () => {
   showSubject('agronomy', document.querySelector('.subject-tab'));
   showDistricts('odisha', document.querySelector('.state-tab'));
   loadWeather();
+  initScrollReveal();
+  initHeroVideo();
 
 });
