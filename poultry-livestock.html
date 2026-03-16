@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poultry &amp; Livestock Farming Guide | AskKrishi</title>
+<meta name="description" content="Farmer-friendly poultry and livestock farming guide for India by AskKrishi.">
+<link href="https://fonts.googleapis.com/..." rel="stylesheet">
+<style>
+:root {
+  --green: #1a6b2a;
+  --green-mid: #2d8a3e;
+  --green-light: #4caf50;
+  --green-pale: #eaf5eb;
+  --gold: #f5a623;
+  --cream: #fdf8f0;
+  --white: #ffffff;
+  --text: #1c1c1c;
+  --text-light: #5a5a5a;
+  --border: #d4e8d0;
+  --shadow: 0 6px 20px rgba(26,107,42,0.10);
+  --radius: 16px;
+  --nav-h: 60px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Hind', sans-serif; background: var(--cream); color: var(--text); }
+a { color: inherit; }
+
+nav {
+  background: var(--white);
+  border-bottom: 2.5px solid var(--border);
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center;
+  height: var(--nav-h); padding: 0 16px; gap: 10px;
+}
+.nav-logo {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.4rem; font-weight: 800; color: var(--green);
+  white-space: nowrap; text-decoration: none;
+}
+.nav-logo span { color: var(--gold); }
+.nav-links {
+  display: flex; gap: 2px; flex-wrap: nowrap;
+  overflow-x: auto; flex: 1;
+  scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-links a {
+  padding: 6px 10px; border-radius: 20px;
+  font-size: 0.78rem; font-weight: 600; color: var(--text-light);
+  text-decoration: none; white-space: nowrap;
+}
+.nav-links a:hover, .nav-links a.active {
+  background: var(--green-pale); color: var(--green);
+}
+.lang-select {
+  padding: 5px 10px; border-radius: 20px;
+  border: 2px solid var(--green); background: transparent;
+  color: var(--green); font-weight: 700; font-size: 0.78rem;
+}
+
+.tip-bar {
+  background: linear-gradient(90deg, var(--green) 0%, var(--green-mid) 100%);
+  color: white; padding: 10px 20px; text-align: center; font-size: 0.85rem;
+}
+
+.hero {
+  max-width: 1100px; margin: 20px auto 0; padding: 0 16px;
+}
+.hero-panel {
+  background:#fff; border:1px solid #dbe8dd; border-radius:18px;
+  padding:22px 18px; box-shadow:0 8px 24px rgba(18,54,24,0.07);
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:6px; background:#eef7ef;
+  color:#245b2e; padding:5px 12px; border-radius:999px;
+  font-size:0.78rem; font-weight:700; margin-bottom:10px;
+}
+.hero h1 {
+  font-family:'Poppins', sans-serif;
+  font-size:clamp(1.6rem,5vw,2.5rem); color:#164f21;
+  margin-bottom:10px;
+}
+.hero p { color:#4e5c50; line-height:1.7; font-size:0.95rem; }
+
+.quick-tools {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+}
+.search-input {
+  width: 100%; padding: 12px 14px; border-radius: 12px;
+  border: 1.8px solid #cddfd0; font-size: 0.9rem;
+}
+.anchor-nav {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.anchor-nav a {
+  text-decoration: none;
+  background: #f5f8f5;
+  border: 1px solid #d8e6da;
+  color: #255f30;
+  font-size: 0.78rem;
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.container { max-width: 1100px; margin: 18px auto 32px; padding: 0 16px; }
+.section {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.section h2 {
+  font-family: 'Poppins', sans-serif;
+  color: #155724;
+  margin-bottom: 10px;
+  font-size: 1.35rem;
+}
+.subsection { margin-top: 14px; }
+.subsection h3 {
+  color: #1b5e20;
+  margin-bottom: 6px;
+  font-size: 1.02rem;
+}
+.subsection p, .subsection li { color: #4f5b52; line-height: 1.65; font-size: 0.9rem; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+}
+.card {
+  border: 1px solid #dfece1;
+  border-radius: 12px;
+  background: #f9fcf9;
+  padding: 12px;
+}
+.card h4 {
+  color: #205e2c;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+.meta {
+  display:inline-block;
+  background:#eaf5eb;
+  color:#205e2c;
+  font-size:0.72rem;
+  padding:3px 8px;
+  border-radius:999px;
+  margin-bottom:8px;
+  font-weight:700;
+}
+.card ul { padding-left: 16px; }
+.card li { margin: 4px 0; font-size: 0.84rem; color: #4c5a4e; }
+
+.checklist {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+.checklist li {
+  list-style: none;
+  background: #f3f9f4;
+  border: 1px solid #d5e9d8;
+  border-radius: 10px;
+  padding: 9px 10px;
+}
+
+footer {
+  background: #122a14; color: #8fc491; text-align: center; padding: 28px 16px; margin-top: 30px;
+}
+footer .footer-logo { font-family: 'Hind', sans-serif; font-size: 1.3rem; font-weight: 800; color: #4caf50; margin-bottom: 6px; }
+footer p { font-size: 0.8rem; line-height: 1.8; }
+footer a { color: #81c784; text-decoration: none; }
+
+.hidden { display: none !important; }
+
+@media (max-width: 760px) {
+  .quick-tools { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">🌾 Ask<span>Krishi</span></a>
+    <div class="nav-links">
+      <a href="index.html">🏠 Home</a>
+      <a href="index.html#fishery">🐟 Fishery</a>
+      <a href="#poultry" class="active">🐔 Poultry</a>
+      <a href="#livestock">🐄 Livestock</a>
+      <a href="index.html#schemes">🏛️ Schemes</a>
+      <a href="index.html#faq">❓ FAQ</a>
+    </div>
+    <select class="lang-select" aria-label="Language selector">
+      <option>English</option>
+      <option>हिंदी</option>
+      <option>తెలుగు</option>
+      <option>ଓଡ଼ିଆ</option>
+    </select>
+  </div>
+</nav>
+
+<div class="tip-bar">💡 Practical guide for Indian farmers, agri students, and rural entrepreneurs.</div>
+
+<header class="hero">
+  <div class="hero-panel">
+    <div class="hero-badge">🇮🇳 AskKrishi Knowledge Hub</div>
+    <h1>Poultry &amp; Livestock Farming Guide</h1>
+    <p>Poultry and livestock farming are important parts of agriculture in India. They help farmers generate regular income, improve family nutrition through eggs, milk, and meat, and create local employment in rural areas.</p>
+    <div class="quick-tools">
+      <input id="topicSearch" class="search-input" type="text" placeholder="🔎 Search topics like broiler, mastitis, feed, vaccination..." oninput="filterCards(this.value)">
+      <nav class="anchor-nav" aria-label="Quick navigation">
+        <a href="#poultry">Poultry Section</a>
+        <a href="#poultry-types">Bird Types</a>
+        <a href="#poultry-diseases">Poultry Diseases</a>
+        <a href="#livestock">Livestock Section</a>
+        <a href="#livestock-animals">Livestock Animals</a>
+        <a href="#livestock-diseases">Livestock Diseases</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section id="poultry" class="section searchable-block">
+    <h2>🐔 Poultry Farming</h2>
+
+    <div class="subsection searchable-block">
+      <h3>1) Introduction to Poultry Farming</h3>
+      <p>Poultry farming means rearing birds such as chickens, ducks, and quails for eggs and meat. It is a fast-return farming activity that can be started on small land. Poultry supports household income, women-led enterprises, and year-round food supply.</p>
+    </div>
+
+    <div id="poultry-types" class="subsection searchable-block">
+      <h3>2) Types of Poultry Birds</h3>
+      <div class="grid">
+        <article class="card searchable-block"><h4>🐤 Broiler</h4><span class="meta">Purpose: Meat</span><p>Broilers are fast-growing birds raised mainly for meat, usually sold in 5-7 weeks.</p><ul><li><strong>Management tip:</strong> Keep brooder temperature proper in early weeks and provide protein-rich feed.</li></ul></article>
+        <article class="card searchable-block"><h4>🥚 Layer</h4><span class="meta">Purpose: Eggs</span><p>Layers are specialized birds for egg production with long laying cycles.</p><ul><li><strong>Management tip:</strong> Give calcium-rich layer feed and maintain regular lighting schedule.</li></ul></article>
+        <article class="card searchable-block"><h4>🐓 Country Chicken / Desi Poultry</h4><span class="meta">Purpose: Meat + Eggs</span><p>Hardy indigenous birds suitable for backyard and semi-intensive systems.</p><ul><li><strong>Management tip:</strong> Provide night shelter, local grains, and regular vaccination.</li></ul></article>
+        <article class="card searchable-block"><h4>🦆 Duck</h4><span class="meta">Purpose: Eggs + Meat</span><p>Ducks perform well in wet areas and can be integrated with paddy fields.</p><ul><li><strong>Management tip:</strong> Ensure clean water access and dry resting area.</li></ul></article>
+        <article class="card searchable-block"><h4>🐥 Quail</h4><span class="meta">Purpose: Eggs + Meat</span><p>Quails need less space and mature quickly, useful for small entrepreneurs.</p><ul><li><strong>Management tip:</strong> Use fine balanced feed and avoid sudden noise/stress.</li></ul></article>
+      </div>
+    </div>
+
+    <div class="subsection searchable-block">
+      <h3>3) Poultry Housing and Management</h3>
+      <ul>
+        <li><strong>Poultry shed design:</strong> Elevated, dry floor with easy cleaning and separate brooding/growing areas.</li>
+        <li><strong>Ventilation:</strong> Fresh air reduces ammonia build-up and disease risk.</li>
+        <li><strong>Lighting:</strong> Controlled lighting supports feeding and egg production.</li>
+        <li><strong>Litter management:</strong> Keep litter dry, loose, and replace wet patches quickly.</li>
+        <li><strong>Sanitation:</strong> Clean feeders, drinkers, and entry area regularly with disinfectant.</li>
+      </ul>
+    </div>
+
+    <div class="subsection searchable-block">
+      <h3>4) Poultry Feed and Nutrition</h3>
+      <ul>
+        <li><strong>Starter feed:</strong> High protein feed for chicks (first 0-3 weeks).</li>
+        <li><strong>Grower feed:</strong> Balanced feed for growth stage.</li>
+        <li><strong>Layer feed:</strong> Calcium and minerals for shell quality and egg output.</li>
+        <li><strong>Clean drinking water:</strong> Continuous fresh water is essential in all seasons.</li>
+        <li><strong>Mineral and vitamin supplements:</strong> Useful during stress, vaccination, and seasonal changes.</li>
+      </ul>
+    </div>
+
+    <div id="poultry-diseases" class="subsection searchable-block">
+      <h3>5) Poultry Diseases</h3>
+      <div class="grid">
+        <article class="card searchable-block"><h4>Ranikhet Disease (Newcastle)</h4><ul><li><strong>Symptoms:</strong> Sneezing, neck twisting, low egg output, sudden death.</li><li><strong>Causes:</strong> Viral infection spread by birds, people, and equipment.</li><li><strong>Prevention:</strong> Timely vaccination, strict biosecurity, isolate sick birds.</li></ul></article>
+        <article class="card searchable-block"><h4>Coccidiosis</h4><ul><li><strong>Symptoms:</strong> Bloody droppings, weakness, poor growth.</li><li><strong>Causes:</strong> Protozoa in wet litter and contaminated sheds.</li><li><strong>Prevention:</strong> Keep litter dry, use coccidiostats as advised.</li></ul></article>
+        <article class="card searchable-block"><h4>Fowl Pox</h4><ul><li><strong>Symptoms:</strong> Wart-like lesions on comb/wattle, breathing trouble (wet form).</li><li><strong>Causes:</strong> Viral spread through mosquitoes and wounds.</li><li><strong>Prevention:</strong> Vaccinate at right age and control mosquitoes.</li></ul></article>
+        <article class="card searchable-block"><h4>CRD (Chronic Respiratory Disease)</h4><ul><li><strong>Symptoms:</strong> Coughing, nasal discharge, reduced feed intake.</li><li><strong>Causes:</strong> Mycoplasma infection, poor ventilation, stress.</li><li><strong>Prevention:</strong> Good airflow, clean housing, buy healthy chicks.</li></ul></article>
+      </div>
+    </div>
+
+    <div class="subsection searchable-block">
+      <h3>6) Poultry Farming Tips</h3>
+      <ul class="checklist">
+        <li>✅ Maintain cleanliness in shed and equipment.</li>
+        <li>✅ Provide balanced feed as per bird age.</li>
+        <li>✅ Avoid overcrowding in poultry house.</li>
+        <li>✅ Vaccinate birds on time.</li>
+        <li>✅ Observe birds daily for early disease signs.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="livestock" class="section searchable-block">
+    <h2>🐄 Livestock Farming</h2>
+
+    <div class="subsection searchable-block">
+      <h3>1) Introduction to Livestock</h3>
+      <p>Livestock farming includes rearing cattle, buffalo, goats, sheep, and pigs for milk, meat, manure, and income. It strengthens rural livelihoods, supports mixed farming, and provides financial stability through daily or periodic returns.</p>
+    </div>
+
+    <div id="livestock-animals" class="subsection searchable-block">
+      <h3>2) Major Livestock Animals</h3>
+      <div class="grid">
+        <article class="card searchable-block"><h4>🐄 Cow</h4><span class="meta">Purpose: Milk (and manure)</span><p>Cows are key dairy animals and can support biogas and organic farming systems.</p><ul><li><strong>Basic care tip:</strong> Provide clean shed, regular milking, and balanced ration.</li></ul></article>
+        <article class="card searchable-block"><h4>🐃 Buffalo</h4><span class="meta">Purpose: Milk + Meat</span><p>Buffalo milk has higher fat and good market demand in many Indian states.</p><ul><li><strong>Basic care tip:</strong> Provide wallowing/cooling in hot weather and mineral mixture.</li></ul></article>
+        <article class="card searchable-block"><h4>🐐 Goat</h4><span class="meta">Purpose: Meat + Milk</span><p>Goats are suitable for smallholders due to low initial investment and quick reproduction.</p><ul><li><strong>Basic care tip:</strong> Deworm regularly and keep raised, dry housing.</li></ul></article>
+        <article class="card searchable-block"><h4>🐑 Sheep</h4><span class="meta">Purpose: Meat + Wool</span><p>Sheep are useful in dryland systems and can graze on open pasture.</p><ul><li><strong>Basic care tip:</strong> Ensure shade, clean water, and vaccination against local diseases.</li></ul></article>
+        <article class="card searchable-block"><h4>🐖 Pig</h4><span class="meta">Purpose: Meat</span><p>Pig farming gives quick weight gain and good feed conversion for meat production.</p><ul><li><strong>Basic care tip:</strong> Maintain hygienic pens and strictly follow vaccination schedule.</li></ul></article>
+      </div>
+    </div>
+
+    <div class="subsection searchable-block">
+      <h3>3) Housing and Shelter</h3>
+      <ul>
+        <li><strong>Proper shed construction:</strong> Strong, easy-to-clean, and enough space per animal.</li>
+        <li><strong>Ventilation:</strong> Natural airflow reduces heat stress and disease.</li>
+        <li><strong>Drainage:</strong> Sloped floor and drainage channel prevent water stagnation.</li>
+        <li><strong>Extreme weather protection:</strong> Provide shade in summer and dry bedding in winter/rain.</li>
+      </ul>
+    </div>
+
+    <div class="subsection searchable-block">
+      <h3>4) Feed and Fodder</h3>
+      <ul>
+        <li><strong>Green fodder:</strong> Napier, maize, sorghum, and legume fodders for nutrients.</li>
+        <li><strong>Dry fodder:</strong> Hay and straw for roughage and rumen health.</li>
+        <li><strong>Concentrate feed:</strong> Oil cakes, grains, bran for higher production.</li>
+        <li><strong>Mineral mixture:</strong> Essential to prevent deficiency and improve fertility.</li>
+        <li><strong>Clean drinking water:</strong> Required throughout the day for milk and growth.</li>
+      </ul>
+    </div>
+
+    <div id="livestock-diseases" class="subsection searchable-block">
+      <h3>5) Common Livestock Diseases</h3>
+      <div class="grid">
+        <article class="card searchable-block"><h4>Foot and Mouth Disease (FMD)</h4><ul><li><strong>Symptoms:</strong> Fever, mouth ulcers, excessive salivation, foot lesions.</li><li><strong>Causes:</strong> Highly contagious viral disease.</li><li><strong>Prevention:</strong> Regular vaccination and movement control.</li></ul></article>
+        <article class="card searchable-block"><h4>Mastitis</h4><ul><li><strong>Symptoms:</strong> Swollen udder, pain, flakes or watery milk.</li><li><strong>Causes:</strong> Bacterial infection due to poor milking hygiene.</li><li><strong>Prevention:</strong> Clean milking routine and teat dipping.</li></ul></article>
+        <article class="card searchable-block"><h4>Black Quarter (BQ)</h4><ul><li><strong>Symptoms:</strong> Fever, painful muscle swelling, sudden death in young cattle.</li><li><strong>Causes:</strong> Clostridial bacterial infection from contaminated soil.</li><li><strong>Prevention:</strong> Annual vaccination and proper carcass disposal.</li></ul></article>
+        <article class="card searchable-block"><h4>Hemorrhagic Septicemia (HS)</h4><ul><li><strong>Symptoms:</strong> High fever, throat swelling, breathing difficulty.</li><li><strong>Causes:</strong> Bacterial infection common during monsoon stress.</li><li><strong>Prevention:</strong> Pre-monsoon vaccination and stress reduction.</li></ul></article>
+      </div>
+    </div>
+
+    <div class="subsection searchable-block">
+      <h3>6) Livestock Farming Tips</h3>
+      <ul class="checklist">
+        <li>✅ Choose healthy and active animals from trusted source.</li>
+        <li>✅ Provide clean and comfortable shelter.</li>
+        <li>✅ Follow a fixed feeding schedule.</li>
+        <li>✅ Maintain regular vaccination and deworming.</li>
+        <li>✅ Consult a veterinarian quickly when symptoms appear.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-logo">🌾 AskKrishi™</div>
+  <p>Helping Farmers Grow Better 🌱</p>
+  <p><a href="index.html">Return to main AskKrishi platform</a></p>
+</footer>
+
+<script>
+function filterCards(query) {
+  const term = query.trim().toLowerCase();
+  document.querySelectorAll('.searchable-block').forEach(block => {
+    const text = block.textContent.toLowerCase();
+    block.classList.toggle('hidden', term && !text.includes(term));
+  });
+}
+</script>
+</body>
+</html>
