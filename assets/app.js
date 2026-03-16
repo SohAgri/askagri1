@@ -1737,6 +1737,11 @@ function showPage(id){
   if(id==='schemes'){loadSchemes();} 
   if(id==='seasonal')showSeason('kharif',document.querySelector('.season-tab'));
   if(id==='diseases')renderDiseaseCropGrid();
+  if(id==='fishery'){
+    const fisherySearch=document.getElementById('fisherySearch');
+    if(fisherySearch) fisherySearch.value='';
+    filterFisheryContent('');
+  }
   if(id==='ai-chat'){setTimeout(()=>{const ci=document.getElementById('chatInput');if(ci)ci.focus();},300);}
 }
 
