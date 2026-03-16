@@ -526,6 +526,31 @@ footer a { color: #81c784; text-decoration: none; }
 .state-badge{display:inline-block;background:#e8f5e9;color:#1b5e20;font-size:0.66rem;font-weight:700;padding:2px 8px;border-radius:10px;margin:2px;}
 .ap-badge{display:inline-block;background:#e3f2fd;color:#0d47a1;font-size:0.66rem;font-weight:700;padding:2px 8px;border-radius:10px;margin:2px;}
 .section-inner{max-width:1000px;margin:0 auto;padding:24px 16px 32px;}
+
+/* FISHERY */
+.fishery-search-wrap{max-width:680px;margin:0 0 18px;position:relative;}
+.fishery-search{width:100%;padding:13px 14px;border:1.8px solid #bbdefb;border-radius:12px;font-size:0.86rem;font-family:'Hind',sans-serif;outline:none;background:#f6fbff;}
+.fishery-search:focus{border-color:#1976d2;box-shadow:0 0 0 3px rgba(25,118,210,0.15);}
+.fishery-nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;}
+.fishery-nav a{font-size:0.73rem;font-weight:700;text-decoration:none;color:#0d47a1;background:#eaf3ff;border:1px solid #bbdefb;padding:6px 11px;border-radius:999px;}
+.fishery-section{margin-bottom:18px;}
+.fishery-section h3{font-family:'Poppins',sans-serif;font-size:0.96rem;color:#0d47a1;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.fishery-intro{background:linear-gradient(135deg,#f1f8ff,#e3f2fd);border:1.5px solid #bbdefb;border-radius:14px;padding:14px;}
+.fishery-intro p{font-size:0.8rem;color:#26435f;line-height:1.75;margin-bottom:8px;}
+.fishery-intro p:last-child{margin-bottom:0;}
+.fishery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;}
+.fishery-card{background:#fff;border:1.5px solid #d4e4f8;border-radius:14px;padding:12px;box-shadow:0 3px 12px rgba(15,79,150,0.08);}
+.fishery-card h4{font-size:0.84rem;color:#0f4f96;margin-bottom:5px;}
+.fishery-card p{font-size:0.76rem;color:#495f74;line-height:1.55;}
+.fishery-card ul{padding-left:16px;}
+.fishery-card li{font-size:0.76rem;color:#495f74;line-height:1.55;margin:3px 0;}
+.fishery-indicators{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;}
+.fishery-indicator{background:#eef6ff;border:1px solid #bbdefb;border-radius:12px;padding:10px;}
+.fishery-indicator strong{display:block;color:#0d47a1;font-size:0.8rem;margin-bottom:2px;}
+.fishery-indicator span{font-size:0.74rem;color:#3c5670;}
+.fishery-faq .faq-item{background:#fff;border:1px solid #d4e4f8;border-radius:12px;padding:10px 12px;margin-bottom:8px;}
+.fishery-faq .faq-item h4{font-size:0.81rem;color:#0f4f96;margin-bottom:4px;}
+.fishery-faq .faq-item p{font-size:0.76rem;color:#4c6072;line-height:1.55;}
 @media(max-width:600px){
   .quick-nav-grid{grid-template-columns:repeat(3,1fr);}
   .women-grid,.organic-grid,.special-grid{grid-template-columns:1fr;}
@@ -558,6 +583,7 @@ footer a { color: #81c784; text-decoration: none; }
       <a href="#" onclick="showPage('calendar')">📅 Calendar</a>
       <a href="#" onclick="showPage('district-guide')">🗺️ Districts</a>
       <a href="#" onclick="showPage('schemes')">🏛️Schemes</a>
+      <a href="#" onclick="showPage('fishery')">🐟 Fishery</a>
       <a href="#" onclick="showPage('seasonal')">🌦️ Tips</a>
       <a href="#" onclick="showPage('glossary')">📖 Glossary</a>
       <a href="#" onclick="showPage('faq')">❓ FAQ</a>
@@ -618,6 +644,7 @@ footer a { color: #81c784; text-decoration: none; }
     <div class="qn-card" onclick="showPage('student-notes')"><div class="qn-icon">📚</div><div class="qn-title">Students</div></div>
     <div class="qn-card" onclick="showPage('calendar')"><div class="qn-icon">📅</div><div class="qn-title">Calendar</div></div>
     <div class="qn-card" onclick="showPage('district-guide')"><div class="qn-icon">🗺️</div><div class="qn-title">Districts</div></div>
+    <div class="qn-card" onclick="showPage('fishery')"><div class="qn-icon">🐟</div><div class="qn-title">Fishery</div></div>
     <div class="qn-card" onclick="showPage('schemes')"><div class="qn-icon">🏛️</div><div class="qn-title">Schemes</div></div>
     <div class="qn-card" onclick="showPage('glossary')"><div class="qn-icon">📖</div><div class="qn-title">Glossary</div></div>
     <div class="qn-card" onclick="showPage('faq')"><div class="qn-icon">❓</div><div class="qn-title">FAQ</div></div>
@@ -703,16 +730,120 @@ footer a { color: #81c784; text-decoration: none; }
 <div id="fishery" class="page">
   <div class="page-header" style="background:linear-gradient(135deg,#0d47a1,#1976d2);">
     <h1>🐟 Fishery</h1>
-    <p>Practical fish farming support for small and medium farmers.</p>
+    <p>Farmer-friendly fish farming guidance for India: useful for fish farmers, students, and rural entrepreneurs.</p>
   </div>
   <div class="section-inner">
-    <div class="info-grid">
-      <div class="sector-card"><h3>🐠 Fish Species</h3><p>Popular options: Rohu, Catla, Mrigal, Tilapia and Pangasius based on local market demand.</p></div>
-      <div class="sector-card"><h3>🏞️ Pond Preparation</h3><p>Dry pond, remove weeds, apply lime, and fill clean water before stocking seed.</p></div>
-      <div class="sector-card"><h3>💧 Water Quality</h3><p>Keep pH 7-8.5, monitor dissolved oxygen, avoid overfeeding and dirty inflow water.</p></div>
-      <div class="sector-card"><h3>🌾 Feed</h3><p>Use balanced feed as per fish size and growth stage. Feed in fixed points daily.</p></div>
-      <div class="sector-card"><h3>🩺 Fish Diseases</h3><p>Watch for ulcers, gasping, white patches and sudden mortality. Isolate and consult fisheries officer.</p></div>
-      <div class="sector-card"><h3>🏛️ Schemes & FAQ</h3><p>Check PMMSY and state fisheries department support for pond, seed and cold-chain subsidies.</p></div>
+    <div class="fishery-search-wrap">
+      <input type="text" id="fisherySearch" class="fishery-search" placeholder="🔎 Search fishery topics: rohu, biofloc, pH, disease, feed..." oninput="filterFisheryContent(this.value)">
+    </div>
+    <div class="fishery-nav">
+      <a href="#fish-overview">Overview</a><a href="#fish-species">Species</a><a href="#fish-methods">Methods</a><a href="#fish-pond">Pond</a><a href="#fish-feed">Feed</a><a href="#fish-health">Health</a><a href="#fish-water">Water</a><a href="#fish-schemes">Schemes</a><a href="#fish-beginners">Beginner Tips</a><a href="#fish-faq">FAQ</a>
+    </div>
+
+    <div id="fish-overview" class="fishery-section fishery-filter-item">
+      <h3>📘 Fish Farming Overview</h3>
+      <div class="fishery-intro">
+        <p>Fishery and aquaculture mean growing fish in ponds, tanks, cages, or biofloc units for food and income. It can be started at small or medium scale depending on land and water.</p>
+        <p>India is one of the world leaders in fish production. Fish farming supports nutrition, creates local jobs, and helps rural families earn regular cash flow.</p>
+        <p>For students and entrepreneurs, fishery is a strong agri-business area with demand in fresh market, processing, seed hatcheries, feed supply, and value-added products.</p>
+      </div>
+    </div>
+
+    <div id="fish-species" class="fishery-section fishery-filter-item">
+      <h3>🐠 Popular Fish Species</h3>
+      <div class="fishery-grid">
+        <div class="fishery-card"><h4>Rohu</h4><ul><li>Description: Fast-growing Indian major carp.</li><li>Growth habit: Surface to column feeder.</li><li>Water: pH 7-8.5, moderate temperature.</li><li>Purpose: Table fish for local markets.</li></ul></div>
+        <div class="fishery-card"><h4>Catla</h4><ul><li>Description: Large-head carp with high demand.</li><li>Growth habit: Surface feeder, quick gain.</li><li>Water: Clean pond water, DO above 5 mg/L.</li><li>Purpose: Polyculture and commercial sale.</li></ul></div>
+        <div class="fishery-card"><h4>Mrigal</h4><ul><li>Description: Bottom-feeding major carp.</li><li>Growth habit: Bottom feeder in pond systems.</li><li>Water: Fertile ponds with organic productivity.</li><li>Purpose: Composite culture balance fish.</li></ul></div>
+        <div class="fishery-card"><h4>Tilapia</h4><ul><li>Description: Hardy fish, suitable for beginners.</li><li>Growth habit: Omnivorous, adapts well.</li><li>Water: Tolerates wider pH and temperature range.</li><li>Purpose: Fast turnover and small business units.</li></ul></div>
+        <div class="fishery-card"><h4>Pangasius</h4><ul><li>Description: Popular for intensive farming.</li><li>Growth habit: Fast growth under feeding.</li><li>Water: Good aeration and regular water exchange.</li><li>Purpose: Bulk production and processing market.</li></ul></div>
+        <div class="fishery-card"><h4>Common Carp</h4><ul><li>Description: Strong fish for pond culture.</li><li>Growth habit: Bottom forager.</li><li>Water: Performs in varied pond conditions.</li><li>Purpose: Polyculture and household nutrition.</li></ul></div>
+      </div>
+    </div>
+
+    <div id="fish-methods" class="fishery-section fishery-filter-item">
+      <h3>🧭 Fish Farming Methods</h3>
+      <div class="fishery-grid">
+        <div class="fishery-card"><h4>🏞️ Pond Culture</h4><p>Most common Indian method. Good for carp polyculture and village-level farming.</p></div>
+        <div class="fishery-card"><h4>🧱 Tank Culture</h4><p>Suitable near homes, schools, and training units. Easier water control than large ponds.</p></div>
+        <div class="fishery-card"><h4>🫧 Biofloc System</h4><p>High-density fish farming with microbial floc. Saves water but needs strong aeration and monitoring.</p></div>
+        <div class="fishery-card"><h4>🛶 Cage Culture</h4><p>Fish grown in cages in reservoirs/rivers where regulations and water flow allow operations.</p></div>
+        <div class="fishery-card"><h4>🌾 Integrated Fish Farming</h4><p>Combines fish with duck, livestock, or horticulture to reduce waste and increase total farm income.</p></div>
+      </div>
+    </div>
+
+    <div id="fish-pond" class="fishery-section fishery-filter-item">
+      <h3>🏞️ Pond Preparation and Management</h3>
+      <div class="fishery-grid">
+        <div class="fishery-card"><h4>Pond selection</h4><p>Choose clay-loam soil, reliable water source, and flood-safe location near road access.</p></div>
+        <div class="fishery-card"><h4>Cleaning and liming</h4><p>Dry pond, remove weeds/predatory fish, then apply lime as per soil pH test.</p></div>
+        <div class="fishery-card"><h4>Water quality management</h4><p>Check pH, dissolved oxygen, temperature, and clarity weekly for stable growth.</p></div>
+        <div class="fishery-card"><h4>Stocking density</h4><p>Follow species-wise stocking limits. Avoid overcrowding to reduce stress and disease.</p></div>
+        <div class="fishery-card"><h4>Aeration</h4><p>Use paddlewheel/aerator in intensive systems, especially early morning and cloudy days.</p></div>
+        <div class="fishery-card"><h4>Pond maintenance</h4><p>Remove sludge, check inlet-outlet screens, and maintain embankments regularly.</p></div>
+      </div>
+    </div>
+
+    <div id="fish-feed" class="fishery-section fishery-filter-item">
+      <h3>🌾 Fish Feed and Nutrition</h3>
+      <div class="fishery-grid">
+        <div class="fishery-card"><h4>Natural & supplementary feed</h4><p>Natural plankton supports growth; add balanced pellets or farm-made feed based on fish size.</p></div>
+        <div class="fishery-card"><h4>Feeding schedule</h4><p>Feed at fixed points 2-3 times daily. Adjust quantity by sampling fish body weight.</p></div>
+        <div class="fishery-card"><h4>Protein importance</h4><p>Juveniles need higher protein for faster growth, better immunity, and lower mortality.</p></div>
+        <div class="fishery-card"><h4>Feed tips</h4><p>Avoid overfeeding, store feed dry, remove leftover feed, and track FCR for profitability.</p></div>
+      </div>
+    </div>
+
+    <div id="fish-health" class="fishery-section fishery-filter-item">
+      <h3>🩺 Fish Diseases and Health Management</h3>
+      <div class="fishery-grid">
+        <div class="fishery-card"><h4>Fungal infection</h4><p>Symptoms: cotton-like patches, damaged fins. Causes: poor water and injury. Prevention: hygiene, seed quality. Basic response: isolate affected fish and seek fisheries expert guidance.</p></div>
+        <div class="fishery-card"><h4>Bacterial infection</h4><p>Symptoms: ulcers, red spots, fin rot. Causes: stress and dirty water. Prevention: biosecurity and proper feeding. Basic response: improve water quality first and follow approved treatment advice.</p></div>
+        <div class="fishery-card"><h4>Parasitic infection</h4><p>Symptoms: flashing, skin irritation, excess mucus. Causes: infected seed and poor pond prep. Prevention: quarantine and liming. Basic response: diagnose early before whole-pond spread.</p></div>
+        <div class="fishery-card"><h4>Oxygen deficiency stress</h4><p>Symptoms: fish gasping at surface, slow feeding. Causes: overstocking, algae crash. Prevention: aeration and feed control. Basic response: start aerator and flush fresh water immediately.</p></div>
+      </div>
+    </div>
+
+    <div id="fish-water" class="fishery-section fishery-filter-item">
+      <h3>💧 Water Quality Indicators</h3>
+      <div class="fishery-indicators">
+        <div class="fishery-indicator"><strong>pH</strong><span>Ideal range: 7.0-8.5 for most freshwater species.</span></div>
+        <div class="fishery-indicator"><strong>Dissolved Oxygen</strong><span>Keep above 5 mg/L for healthy feeding and growth.</span></div>
+        <div class="fishery-indicator"><strong>Temperature</strong><span>Warm-water fish perform well around 24-32°C.</span></div>
+        <div class="fishery-indicator"><strong>Ammonia</strong><span>Maintain very low levels; excess causes gill stress.</span></div>
+        <div class="fishery-indicator"><strong>Water Clarity</strong><span>Moderate greenish water supports plankton balance.</span></div>
+      </div>
+    </div>
+
+    <div id="fish-schemes" class="fishery-section fishery-filter-item">
+      <h3>🏛️ Government Schemes / Support</h3>
+      <div class="fishery-grid">
+        <div class="fishery-card"><h4>PMMSY Support</h4><p>Placeholder: subsidy and infrastructure support for seed, feed, ponds, and post-harvest facilities.</p></div>
+        <div class="fishery-card"><h4>State Fisheries Dept.</h4><p>Placeholder: state-specific pond renovation, seed distribution, and training programs.</p></div>
+        <div class="fishery-card"><h4>NABARD / Bank Credit</h4><p>Placeholder: fishery loans, working capital support, and entrepreneur financing updates.</p></div>
+      </div>
+    </div>
+
+    <div id="fish-beginners" class="fishery-section fishery-filter-item">
+      <h3>✅ Fishery Tips for Beginners</h3>
+      <div class="fishery-card">
+        <ul>
+          <li>Choose suitable fish species for your climate and local market.</li>
+          <li>Test water quality before stocking fingerlings.</li>
+          <li>Avoid overfeeding to prevent waste and ammonia build-up.</li>
+          <li>Maintain pond hygiene and remove dead fish safely.</li>
+          <li>Monitor fish behavior regularly for early stress detection.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="fish-faq" class="fishery-section fishery-filter-item fishery-faq">
+      <h3>❓ Fishery FAQ</h3>
+      <div class="faq-item"><h4>Which fish is best for beginners?</h4><p>Tilapia and common carp are beginner-friendly because they are hardy and easy to manage.</p></div>
+      <div class="faq-item"><h4>How much water depth is needed?</h4><p>Most pond fish systems work well at around 1.2 to 2 meters depth depending on species and season.</p></div>
+      <div class="faq-item"><h4>What do fish eat?</h4><p>Fish eat natural plankton plus supplementary feed such as pellets, rice bran mixtures, and protein-rich feed.</p></div>
+      <div class="faq-item"><h4>How to prevent fish diseases?</h4><p>Use good seed, clean water, proper stocking density, regular observation, and early expert consultation.</p></div>
+      <div class="faq-item"><h4>Is fish farming profitable?</h4><p>Yes, when water quality, feed cost, survival rate, and market planning are managed properly.</p></div>
     </div>
   </div>
 </div>
@@ -1126,6 +1257,7 @@ footer a { color: #81c784; text-decoration: none; }
     <a href="#" onclick="showPage('women-agri')">Women Agri</a> ·
     <a href="#" onclick="showPage('student-notes')">Students</a> ·
     <a href="#" onclick="showPage('district-guide')">Districts</a> ·
+    <a href="#" onclick="showPage('fishery')">Fishery</a> ·
     <a href="#" onclick="showPage('schemes')">Schemes</a> ·
     <a href="#" onclick="showPage('glossary')">Glossary</a> ·
     <a href="#" onclick="showPage('faq')">FAQ</a> ·

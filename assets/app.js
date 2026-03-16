@@ -1707,6 +1707,14 @@ function toggleFAQ(i,el){
   el.querySelector('span').textContent=ans.classList.contains('show')?'▴':'▾';
 }
 
+function filterFisheryContent(query=''){
+  const q=query.trim().toLowerCase();
+  document.querySelectorAll('#fishery .fishery-filter-item').forEach(section=>{
+    const text=section.textContent.toLowerCase();
+    section.style.display=!q || text.includes(q) ? '' : 'none';
+  });
+}
+
 // ===== PAGE NAVIGATION (extended) =====
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
