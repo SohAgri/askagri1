@@ -138,20 +138,34 @@ nav {
 .hero-logo span { color:#ffd166; }
 .hero-sub { max-width:760px; font-size:clamp(0.95rem,2.7vw,1.15rem); color:#ecf7ee; margin:0 0 18px; line-height:1.6; }
 
-.allied-quick-access { margin: 0 0 16px; }
+.allied-quick-access {
+  margin: 0 0 30px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 209, 102, 0.45);
+  background: linear-gradient(125deg, rgba(255,255,255,0.14), rgba(255,255,255,0.05));
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255,255,255,0.08);
+}
 .allied-quick-head { margin-bottom: 12px; }
 .allied-quick-title { font-family:'Poppins',sans-serif; font-size:clamp(1rem,3.8vw,1.18rem); color:#f4fff6; margin-bottom:2px; }
 .allied-quick-sub { color:#dcefe1; font-size:0.82rem; line-height:1.5; }
-.allied-quick-grid { display:grid; grid-template-columns:1fr; gap:10px; }
+.allied-quick-grid { display:grid; grid-template-columns:1fr; gap:12px; }
 .allied-quick-card {
   width:100%; border:1px solid rgba(199,232,205,0.42); border-radius:14px;
-  padding:12px 14px; background:linear-gradient(120deg, rgba(30,92,46,0.78), rgba(45,128,66,0.54));
-  box-shadow:0 8px 20px rgba(5,28,13,0.25); color:#f9fffb;
+  padding:14px 16px; background:linear-gradient(120deg, rgba(30,92,46,0.86), rgba(45,128,66,0.62));
+  box-shadow:0 10px 24px rgba(5,28,13,0.28); color:#f9fffb;
   display:flex; align-items:center; justify-content:space-between; gap:10px;
-  cursor:pointer; transition:transform 0.2s, box-shadow 0.2s, border-color 0.2s; text-align:left;
+  cursor:pointer; transition:transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease; text-align:left;
+  min-height: 64px;
 }
-.allied-quick-card:hover { transform:translateY(-2px); border-color:rgba(255,209,102,0.7); box-shadow:0 12px 24px rgba(5,28,13,0.32); }
-.allied-quick-name { font-weight:700; font-size:0.93rem; }
+.allied-quick-card:hover,
+.allied-quick-card:focus-visible {
+  transform: scale(1.05);
+  border-color:rgba(255,209,102,0.88);
+  box-shadow: 0 14px 30px rgba(5,28,13,0.34), 0 0 0 8px rgba(255,209,102,0.16);
+}
+.allied-quick-card:active { transform: scale(1.03); }
+.allied-quick-name { font-weight:700; font-size:1rem; }
 .allied-quick-icon { font-size:1.25rem; }
 .allied-quick-arrow { font-size:0.9rem; color:#f2f9f3; }
 
