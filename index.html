@@ -138,6 +138,23 @@ nav {
 .hero-logo span { color:#ffd166; }
 .hero-sub { max-width:760px; font-size:clamp(0.95rem,2.7vw,1.15rem); color:#ecf7ee; margin:0 0 18px; line-height:1.6; }
 
+.allied-quick-access { margin: 0 0 16px; }
+.allied-quick-head { margin-bottom: 12px; }
+.allied-quick-title { font-family:'Poppins',sans-serif; font-size:clamp(1rem,3.8vw,1.18rem); color:#f4fff6; margin-bottom:2px; }
+.allied-quick-sub { color:#dcefe1; font-size:0.82rem; line-height:1.5; }
+.allied-quick-grid { display:grid; grid-template-columns:1fr; gap:10px; }
+.allied-quick-card {
+  width:100%; border:1px solid rgba(199,232,205,0.42); border-radius:14px;
+  padding:12px 14px; background:linear-gradient(120deg, rgba(30,92,46,0.78), rgba(45,128,66,0.54));
+  box-shadow:0 8px 20px rgba(5,28,13,0.25); color:#f9fffb;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  cursor:pointer; transition:transform 0.2s, box-shadow 0.2s, border-color 0.2s; text-align:left;
+}
+.allied-quick-card:hover { transform:translateY(-2px); border-color:rgba(255,209,102,0.7); box-shadow:0 12px 24px rgba(5,28,13,0.32); }
+.allied-quick-name { font-weight:700; font-size:0.93rem; }
+.allied-quick-icon { font-size:1.25rem; }
+.allied-quick-arrow { font-size:0.9rem; color:#f2f9f3; }
+
 /* SEARCH */
 .search-wrap { max-width: 720px; margin: 0 0 14px; position: relative; }
 .search-bar { width:100%; padding:16px 104px 16px 18px; border:1px solid rgba(255,255,255,0.34); border-radius:16px; font-size:0.95rem; font-family:'Hind',sans-serif; background:rgba(255,255,255,0.14); color:#fff; box-shadow:none; outline:none; transition:border 0.2s, box-shadow 0.2s, background 0.2s; backdrop-filter: blur(8px); }
@@ -477,6 +494,9 @@ footer a { color: #81c784; text-decoration: none; }
   .home-sector-btn { width: 100%; }
   .features { grid-template-columns: 1fr; }
 }
+@media (min-width: 820px) {
+  .allied-quick-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
 @media (max-width: 600px) {
   .nav-links a { padding: 5px 7px; font-size: 0.72rem; }
   .info-grid { grid-template-columns: 1fr; }
@@ -692,6 +712,27 @@ footer a { color: #81c784; text-decoration: none; }
       <div class="hero-logo">Ask<span>Krishi</span></div>
       <div class="hero-sub" data-key="hero_sub">Clean, practical farming guidance for Agriculture, Fishery, and Poultry &amp; Livestock.</div>
 
+      <section class="allied-quick-access" aria-label="Explore Allied Sectors">
+        <div class="allied-quick-head">
+          <h2 class="allied-quick-title">Explore Allied Sectors</h2>
+          <p class="allied-quick-sub">Jump directly to fisheries, poultry, and livestock guidance.</p>
+        </div>
+        <div class="allied-quick-grid">
+          <button class="allied-quick-card" type="button" onclick="quickJumpAllied('fishery','fishery-root')">
+            <span class="allied-quick-name"><span class="allied-quick-icon">🐟</span> Fisheries</span>
+            <span class="allied-quick-arrow">↗</span>
+          </button>
+          <button class="allied-quick-card" type="button" onclick="quickJumpAllied('livestock','poultry-overview')">
+            <span class="allied-quick-name"><span class="allied-quick-icon">🐔</span> Poultry</span>
+            <span class="allied-quick-arrow">↗</span>
+          </button>
+          <button class="allied-quick-card" type="button" onclick="quickJumpAllied('livestock','livestock-overview')">
+            <span class="allied-quick-name"><span class="allied-quick-icon">🐄</span> Livestock</span>
+            <span class="allied-quick-arrow">↗</span>
+          </button>
+        </div>
+      </section>
+
       <div class="search-wrap">
         <input class="search-bar" id="searchInput" type="text" data-key-placeholder="search_placeholder"
           placeholder="e.g. Why are my paddy leaves turning yellow?"
@@ -715,9 +756,6 @@ footer a { color: #81c784; text-decoration: none; }
       <div class="glass-grid">
         <div class="glass-card" onclick="showPage('crop-guide')"><div class="glass-icon">🌾</div><h3>Rice / Field Crops</h3><p>Paddy, wheat, maize, pulses, and field crop practices.</p></div>
         <div class="glass-card" onclick="showPage('fruits-veg')"><div class="glass-icon">🍎</div><h3>Horticulture</h3><p>Fruits and vegetables with nursery-to-harvest guidance.</p></div>
-        <div class="glass-card" onclick="showPage('fishery')"><div class="glass-icon">🐟</div><h3>Fisheries</h3><p>Pond prep, feed, water quality, and fish health essentials.</p></div>
-        <div class="glass-card" onclick="showPage('livestock')"><div class="glass-icon">🐔</div><h3>Poultry</h3><p>Backyard and commercial poultry tips for better yields.</p></div>
-        <div class="glass-card" onclick="showPage('livestock')"><div class="glass-icon">🐄</div><h3>Livestock</h3><p>Dairy and animal care, vaccination, and nutrition support.</p></div>
         <div class="glass-card" onclick="showPage('schemes')"><div class="glass-icon">🏛️</div><h3>Government Schemes</h3><p>Find farmer benefits and application-ready scheme details.</p></div>
         <div class="glass-card" onclick="showPage('upload')"><div class="glass-icon">📷</div><h3>Crop Disease Scanner</h3><p>Upload crop images and get quick disease guidance.</p></div>
         <div class="glass-card" onclick="showPage('student-notes')"><div class="glass-icon">📚</div><h3>Student Notes</h3><p>Agri notes, exam-friendly concepts, and subject summaries.</p></div>
@@ -786,6 +824,7 @@ footer a { color: #81c784; text-decoration: none; }
 
 <!-- ===== FISHERY ===== -->
 <div id="fishery" class="page">
+  <div id="fishery-root"></div>
   <div class="page-header" style="background:linear-gradient(135deg,#0d47a1,#1976d2);">
     <h1>🐟 Fishery</h1>
     <p>Farmer-friendly fish farming guidance for India: useful for fish farmers, students, and rural entrepreneurs.</p>
@@ -932,7 +971,7 @@ footer a { color: #81c784; text-decoration: none; }
       </ul>
     </div>
 
-    <div class="livestock-section">
+    <div id="livestock-overview" class="livestock-section">
       <h3>🐄 Dairy &amp; Goat Basics</h3>
       <div class="info-grid">
         <div class="sector-card"><h3>🥛 Dairy Farming</h3><p>Balanced ration, regular deworming and clean shed improve milk yield and animal health.</p></div>

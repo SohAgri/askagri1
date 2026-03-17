@@ -1743,6 +1743,14 @@ function initHeroVideo(){
   else video.addEventListener('canplay', tryPlay, {once:true});
 }
 
+function quickJumpAllied(pageId, sectionId){
+  showPage(pageId);
+  requestAnimationFrame(() => {
+    const target = document.getElementById(sectionId);
+    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+}
+
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const pg=document.getElementById(id);if(pg)pg.classList.add('active');
