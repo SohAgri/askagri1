@@ -1755,6 +1755,7 @@ function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const pg=document.getElementById(id);if(pg)pg.classList.add('active');
   document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  if (window.location.hash !== `#${id}`) history.replaceState(null, '', `#${id}`);
   window.scrollTo(0,0);
   if(id==='mandi')loadMandiNew('odisha');
   if(id==='district-guide')showDistricts('odisha',document.querySelector('.state-tab'));
@@ -1780,6 +1781,34 @@ function showPage(id){
   if(id==='ai-chat'){setTimeout(()=>{const ci=document.getElementById('chatInput');if(ci)ci.focus();},300);}
 }
 
+function applyPendingAiPrompt(){
+  const pendingPrompt = localStorage.getItem('askkrishi_ai_prompt');
+  if (!pendingPrompt) return;
+  showPage('ai-chat');
+  const input = document.getElementById('chatInput');
+  if (!input) return;
+  input.value = pendingPrompt;
+  localStorage.removeItem('askkrishi_ai_prompt');
+  setTimeout(() => sendChat(), 180);
+}
+
+function initPageFromHash(){
+  const pageId = window.location.hash.replace('#', '').trim();
+  if (!pageId) return;
+  const page = document.getElementById(pageId);
+  if (page && page.classList.contains('page')) {
+    showPage(pageId);
+  }
+}
+
+window.addEventListener('hashchange', () => {
+  const pageId = window.location.hash.replace('#', '').trim();
+  if (!pageId) return;
+  const page = document.getElementById(pageId);
+  if (page && page.classList.contains('page')) {
+    showPage(pageId);
+  }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   renderHomeCropGrid();
@@ -1807,5 +1836,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadWeather();
   initScrollReveal();
   initHeroVideo();
+  initPageFromHash();
+  applyPendingAiPrompt();
 
 });
