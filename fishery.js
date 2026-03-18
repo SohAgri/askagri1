@@ -1,15 +1,27 @@
+const smoothScrollLinks = Array.from(document.querySelectorAll('a.quick-scroll[href^="#"], .quick-nav a[href^="#"]'));
 const quickNavLinks = Array.from(document.querySelectorAll('.quick-nav a'));
 const sections = quickNavLinks
   .map(link => document.querySelector(link.getAttribute('href')))
   .filter(Boolean);
 
-quickNavLinks.forEach(link => {
+const scrollToTarget = target => {
+  if (!target) return;
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  target.classList.add('anchor-focus');
+  window.setTimeout(() => target.classList.remove('anchor-focus'), 1600);
+};
+
+smoothScrollLinks.forEach(link => {
   link.addEventListener('click', event => {
+    const href = link.getAttribute('href');
+    if (!href || !href.startsWith('#')) return;
+
+    const target = document.querySelector(href);
+    if (!target) return;
+
     event.preventDefault();
-    const target = document.querySelector(link.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    history.replaceState(null, '', href);
+    scrollToTarget(target);
   });
 });
 
@@ -49,5 +61,18 @@ if (heroVideo) {
     tryPlay();
   } else {
     heroVideo.addEventListener('canplay', tryPlay, { once: true });
+  }
+}
+
+if (window.location.hash) {
+  const hashTarget = document.querySelector(window.location.hash);
+  if (hashTarget) {
+    window.addEventListener(
+      'load',
+      () => {
+        window.setTimeout(() => scrollToTarget(hashTarget), 120);
+      },
+      { once: true }
+    );
   }
 }
