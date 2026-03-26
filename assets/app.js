@@ -1808,6 +1808,23 @@ function initPageBackButtons(){
   });
 }
 
+function initDonationButtons(){
+  const paypalBtn = document.getElementById('paypal-donate-btn');
+  const upiBtn = document.getElementById('upi-donate-btn');
+
+  if (paypalBtn) {
+    paypalBtn.addEventListener('click', () => {
+      console.log('PayPal coming soon');
+    });
+  }
+
+  if (upiBtn) {
+    upiBtn.addEventListener('click', () => {
+      console.log('UPI coming soon');
+    });
+  }
+}
+
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const pg=document.getElementById(id);if(pg)pg.classList.add('active');
@@ -1892,6 +1909,7 @@ document.addEventListener('DOMContentLoaded', () => {
   showDistricts('odisha', document.querySelector('.state-tab'));
   loadWeather();
   initPageBackButtons();
+  initDonationButtons();
   initScrollReveal();
   initHeroVideo();
   initPageFromHash();

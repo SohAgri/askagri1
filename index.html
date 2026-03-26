@@ -569,6 +569,107 @@ tr:hover td { background: #f6fef6; }
 .tip-content h4 { font-family: 'Hind', sans-serif; font-size: 0.92rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
 .tip-content p { font-size: 0.8rem; color: var(--text-light); line-height: 1.6; }
 
+/* SUPPORT DONATION */
+.support-donation-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px 10px;
+}
+.support-donation-wrap {
+  background: linear-gradient(145deg, #fffefb 0%, #f8fcf8 100%);
+  border: 1px solid #dce9dd;
+  border-radius: 20px;
+  padding: clamp(20px, 4vw, 34px);
+  box-shadow: 0 14px 32px rgba(20, 66, 32, 0.08);
+}
+.support-donation-head {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.support-donation-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(1.35rem, 3.5vw, 1.9rem);
+  color: #175a27;
+  margin-bottom: 4px;
+}
+.support-donation-subtitle {
+  font-size: 0.92rem;
+  color: #4f6052;
+  line-height: 1.6;
+}
+.support-donation-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+.support-donation-card {
+  background: #f5f9f6;
+  border: 1.5px solid #d6e7d9;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 20px rgba(17, 63, 30, 0.07);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.support-donation-card:hover {
+  transform: translateY(-4px);
+  border-color: #b9d8bf;
+  box-shadow: 0 16px 26px rgba(17, 63, 30, 0.12);
+}
+.support-donation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #1d6a2e;
+  background: #e8f4ea;
+  border: 1px solid #cce0d0;
+  border-radius: 999px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+.support-donation-card h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.06rem;
+  color: #134b21;
+  margin-bottom: 7px;
+}
+.support-donation-card p {
+  font-size: 0.84rem;
+  color: #506256;
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+.support-donation-btn {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 11px 14px;
+  font-family: 'Hind', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #1d6f2d, #33a349);
+  box-shadow: 0 8px 16px rgba(29, 111, 45, 0.24);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.support-donation-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px rgba(29, 111, 45, 0.3);
+}
+.support-donation-btn:focus-visible {
+  outline: 3px solid rgba(51, 163, 73, 0.35);
+  outline-offset: 2px;
+}
+.support-donation-note {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.78rem;
+  color: #5c6b5f;
+  line-height: 1.6;
+}
+
 /* FOOTER */
 footer { background: #122a14; color: #8fc491; text-align: center; padding: 28px 16px; margin-top: 40px; }
 footer .footer-logo { font-family: 'Hind', sans-serif; font-size: 1.3rem; font-weight: 800; color: #4caf50; margin-bottom: 6px; }
@@ -600,6 +701,7 @@ footer a { color: #81c784; text-decoration: none; }
 }
 @media (min-width: 820px) {
   .allied-quick-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .support-donation-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
 @media (max-width: 600px) {
   .nav-links a { padding: 5px 7px; font-size: 0.72rem; }
@@ -1630,6 +1732,37 @@ footer a { color: #81c784; text-decoration: none; }
     <div class="faq-list" id="faqList"></div>
   </div>
 </div>
+
+<section class="support-donation-section" aria-label="Support AskKrishi donation section">
+  <div class="support-donation-wrap">
+    <div class="support-donation-head">
+      <h2 class="support-donation-title">Support AskKrishi 🌱</h2>
+      <p class="support-donation-subtitle">Help us keep this platform free for farmers across India</p>
+    </div>
+
+    <div class="support-donation-grid">
+      <article class="support-donation-card">
+        <span class="support-donation-badge">🌍 INTERNATIONAL SUPPORT</span>
+        <h3>Support from Anywhere</h3>
+        <p>Support AskKrishi globally using PayPal</p>
+        <button id="paypal-donate-btn" class="support-donation-btn" type="button" aria-label="Donate via PayPal">
+          Donate via PayPal
+        </button>
+      </article>
+
+      <article class="support-donation-card">
+        <span class="support-donation-badge">🇮🇳 INDIA SUPPORT</span>
+        <h3>Support from India</h3>
+        <p>Donate using UPI (GPay, PhonePe, Paytm)</p>
+        <button id="upi-donate-btn" class="support-donation-btn" type="button" aria-label="Donate via UPI">
+          Donate via UPI
+        </button>
+      </article>
+    </div>
+
+    <p class="support-donation-note">100% of your support helps farmers and students access free agricultural knowledge</p>
+  </div>
+</section>
 
 <footer>
   <div class="footer-logo">🌾 AskKrishi™</div>
