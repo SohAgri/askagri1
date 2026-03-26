@@ -159,6 +159,7 @@ const LANG = {
     };
 
 let currentLang = 'en';
+const ASK_KRISHI_DONATION_URL = "https://rzp.io/rzp/o9zzEWU1";
 
 function t(key) { return LANG[currentLang][key] || LANG['en'][key] || key; }
 
@@ -1814,13 +1815,13 @@ function initDonationButtons(){
 
   if (paypalBtn) {
     paypalBtn.addEventListener('click', () => {
-      console.log('PayPal coming soon');
+      window.open(ASK_KRISHI_DONATION_URL, '_blank', 'noopener');
     });
   }
 
   if (upiBtn) {
     upiBtn.addEventListener('click', () => {
-      console.log('UPI coming soon');
+      window.open(ASK_KRISHI_DONATION_URL, '_blank', 'noopener');
     });
   }
 }
