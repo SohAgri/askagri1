@@ -127,8 +127,8 @@ nav {
   width: min(920px, 100%);
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255,255,255,0.25);
-  backdrop-filter: blur(11px);
-  -webkit-backdrop-filter: blur(11px);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
   border-radius: 24px;
   padding: clamp(22px, 4vw, 40px);
   box-shadow: 0 20px 45px rgba(0,0,0,0.28);
@@ -171,7 +171,7 @@ nav {
 
 /* SEARCH */
 .search-wrap { max-width: 720px; margin: 0 0 14px; position: relative; }
-.search-bar { width:100%; padding:16px 104px 16px 18px; border:1px solid rgba(255,255,255,0.34); border-radius:16px; font-size:0.95rem; font-family:'Hind',sans-serif; background:rgba(255,255,255,0.14); color:#fff; box-shadow:none; outline:none; transition:border 0.2s, box-shadow 0.2s, background 0.2s; backdrop-filter: blur(8px); }
+.search-bar { width:100%; padding:16px 104px 16px 18px; border:1px solid rgba(255,255,255,0.34); border-radius:16px; font-size:0.95rem; font-family:'Hind',sans-serif; background:rgba(255,255,255,0.14); color:#fff; box-shadow:none; outline:none; transition:border 0.2s, box-shadow 0.2s, background 0.2s; backdrop-filter: blur(4px); }
 .search-bar:focus { border-color:rgba(255,255,255,0.8); box-shadow:0 0 0 3px rgba(255,255,255,0.2); background:rgba(255,255,255,0.2); }
 .search-bar::placeholder { color:#deeee1; }
 .search-btns { position:absolute; right:8px; top:50%; transform:translateY(-50%); display:flex; gap:6px; }
@@ -199,7 +199,7 @@ nav {
 .landing-title { font-family:'Poppins',sans-serif; color:#f3fff5; font-size:1.22rem; margin-bottom:6px; }
 .landing-sub { color:#d5e7d9; font-size:0.88rem; margin-bottom:14px; }
 .glass-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; }
-.glass-card { background: rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); border-radius:16px; padding:14px; color:#f8fff9; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease; cursor:pointer; }
+.glass-card { background: rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); border-radius:16px; padding:14px; color:#f8fff9; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease; cursor:pointer; }
 .glass-card:hover { transform: translateY(-6px); box-shadow: 0 14px 26px rgba(0,0,0,.24); border-color: rgba(255, 209, 102, 0.65); }
 .glass-icon { font-size:1.5rem; margin-bottom:8px; }
 .glass-card h3 { font-size:0.95rem; margin-bottom:4px; color:#fff; }
@@ -502,6 +502,18 @@ footer a { color: #81c784; text-decoration: none; }
 .loading-green { border-color: var(--border); border-top-color: var(--green); }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+
+.sector-tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}
+.sector-tags span{font-size:0.67rem;font-weight:700;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.24);}
+.sector-find{font-size:0.76rem;color:#d3e8d8;line-height:1.5;margin-top:6px;}
+.sector-action{margin-top:10px;display:inline-flex;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2);font-size:0.75rem;font-weight:700;color:#fff;}
+.tools-meta{font-size:.74rem;color:#dcefe1;margin-top:6px;}
+.calendar-filter{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px;}
+.calendar-filter .fv-btn.active{box-shadow:0 4px 10px rgba(26,107,42,.2);}
+.calendar-legend{display:flex;gap:9px;margin-bottom:16px;flex-wrap:wrap;}
+.calendar-legend-item{border-radius:10px;padding:5px 13px;font-size:0.75rem;font-weight:700;}
+@media (max-width:720px){.hero-video{object-position:center;} .hero-panel,.landing-section{backdrop-filter:none;-webkit-backdrop-filter:none;} .glass-card{backdrop-filter:none;-webkit-backdrop-filter:none;} .reveal-on-scroll{opacity:1;transform:none;} }
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto !important;animation:none !important;transition:none !important;} .reveal-on-scroll{opacity:1;transform:none;}}
 /* RESPONSIVE */
 @media (max-width: 800px) {
   .home-sector-header { flex-direction: column; }
@@ -775,34 +787,52 @@ footer a { color: #81c784; text-decoration: none; }
   <div class="landing-wrap">
     <section class="landing-section reveal-on-scroll" id="explore-sectors">
       <h2 class="landing-title">🧭 Explore by Sector</h2>
-      <p class="landing-sub">Choose your domain and jump directly to practical guides and tools.</p>
+      <p class="landing-sub">High-utility entry points for farmers, students, and agri entrepreneurs across Odisha, Andhra, and wider India.</p>
       <div class="glass-grid">
-        <div class="glass-card" onclick="showPage('crop-guide')"><div class="glass-icon">🌾</div><h3>Rice / Field Crops</h3><p>Paddy, wheat, maize, pulses, and field crop practices.</p></div>
-        <div class="glass-card" onclick="showPage('fruits-veg')"><div class="glass-icon">🍎</div><h3>Horticulture</h3><p>Fruits and vegetables with nursery-to-harvest guidance.</p></div>
-        <div class="glass-card" onclick="showPage('schemes')"><div class="glass-icon">🏛️</div><h3>Government Schemes</h3><p>Find farmer benefits and application-ready scheme details.</p></div>
-        <div class="glass-card" onclick="showPage('upload')"><div class="glass-icon">📷</div><h3>Crop Disease Scanner</h3><p>Upload crop images and get quick disease guidance.</p></div>
-        <div class="glass-card" onclick="showPage('student-notes')"><div class="glass-icon">📚</div><h3>Student Notes</h3><p>Agri notes, exam-friendly concepts, and subject summaries.</p></div>
+        <div class="glass-card" onclick="showPage('crop-guide')"><div class="glass-icon">🌾</div><h3>Rice / Field Crops</h3><p>Crop-wise planning, seed-to-harvest scheduling, and practical yield guidance.</p><div class="sector-tags"><span>Paddy</span><span>Wheat</span><span>Maize</span><span>Millets</span></div><p class="sector-find">What you'll find: season windows, nutrient plans, pest watch, harvest basics.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="showPage('fruits-veg')"><div class="glass-icon">🍎</div><h3>Horticulture / Fruits & Vegetables</h3><p>Nursery, spacing, pruning, irrigation, and market-focused crop handling.</p><div class="sector-tags"><span>Vegetables</span><span>Fruits</span><span>Spices</span><span>Nursery</span></div><p class="sector-find">What you'll find: region fit, crop combinations, post-harvest handling.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="showPage('diseases')"><div class="glass-icon">🌿</div><h3>Crop Diseases</h3><p>Symptom-first diagnosis guidance with prevention and field action checklists.</p><div class="sector-tags"><span>Leaf issues</span><span>Fungal</span><span>Bacterial</span><span>Viral</span></div><p class="sector-find">What you'll find: early signs, do-first actions, safe response logic.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="showPage('fertilizers')"><div class="glass-icon">🧪</div><h3>Inputs / Fertilizers / Bio-inputs</h3><p>Smart nutrient, pesticide, and organic input decisions for lower risk outcomes.</p><div class="sector-tags"><span>NPK</span><span>Micronutrients</span><span>Bio-inputs</span><span>Safety</span></div><p class="sector-find">What you'll find: timing, dose logic, alternatives, common mistakes.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="showPage('organic-farming')"><div class="glass-icon">🍃</div><h3>Organic Farming</h3><p>Soil-first farming, composting, and low-input pathways for sustainable production.</p><div class="sector-tags"><span>ZBNF</span><span>Compost</span><span>Biocontrol</span><span>Soil health</span></div><p class="sector-find">What you'll find: stepwise natural practices and practical adoption tips.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="showPage('special-farming')"><div class="glass-icon">🍄</div><h3>Special / Commercial Crops</h3><p>Mushroom, beekeeping, micro-enterprises, and value-added farm models.</p><div class="sector-tags"><span>High-value</span><span>SHG</span><span>Micro business</span></div><p class="sector-find">What you'll find: small-investment models and local scaling ideas.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="showPage('seed-varieties')"><div class="glass-icon">🌱</div><h3>Seeds / Nursery</h3><p>Variety selection, local suitability, and starter planning by crop type.</p><div class="sector-tags"><span>HYV</span><span>Hybrid</span><span>Seed prep</span><span>Nursery</span></div><p class="sector-find">What you'll find: seed choices, sowing windows, and local notes.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="showPage('student-notes')"><div class="glass-icon">📚</div><h3>Student Notes</h3><p>Exam-ready notes and clear topic summaries for agri learners.</p><div class="sector-tags"><span>Agronomy</span><span>Soil</span><span>Pathology</span><span>Economics</span></div><p class="sector-find">What you'll find: quick revision, concepts, and structured points.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="window.location.href='fishery.html'"><div class="glass-icon">🐟</div><h3>Fishery</h3><p>Aquaculture, pond care, feeding, and fish health basics.</p><div class="sector-tags"><span>Pond</span><span>Biofloc</span><span>Disease</span><span>Water quality</span></div><p class="sector-find">What you'll find: species, systems, and practical fishery checklists.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="window.location.href='livestock.html'"><div class="glass-icon">🐄</div><h3>Livestock</h3><p>Goat, sheep, and mixed livestock guidance for diversified income.</p><div class="sector-tags"><span>Housing</span><span>Feed</span><span>Health</span><span>Breeding</span></div><p class="sector-find">What you'll find: practical management and small-unit planning.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="window.location.href='dairy.html'"><div class="glass-icon">🥛</div><h3>Dairy</h3><p>Milk-focused breed, feeding, milking hygiene, and health systems.</p><div class="sector-tags"><span>Breeds</span><span>Milking</span><span>Health</span><span>Schemes</span></div><p class="sector-find">What you'll find: beginner dairy roadmap and student-ready notes.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="showPage('schemes')"><div class="glass-icon">🏛️</div><h3>Government Schemes</h3><p>Farmer support pathways with practical application awareness.</p><div class="sector-tags"><span>Subsidy</span><span>Credit</span><span>Insurance</span><span>Training</span></div><p class="sector-find">What you'll find: support types and preparation checklist.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="showPage('district-guide')"><div class="glass-icon">🗺️</div><h3>District Crop Guide</h3><p>District climate-soil-crop profile for Odisha and Andhra.</p><div class="sector-tags"><span>Soil</span><span>Rainfall</span><span>Best season</span><span>Advisory</span></div><p class="sector-find">What you'll find: what to grow and district support directions.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="showPage('calendar')"><div class="glass-icon">📅</div><h3>Farming Calendar</h3><p>Monthly operations for sowing, irrigation, and protection.</p><div class="sector-tags"><span>Kharif</span><span>Rabi</span><span>Zaid</span><span>Alerts</span></div><p class="sector-find">What you'll find: operation checklists and seasonal reminders.</p><span class="sector-action">Explore Sector →</span></div>
+        <div class="glass-card" onclick="showPage('ai-chat')"><div class="glass-icon">🤖</div><h3>AI Assistant</h3><p>Ask context-rich farming queries and get structured guidance quickly.</p><div class="sector-tags"><span>Planning</span><span>Disease</span><span>Inputs</span><span>Markets</span></div><p class="sector-find">What you'll find: conversational decision support for daily farming.</p><span class="sector-action">Explore Sector →</span></div>
       </div>
     </section>
 
     <section class="landing-section reveal-on-scroll">
       <h2 class="landing-title">✨ Featured Tools</h2>
-      <p class="landing-sub">Daily-use tools farmers and students rely on the most.</p>
+      <p class="landing-sub">Practical decision tools for day-to-day farm, classroom, and enterprise workflows.</p>
       <div class="tool-grid">
-        <div class="glass-card tool-card" onclick="showPage('ai-chat')"><div class="glass-icon">🤖</div><h3>AI Farming Assistant</h3><p>Get practical farming answers instantly in a conversational format.</p></div>
-        <div class="glass-card tool-card" onclick="showPage('upload')"><div class="glass-icon">🔬</div><h3>Crop Disease Detection</h3><p>Identify visible symptoms and get treatment suggestions quickly.</p></div>
-        <div class="glass-card tool-card" onclick="showPage('mandi')"><div class="glass-icon">📊</div><h3>Market / Mandi Prices</h3><p>Track mandi trends to plan sales and improve price decisions.</p></div>
+        <div class="glass-card tool-card" onclick="showPage('ai-chat')"><div class="glass-icon">🤖</div><h3>AI Farming Assistant</h3><p>Get practical farm answers in simple language.</p><p class="tools-meta">Who it helps: farmers, extension workers, students.</p><span class="sector-action">Open Tool →</span></div>
+        <div class="glass-card tool-card" onclick="showPage('upload')"><div class="glass-icon">🔬</div><h3>Crop Disease Detection</h3><p>Symptom-led support from crop images and visible signs.</p><p class="tools-meta">Who it helps: field users needing quick checks.</p><span class="sector-action">Open Tool →</span></div>
+        <div class="glass-card tool-card" onclick="showPage('mandi')"><div class="glass-icon">📊</div><h3>Market / Mandi Prices</h3><p>Track trends before deciding sale timing.</p><p class="tools-meta">Who it helps: market-linked farmers.</p><span class="sector-action">Open Tool →</span></div>
+        <div class="glass-card tool-card" onclick="showPage('district-guide')"><div class="glass-icon">🗺️</div><h3>District Crop Guide</h3><p>District suitability and local crop opportunity view.</p><p class="tools-meta">Who it helps: planning at village or block level.</p><span class="sector-action">Open Tool →</span></div>
+        <div class="glass-card tool-card" onclick="showPage('calendar')"><div class="glass-icon">📅</div><h3>Crop Calendar</h3><p>Monthly operations for sowing, irrigation, and pest watch.</p><p class="tools-meta">Who it helps: routine planners and beginners.</p><span class="sector-action">Open Tool →</span></div>
+        <div class="glass-card tool-card" onclick="showPage('student-notes')"><div class="glass-icon">📚</div><h3>Student Notes</h3><p>Structured revision cards for exam-focused agri topics.</p><p class="tools-meta">Who it helps: diploma/B.Sc learners.</p><span class="sector-action">Open Tool →</span></div>
+        <div class="glass-card tool-card" onclick="showPage('schemes')"><div class="glass-icon">🏛️</div><h3>Scheme Finder</h3><p>Scheme categories for credit, subsidy, and support awareness.</p><p class="tools-meta">Who it helps: small and aspiring entrepreneurs.</p><span class="sector-action">Open Tool →</span></div>
+        <div class="glass-card tool-card" onclick="showPage('seasonal')"><div class="glass-icon">🌦️</div><h3>Weather-aware Advisory</h3><p>Season-linked reminders for spray, irrigation, and risk management.</p><p class="tools-meta">Who it helps: farmers planning daily operations.</p><span class="sector-action">Open Tool →</span></div>
       </div>
     </section>
 
     <section class="landing-section reveal-on-scroll">
       <h2 class="landing-title">💚 Why AskKrishi</h2>
-      <p class="landing-sub">Built for Bharat with practical, on-ground agricultural relevance.</p>
+      <p class="landing-sub">Premium but practical platform built for real decisions, not generic content.</p>
       <div class="why-grid">
-        <div class="glass-card"><div class="glass-icon">🗣️</div><h3>Multilingual Support</h3><p>Access agriculture help in English, Hindi, Telugu, and Odia.</p></div>
-        <div class="glass-card"><div class="glass-icon">🤝</div><h3>Farmer Friendly</h3><p>Simple language, practical actions, and solution-first guidance.</p></div>
-        <div class="glass-card"><div class="glass-icon">🗺️</div><h3>District Relevance</h3><p>Advice aligned with regional crop patterns, weather, and needs.</p></div>
-        <div class="glass-card"><div class="glass-icon">🎓</div><h3>Student Notes</h3><p>Useful agri-learning resources for students and young entrepreneurs.</p></div>
+        <div class="glass-card"><div class="glass-icon">🇮🇳</div><h3>India-focused guidance</h3><p>Built around Indian crops, weather behavior, and farmer priorities.</p></div>
+        <div class="glass-card"><div class="glass-icon">🗺️</div><h3>Odisha + Andhra relevance</h3><p>District-level crop context and region-aware recommendations.</p></div>
+        <div class="glass-card"><div class="glass-icon">🗣️</div><h3>Farmer-friendly language</h3><p>Clear action steps without unnecessary complexity.</p></div>
+        <div class="glass-card"><div class="glass-icon">🎓</div><h3>Student-ready notes</h3><p>Exam support plus practical field linkages.</p></div>
+        <div class="glass-card"><div class="glass-icon">🧭</div><h3>Sector-wise depth</h3><p>Agriculture, fishery, livestock, dairy, and schemes in one system.</p></div>
+        <div class="glass-card"><div class="glass-icon">⚙️</div><h3>Decision support</h3><p>Tools that guide planning, diagnosis, markets, and routine operations.</p></div>
+        <div class="glass-card"><div class="glass-icon">🤖</div><h3>AI + expert knowledge</h3><p>Conversational assistance backed by structured agri content.</p></div>
       </div>
     </section>
 
@@ -1234,7 +1264,7 @@ footer a { color: #81c784; text-decoration: none; }
       <button class="state-tab active" onclick="showDistricts('odisha',this)">🟠 Odisha (30 Districts)</button>
       <button class="state-tab" onclick="showDistricts('andhra',this)">🔵 Andhra Pradesh (13 Districts)</button>
     </div>
-    <div class="district-grid" id="districtGrid"></div>
+    <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:10px;">Choose a district to view climate, rainfall, soil profile, major + horticulture crops, allied opportunities, and “what you can grow here” advisory.</p><div class="district-grid" id="districtGrid"></div>
     <div id="districtDetail" style="display:none;margin-top:18px;"></div>
   </div>
 </div>
@@ -1357,10 +1387,16 @@ footer a { color: #81c784; text-decoration: none; }
 <div id="calendar" class="page">
   <div class="page-header"><h1>📅 Crop Farming Calendar</h1><p>Month-by-month guide — what to sow, transplant, manage &amp; harvest across India</p></div>
   <div class="section-inner">
-    <div style="display:flex;gap:9px;margin-bottom:16px;flex-wrap:wrap;">
-      <div style="background:var(--green-pale);border:1.5px solid var(--border);border-radius:10px;padding:5px 13px;font-size:0.75rem;font-weight:700;color:var(--green);">🌧️ Kharif = June–November</div>
-      <div style="background:#e3f2fd;border:1.5px solid #bbdefb;border-radius:10px;padding:5px 13px;font-size:0.75rem;font-weight:700;color:#1565c0;">❄️ Rabi = November–April</div>
-      <div style="background:#fff8e1;border:1.5px solid #ffe082;border-radius:10px;padding:5px 13px;font-size:0.75rem;font-weight:700;color:#e65100;">☀️ Zaid = March–June</div>
+    <div class="calendar-legend">
+      <div class="calendar-legend-item" style="background:var(--green-pale);border:1.5px solid var(--border);color:var(--green);">🌧️ Kharif = June–November</div>
+      <div class="calendar-legend-item" style="background:#e3f2fd;border:1.5px solid #bbdefb;color:#1565c0;">❄️ Rabi = November–April</div>
+      <div class="calendar-legend-item" style="background:#fff8e1;border:1.5px solid #ffe082;color:#e65100;">☀️ Zaid = March–June</div>
+    </div>
+    <div class="calendar-filter" id="calendarFilter">
+      <button class="fv-btn active" onclick="filterCalendar('all',this)">All</button>
+      <button class="fv-btn" onclick="filterCalendar('kharif',this)">🌧️ Kharif</button>
+      <button class="fv-btn" onclick="filterCalendar('rabi',this)">❄️ Rabi</button>
+      <button class="fv-btn" onclick="filterCalendar('zaid',this)">☀️ Zaid</button>
     </div>
     <div class="calendar-grid" id="calendarGrid"></div>
   </div>
@@ -1415,6 +1451,6 @@ footer a { color: #81c784; text-decoration: none; }
   </p>
   </footer>
 
-  <script src="assets/app.js"></script>
+  <script src="assets/app.js" defer></script>
 </body>
 </html>

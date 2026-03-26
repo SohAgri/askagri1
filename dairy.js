@@ -39,7 +39,7 @@ const dairyObserver = new IntersectionObserver(entries => {
 dairySections.forEach(section => dairyObserver.observe(section));
 
 const dairyPrompt = document.getElementById('dairyPrompt');
-document.querySelectorAll('.chip-row button').forEach(button => {
+document.querySelectorAll('#ai-guidance .chip-row button').forEach(button => {
   button.addEventListener('click', () => {
     if (!dairyPrompt) return;
     dairyPrompt.value = button.textContent.trim();

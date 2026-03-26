@@ -1202,41 +1202,72 @@ const districts={
   ]
 };
 let currentDistrictState='odisha';
+
+function districtMeta(d){
+  const rainfall = d.climate.includes('mm') ? (d.climate.match(/\d{3,4}mm/)||['Approx 1100-1500mm'])[0] : 'Approx 1100-1500mm';
+  const climateType = d.climate.split(',')[0];
+  const horticulture = d.crops.filter(c=>['Tomato','Brinjal','Vegetables','Banana','Mango','Coconut','Cashew','Ginger','Turmeric','Flowers','Lemon','Chilli','Coffee'].some(h=>c.includes(h))).slice(0,3);
+  const allied = d.crops.find(c=>['Fish','Aquaculture','Dairy','Poultry'].some(a=>c.includes(a))) || (d.name==='Balasore' ? 'Aquaculture + dairy linked model' : 'Dairy/goat/poultry opportunity');
+  return { rainfall, climateType, horticulture: horticulture.length?horticulture:['Vegetables','Horticulture mix'], allied };
+}
+
 function showDistricts(state,btn){
   currentDistrictState=state;
   const data=districts[state];
   const grid=document.getElementById('districtGrid');if(!grid)return;
   const badge=state==='odisha'?'<span class="state-badge">Odisha</span>':'<span class="ap-badge">A.P.</span>';
-  grid.innerHTML=data.map(d=>`<div class="district-card" onclick="showDistrictDetail('${d.name}','${state}')">
-    <h4>${d.name} ${badge}</h4>
-    <p style="font-size:0.71rem;color:var(--text-light);">🌤️ ${d.climate} | 🪨 ${d.soil}</p>
-    <div class="district-crop-tags">${d.crops.map(c=>'<span class="tag">'+c+'</span>').join('')}</div>
-  </div>`).join('');
+  grid.innerHTML=data.map(d=>{
+    const meta=districtMeta(d);
+    return `<div class="district-card" onclick="showDistrictDetail('${d.name}','${state}')">
+      <h4>${d.name} ${badge}</h4>
+      <p style="font-size:0.71rem;color:var(--text-light);">🌤️ ${meta.climateType} | 🌧️ ${meta.rainfall}</p>
+      <p style="font-size:0.71rem;color:var(--text-light);">🪨 ${d.soil} | 📅 ${d.season}</p>
+      <p style="font-size:0.71rem;color:var(--text-light);">🍎 Horticulture: ${meta.horticulture.join(', ')}</p>
+      <p style="font-size:0.71rem;color:var(--text-light);">🤝 Allied: ${meta.allied}</p>
+      <div class="district-crop-tags">${d.crops.map(c=>'<span class="tag">'+c+'</span>').join('')}</div>
+    </div>`;
+  }).join('');
   document.getElementById('districtDetail').style.display='none';
   document.querySelectorAll('.state-tab').forEach(t=>t.classList.remove('active'));
   if(btn)btn.classList.add('active');
- }
+}
+
 function showDistrictDetail(name,state){
   const d=districts[state].find(x=>x.name===name);if(!d)return;
+  const meta=districtMeta(d);
+  const growNow=d.crops.slice(0,3).join(', ');
+  const balasoreBoost=d.name==='Balasore' ? `<div class="info-box" style="margin-top:8px;"><h4>⭐ Balasore Focus</h4><p>Coastal influence supports paddy-jute-vegetable systems, with strong scope for aquaculture-linked allied income and market-led banana/potato planning.</p></div>` : '';
   const det=document.getElementById('districtDetail');
   det.style.display='block';
   det.innerHTML=`<button class="result-back" onclick="document.getElementById('districtDetail').style.display='none'">← Back to Districts</button>
   <div class="result-card">
-    <h3>🗺️ ${d.name} — Agricultural Profile</h3>
+    <h3>🗺️ ${d.name} — Agricultural Intelligence View</h3>
     <div class="info-grid">
-      <div class="info-box"><h4>🌤️ Climate</h4><p>${d.climate}</p></div>
+      <div class="info-box"><h4>🌤️ Climate Type</h4><p>${meta.climateType}</p></div>
+      <div class="info-box"><h4>🌧️ Approx Rainfall</h4><p>${meta.rainfall}</p></div>
       <div class="info-box"><h4>🪨 Soil Type</h4><p>${d.soil}</p></div>
-      <div class="info-box"><h4>📅 Farming Season</h4><p>${d.season}</p></div>
+      <div class="info-box"><h4>📅 Best Season Focus</h4><p>${d.season}</p></div>
       <div class="info-box"><h4>🌾 Major Crops</h4><p>${d.crops.join(', ')}</p></div>
+      <div class="info-box"><h4>🍎 Horticulture Opportunity</h4><p>${meta.horticulture.join(', ')}</p></div>
+      <div class="info-box"><h4>🤝 Allied Farming</h4><p>${meta.allied}</p></div>
+      <div class="info-box"><h4>💧 Irrigation / Water Profile</h4><p>Mixed canal, rainfall, and local water body dependence based on block conditions.</p></div>
     </div>
-    <div class="info-box" style="margin-top:8px;"><h4>📋 Agricultural Profile</h4><p>${d.note}</p></div>
+    <div class="info-box" style="margin-top:8px;"><h4>🧭 Quick Advisory</h4><p>${d.note}</p></div>
+    <div class="info-box" style="margin-top:8px;"><h4>🌱 What you can grow here</h4><p>Primary focus: ${growNow}. Add rotation crops from local demand and water availability to reduce risk.</p></div>
+    <div class="info-grid" style="margin-top:8px;">
+      <div class="info-box"><h4>🏬 Mandi / market linkage</h4><p>Use nearest mandi demand trends before selecting market-led crop mix.</p></div>
+      <div class="info-box"><h4>🧑‍🌾 Agriculture office support</h4><p>District agriculture office support for schemes, crop advisories, and training.</p></div>
+      <div class="info-box"><h4>🧪 Input availability</h4><p>Plan seed, fertilizer, and crop protection inputs in advance of season peak.</p></div>
+      <div class="info-box"><h4>🎓 Student relevance</h4><p>Useful district case-study profile for crop planning and agri-economics projects.</p></div>
+    </div>
+    ${balasoreBoost}
     <div style="margin-top:9px;">${d.crops.map(c=>'<span class="tag">'+c+'</span>').join('')}</div>
     <a class="whatsapp-share" style="margin-top:10px;" href="https://wa.me/?text=${encodeURIComponent('AskKrishi: '+d.name+' – Crops: '+d.crops.join(', '))}" target="_blank">📲 Share</a>
   </div>`;
   det.scrollIntoView({behavior:'smooth'});
-    }
+}
 
-  // ===== CROP GUIDE DATA =====
+// ===== CROP GUIDE DATA =====
 const cropGuideData=[
   {id:'paddy-g',icon:'🌾',name:'Paddy (Rice)',category:'kharif',climate:'Tropical 25-35°C, 150-200cm rain',soil:'Clay loam, pH 5.5-6.5',season:'Kharif (Jun-Nov), Rabi (Nov-Mar in South)',fertilizer:'N:P:K=120:60:60 kg/ha. Basal DAP+MOP; split urea — 25% basal+50% tillering+25% PI stage.',pests:'Blast, BLB, stem borer, BPH, sheath blight. Tricyclazole for blast. Imidacloprid for BPH.',yield:'25-35 q/ha common; 40-50 q/ha HYV irrigated; 60+ q/ha hybrid',organic:'Azospirillum+PSB seed treatment. Vermicompost 2 t/ha. Neem cake 100 kg/ha. Jeevamrutha 200L/ha.'},
   {id:'wheat-g',icon:'🌿',name:'Wheat',category:'rabi',climate:'Cool 15-25°C, cold exposure needed',soil:'Loam to clay loam, pH 6-7',season:'Rabi — sow Oct 25–Nov 15 (optimal)',fertilizer:'N:P:K=120:60:40 kg/ha. Split urea: basal+CRI (21 days)+jointing (45 days).',pests:'Yellow/brown rust, Karnal bunt, aphids, powdery mildew. Propiconazole for rust.',yield:'30-40 q/ha irrigated; 15-20 q/ha rainfed',organic:'Trichoderma seed treatment. Azospirillum inoculant. FYM 8 t/ha.'},
@@ -1589,28 +1620,42 @@ function showSubject(subject,btn){
 
 // ===== FARMING CALENDAR =====
 const calendarData=[
-  {month:'January',season:'rabi',label:'❄️ Rabi Peak',items:['Wheat: 2nd irrigation at jointing (45 days)','Potato: earthing up; spray Mancozeb for late blight every 7 days','Rabi vegetables: harvest cauliflower, carrot, radish, spinach','Mustard: aphid monitoring — spray Imidacloprid if >25 aphids/shoot','Sunflower: sowing in South India for March harvest']},
-  {ifbtn:'February',season:'rabi',label:'❄️ Rabi Harvest Prep',items:['Wheat: flag leaf stage — watch for yellow rust urgently','Mango: flower protection from hoppers (spray Imidacloprid)','Sugarcane: ratoon management, nitrogen top-dress','Summer vegetable nursery: tomato, chilli, brinjal raising','Rabi pulses: pod fill stage — no irrigation stress allowed']},
-  {month:'March',season:'zaid',label:'☀️ Zaid Beginning',items:['Turmeric & ginger: land preparation for April planting','Summer vegetables: cucumber, ridge gourd, bitter gourd sowing','Wheat harvest begins North India — combine harvesting season','Kharif planning: seed procurement, soil test samples','Paddy: long-duration nursery in coastal AP begins']},
-  {month:'April',season:'zaid',label:'☀️ Zaid Active',items:['Turmeric & ginger: planting time — Beejamrutha treated rhizomes','Paddy nursery: upland varieties in Odisha (Apr 15+)','Mango harvest begins in AP (Banginapalli, Totapuri varieties)','Watermelon: summer peak harvest and marketing','Drip irrigation: install before summer vegetable planting']},
-  {month:'May',season:'zaid',label:'☀️ Pre-Kharif',items:['Paddy nursery: main sowing across Odisha (May 15 – June 15)','Land preparation: deep summer plowing to kill soil pests and pathogens','Mango harvest peak (Alphonso Maharashtra; Dashehari UP)','Groundnut: kharif sowing starts in AP (Chittoor, Kurnool, Anantapur)','Summer vegetables: okra, cowpea; harvest ridge gourd, cucumber']},
-  {month:'June',season:'kharif',label:'🌧️ Kharif Start',items:['Paddy: transplanting 25-30 days old seedlings — main Kharif season','Soybean, maize: sow with first reliable monsoon rain','Cotton: sowing in Guntur, Kurnool, Prakasam AP','Green manure (Dhaincha): sow before paddy transplanting','Chilli, tomato: nursery raising for July-August transplant']},
-  {month:'July',season:'kharif',label:'🌧️ Kharif Peak',items:['Paddy: tillering — top-dress 50% nitrogen (urea) urgently','Paddy blast monitoring: humid cool nights = high risk; spray Tricyclazole','Maize: knee-high stage — side-dress urea; FAW scouting in whorls','Chilli & tomato AP: transplanting from June nursery','Cotton: square formation — start bollworm monitoring + pheromone traps']},
-  {month:'August',season:'kharif',label:'🌧️ Kharif Management',items:['Paddy: panicle initiation — critical irrigation, do not allow drought stress','Neck blast protection: spray Tricyclazole proactively if weather humid','Maize: tasseling & silking stage — FAW peak damage period; treat whorls','Soybean: pod development — watch for pod borer and aphids','Ginger & turmeric: earthing up and mulching if not done']},
-  {month:'September',season:'kharif',label:'🌧️ Kharif Harvest',items:['Early paddy (115-120 days): harvest begins — thresh at 20% moisture','Maize: harvest in North India (Kharif crop) — dry to 14%','Soybean: harvest when 80% pods brown, leaves shed','Kharif groundnut: pod maturity test — check sample plants','Rabi land preparation: deep plowing immediately after paddy harvest']},
-  {month:'October',season:'rabi',label:'❄️ Rabi Begin',items:['Rabi paddy: transplanting in Odisha/AP coastal areas (Oct 15+)','Wheat sowing: North India — Oct 25 to Nov 15 window is optimal','Potato: sowing in UP, WB (Agra varieties; Oct 15+ for main crop)','Mustard: sowing Oct-Nov in Rajasthan, Haryana, MP','Rabi vegetable transplanting: tomato, cabbage, cauliflower, onion']},
-  {month:'November',season:'rabi',label:'❄️ Rabi Active',items:['Wheat: crown root irrigation CRI at 21 days — most critical irrigation','Rabi paddy: active management in Odisha/AP coastal belt','Chilli: Rabi crop transplanting in Guntur AP — major season','Ginger & turmeric: harvest timing (8-9 months from April planting)','Onion: nursery raising for rabi transplant (Nov nursery → Jan transplant)']},
-  {month:'December',season:'rabi',label:'❄️ Rabi Growth',items:['Wheat: 2nd irrigation at tillering (45 days); yellow rust scouting','Late paddy harvest in coastal Odisha (Rabi paddy Dec-Jan)','Ginger & turmeric commercial harvest — market timing is key','Mango: stop irrigation Nov-Dec to induce flowering (stress trigger)','Rabi harvest: carrot, radish, spinach, methi, early cabbage']},
+  {month:'January',season:'rabi',label:'❄️ Rabi Peak',ops:['Wheat irrigation and tiller care','Potato earthing and blight watch'],sowing:['Late rabi vegetables in mild zones'],irrigation:'Avoid long moisture gaps in wheat/mustard.',nutrient:'Top-dress based on crop stage.',pest:'Rust, aphid, and leaf spot watch.',harvest:'Cauliflower, spinach, carrot, radish harvest window.',region:'Odisha/AP coastal vegetable belts active.'},
+  {month:'February',season:'rabi',label:'❄️ Rabi Harvest Prep',ops:['Wheat flag-leaf stage monitoring','Summer nursery planning for tomato/chilli'],sowing:['Nursery for summer vegetables'],irrigation:'Light, stage-based irrigation for pulses.',nutrient:'Nitrogen top-dress for ratoon sugarcane where needed.',pest:'Mango hopper and mustard aphid alerts.',harvest:'Early rabi vegetables and fodder cuts.',region:'Transition planning for Zaid begins.'},
+  {month:'March',season:'zaid',label:'☀️ Zaid Start',ops:['Land prep for turmeric/ginger','Kharif input booking'],sowing:['Cucumber, bitter gourd, summer okra'],irrigation:'Frequent light irrigation in rising heat.',nutrient:'Compost + basal nutrients before sowing.',pest:'Mite/thrips watch in vegetables.',harvest:'Wheat harvest starts in many belts.',region:'Coastal AP paddy nursery planning starts.'},
+  {month:'April',season:'zaid',label:'☀️ Zaid Active',ops:['Mulching and drip checks','Heat-protection in nurseries'],sowing:['Turmeric, ginger, summer vegetables'],irrigation:'Morning/evening irrigation preferred.',nutrient:'Micronutrient spray for heat-stressed crops.',pest:'Sucking pest watch in chilli and vegetables.',harvest:'Mango, watermelon market movement.',region:'Odisha upland paddy nursery preparation.'},
+  {month:'May',season:'zaid',label:'☀️ Pre-Kharif',ops:['Deep ploughing and bund repair','Seed treatment preparations'],sowing:['Main paddy nursery in Odisha','Groundnut in AP dry belts'],irrigation:'Conserve water, avoid noon irrigation.',nutrient:'FYM incorporation before monsoon.',pest:'Termite and nursery pest monitoring.',harvest:'Summer vegetables, mango peak season.',region:'Odisha + Andhra pre-monsoon readiness month.'},
+  {month:'June',season:'kharif',label:'🌧️ Kharif Start',ops:['Main field puddling and transplant setup','Rainwater drainage channels check'],sowing:['Paddy, maize, soybean, cotton'],irrigation:'Use rainfall windows; prevent water stagnation.',nutrient:'Basal dose at sowing/transplanting.',pest:'Early stem borer and leaf folder watch.',harvest:'Early short-duration vegetables.',region:'Kharif onset across most Indian states.'},
+  {month:'July',season:'kharif',label:'🌧️ Kharif Peak',ops:['Weeding and gap filling','Top-dress nitrogen at tillering'],sowing:['Late kharif pulses/millets in suitable areas'],irrigation:'Drain excess rainwater quickly.',nutrient:'Split N application for paddy/maize.',pest:'Blast, FAW, and bollworm scouting.',harvest:'Nursery outputs and short greens.',region:'Humid Odisha/AP belts need disease vigilance.'},
+  {month:'August',season:'kharif',label:'🌧️ Kharif Management',ops:['Earthing-up in maize/ginger','Canopy aeration and sanitation'],sowing:['Contingency crops in delayed rain pockets'],irrigation:'Critical moisture at flowering/panicle stages.',nutrient:'Foliar nutrition where deficiency appears.',pest:'Neck blast, pod borer, sucking pest alerts.',harvest:'Early maize/vegetable harvest begins.',region:'Flood and humidity management month.'},
+  {month:'September',season:'kharif',label:'🌧️ Kharif Harvest',ops:['Harvest prep and storage cleaning','Threshing floor readiness'],sowing:['Rabi nursery planning in progressive zones'],irrigation:'Reduce irrigation before harvest maturity.',nutrient:'Stop heavy fertilization near maturity.',pest:'Storage pest awareness before stocking.',harvest:'Early paddy, soybean, maize harvest.',region:'Transition toward Rabi planning starts.'},
+  {month:'October',season:'rabi',label:'❄️ Rabi Begin',ops:['Land prep after kharif harvest','Seed treatment and sowing line planning'],sowing:['Wheat, mustard, potato, onion nursery'],irrigation:'Pre-sowing irrigation where soil is dry.',nutrient:'Basal nutrients and organic matter incorporation.',pest:'Cutworm and nursery damping-off watch.',harvest:'Late kharif crops and paddy lots.',region:'Odisha/AP rabi paddy starts in coastal areas.'},
+  {month:'November',season:'rabi',label:'❄️ Rabi Active',ops:['CRI-stage monitoring setup for wheat','Rabi crop stand establishment'],sowing:['Late wheat and pulses in suitable zones'],irrigation:'Timely first critical irrigation.',nutrient:'Stage-wise N split planning.',pest:'Aphid/leaf disease surveillance.',harvest:'Ginger/turmeric harvest in many belts.',region:'Andhra chilli season intensifies.'},
+  {month:'December',season:'rabi',label:'❄️ Rabi Growth',ops:['Frost/cold injury observation in sensitive crops','Field sanitation and residue planning'],sowing:['Limited late sowing in warm pockets'],irrigation:'Avoid over-irrigation in cool weather.',nutrient:'Need-based top dressing only.',pest:'Rust, mildew, and aphid watch.',harvest:'Rabi vegetables and late paddy in coastal belts.',region:'Soil-test planning for next cycle.'},
 ];
-function renderCalendar(){
+let currentCalendarFilter='all';
+function renderCalendar(filter='all'){
   const grid=document.getElementById('calendarGrid');if(!grid)return;
-  grid.innerHTML=calendarData.map(m=>`<div class="cal-card">
+  currentCalendarFilter=filter;
+  const list=calendarData.filter(m=>filter==='all' || m.season===filter);
+  grid.innerHTML=list.map(m=>`<div class="cal-card">
     <div class="cal-month">${m.month} <span class="cal-season ${m.season}">${m.label}</span></div>
-    ${m.items.map(i=>`<div class="cal-item">${i}</div>`).join('')}
+    <div class="cal-item"><strong>🧑‍🌾 Crop operations:</strong> ${m.ops.join('; ')}</div>
+    <div class="cal-item"><strong>🌱 Sowing / transplant:</strong> ${m.sowing.join('; ')}</div>
+    <div class="cal-item"><strong>💧 Irrigation:</strong> ${m.irrigation}</div>
+    <div class="cal-item"><strong>🧪 Nutrient:</strong> ${m.nutrient}</div>
+    <div class="cal-item"><strong>🛡️ Pest / disease watch:</strong> ${m.pest}</div>
+    <div class="cal-item"><strong>🌾 Harvest / post-harvest:</strong> ${m.harvest}</div>
+    <div class="cal-item"><strong>📍 Regional note:</strong> ${m.region}</div>
   </div>`).join('');
-    }
+}
+function filterCalendar(filter,btn){
+  renderCalendar(filter);
+  document.querySelectorAll('#calendarFilter .fv-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+}
 
- // ===== GLOSSARY DATA (100+ terms) =====
+// ===== GLOSSARY DATA (100+ terms) =====
 const glossaryTerms=[
   {term:'Agronomy',def:'Science and practice of crop production and field management — integrates soil, climate, genetics, and management.'},
   {term:'Allelopathy',def:'Release of chemicals by one plant that inhibits growth of another — e.g., sorghum inhibits weeds; used in weed management.'},
@@ -1729,7 +1774,7 @@ function initScrollReveal(){
     });
   },{threshold:0.15, rootMargin:'0px 0px -10% 0px'});
   items.forEach((item,idx)=>{
-    item.style.transitionDelay=`${Math.min(idx*0.06,0.32)}s`;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){item.style.transitionDelay='0s';}else{item.style.transitionDelay=`${Math.min(idx*0.04,0.2)}s`;}
     io.observe(item);
   });
 }
