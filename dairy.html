@@ -10,8 +10,27 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="dairy.css">
+
+  <style>
+    #backBtn {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 999;
+      background: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+  </style>
 </head>
 <body>
+  <button id="backBtn" aria-label="Go back">←</button>
   <nav>
     <div class="nav-inner">
       <a class="nav-logo" href="index.html">🌾 Ask<span>Krishi</span></a>
@@ -237,5 +256,15 @@
   </footer>
 
   <script src="dairy.js" defer></script>
+
+  <script>
+    document.getElementById("backBtn").onclick = function () {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = "index.html";
+      }
+    };
+  </script>
 </body>
 </html>
