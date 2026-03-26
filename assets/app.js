@@ -1799,15 +1799,10 @@ function quickJumpAllied(pageId, sectionId){
 function initPageBackButtons(){
   document.querySelectorAll('.page-back').forEach((button) => {
     button.addEventListener('click', () => {
-      const fallbackPage = button.getAttribute('data-back-target') || 'home';
-      if (window.history.length > 1 && window.location.hash) {
+      if (document.referrer && document.referrer.includes(window.location.origin)) {
         window.history.back();
-        return;
-      }
-      if (typeof showPage === 'function') {
-        showPage(fallbackPage);
       } else {
-        window.location.hash = fallbackPage;
+        window.location.href = "index.html";
       }
     });
   });
