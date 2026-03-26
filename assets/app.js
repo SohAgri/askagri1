@@ -1813,16 +1813,20 @@ function initDonationButtons(){
   const paypalBtn = document.getElementById('paypal-donate-btn');
   const upiBtn = document.getElementById('upi-donate-btn');
 
+  const openDonationLink = () => {
+    if (!ASK_KRISHI_DONATION_URL) {
+      console.warn('Donation link not configured');
+      return;
+    }
+    window.open(ASK_KRISHI_DONATION_URL, '_blank', 'noopener,noreferrer');
+  };
+
   if (paypalBtn) {
-    paypalBtn.addEventListener('click', () => {
-      window.open(ASK_KRISHI_DONATION_URL, '_blank', 'noopener');
-    });
+    paypalBtn.onclick = openDonationLink;
   }
 
   if (upiBtn) {
-    upiBtn.addEventListener('click', () => {
-      window.open(ASK_KRISHI_DONATION_URL, '_blank', 'noopener');
-    });
+    upiBtn.onclick = openDonationLink;
   }
 }
 
