@@ -33,6 +33,14 @@ nav { position: sticky; top: 0; z-index: 60; background: rgba(255,255,255,0.94);
 .nav-links a:hover, .nav-links a.active { background: var(--green-pale); color: var(--green); }
 .lang-select { border: 2px solid var(--green); border-radius: 999px; background: transparent; color: var(--green); font-size: 0.8rem; font-weight: 700; padding: 6px 12px; }
 .tip-bar { background: linear-gradient(90deg, #8a5a1f 0%, #c08b2c 55%, #5d7d30 100%); color: white; text-align: center; padding: 10px 16px; font-size: 0.86rem; }
+.page-nav-wrap { background: rgba(255,255,255,0.94); border-bottom: 1px solid rgba(138,90,31,0.14); }
+.page-nav { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 10px 0; }
+.page-back { display: inline-flex; align-items: center; justify-content: center; height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid rgba(138,90,31,0.22); background: #fdf4e7; color: #744b1a; font: 700 0.82rem/1 'Hind', sans-serif; cursor: pointer; }
+.page-back:hover { background: #f8e8cf; }
+.breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 0.79rem; color: #6f5b3d; }
+.breadcrumb a { color: #1f6f34; text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb [aria-current="page"] { color: #33200b; font-weight: 700; }
 
 .sector-hero { position: relative; overflow: hidden; min-height: clamp(520px, 80vh, 720px); background: linear-gradient(135deg, #fff7e8 0%, #fff1d6 58%, #fffaf0 100%); }
 .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
