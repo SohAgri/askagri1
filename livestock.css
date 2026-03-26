@@ -696,6 +696,49 @@ footer {
   opacity: 0.72;
 }
 
+.page-nav-wrap{
+  background: rgba(255,255,255,0.94);
+  border-bottom: 1px solid rgba(122, 75, 34, 0.14);
+}
+.page-nav{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 0;
+}
+.page-back{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(167, 106, 53, 0.24);
+  background: #f9f1e6;
+  color: #6d4220;
+  font: 700 0.82rem/1 'Hind', sans-serif;
+  cursor: pointer;
+}
+.page-back:hover { background: #f3e8d9; }
+.breadcrumb{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: #6d5c4d;
+  font-size: 0.79rem;
+}
+.breadcrumb a{
+  color: #6f8d57;
+  text-decoration: none;
+}
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb [aria-current="page"]{
+  color: #302419;
+  font-weight: 700;
+}
+
 @media (min-width: 840px) {
   .hero-content {
     grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
