@@ -159,7 +159,7 @@ const LANG = {
     };
 
 let currentLang = 'en';
-const ASK_KRISHI_DONATION_URL = "https://rzp.io/rzp/o9zzEWU1";
+const ASK_KRISHI_DONATION_URL = "https://razorpay.me/@askkrishi";
 
 function t(key) { return LANG[currentLang][key] || LANG['en'][key] || key; }
 
@@ -1818,7 +1818,7 @@ function initDonationButtons(){
       console.warn('Donation link not configured');
       return;
     }
-    window.open(ASK_KRISHI_DONATION_URL, '_blank', 'noopener,noreferrer');
+    window.location.href = ASK_KRISHI_DONATION_URL;
   };
 
   if (paypalBtn) {
