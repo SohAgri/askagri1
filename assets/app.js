@@ -1796,6 +1796,23 @@ function quickJumpAllied(pageId, sectionId){
   });
 }
 
+function initPageBackButtons(){
+  document.querySelectorAll('.page-back').forEach((button) => {
+    button.addEventListener('click', () => {
+      const fallbackPage = button.getAttribute('data-back-target') || 'home';
+      if (window.history.length > 1 && window.location.hash) {
+        window.history.back();
+        return;
+      }
+      if (typeof showPage === 'function') {
+        showPage(fallbackPage);
+      } else {
+        window.location.hash = fallbackPage;
+      }
+    });
+  });
+}
+
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const pg=document.getElementById(id);if(pg)pg.classList.add('active');
@@ -1879,6 +1896,7 @@ document.addEventListener('DOMContentLoaded', () => {
   showSubject('agronomy', document.querySelector('.subject-tab'));
   showDistricts('odisha', document.querySelector('.state-tab'));
   loadWeather();
+  initPageBackButtons();
   initScrollReveal();
   initHeroVideo();
   initPageFromHash();
