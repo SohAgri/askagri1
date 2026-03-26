@@ -766,13 +766,14 @@ footer p { line-height: 1.8; font-size: 0.84rem; }
 .footer-meta { opacity: 0.7; margin-top: 8px; }
 
 .page-nav-wrap{
-  background: rgba(255,255,255,0.94);
-  border-bottom: 1px solid rgba(8, 92, 116, 0.12);
+  background: rgba(255,255,255,0.96);
+  border-bottom: 1px solid rgba(8, 92, 116, 0.14);
+  box-shadow: 0 1px 4px rgba(5,52,66,0.06);
 }
 .page-nav{
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
   padding: 10px 0;
 }
@@ -780,32 +781,51 @@ footer p { line-height: 1.8; font-size: 0.84rem; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 34px;
+  min-height: 36px;
   padding: 0 14px;
   border-radius: 999px;
-  border: 1px solid rgba(31, 159, 203, 0.24);
+  border: 1px solid rgba(31, 159, 203, 0.28);
   background: #eef8fb;
   color: #0e5a73;
   font: 700 0.82rem/1 'Hind', sans-serif;
   cursor: pointer;
+  box-shadow: 0 1px 2px rgba(12,74,95,0.08);
+  transition: background-color .2s ease, border-color .2s ease, transform .18s ease, box-shadow .2s ease;
 }
-.page-back:hover { background: #e2f2f7; }
+.page-back:hover,
+.page-back:focus-visible { background: #ddeff6; border-color: rgba(18,113,143,0.45); transform: translateY(-1px); box-shadow: 0 3px 8px rgba(12,74,95,0.13); }
+.page-back:focus-visible { outline: 2px solid rgba(18,113,143,0.32); outline-offset: 2px; }
+.page-back:active { transform: translateY(0); box-shadow: 0 1px 2px rgba(12,74,95,0.1); }
 .breadcrumb{
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
+  row-gap: 6px;
+  column-gap: 9px;
   color: #4f6670;
-  font-size: 0.79rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
 }
+.breadcrumb span[aria-hidden="true"]{ color: #7a929b; font-size: 0.74rem; }
 .breadcrumb a{
   color: #12718f;
   text-decoration: none;
+  text-underline-offset: 2px;
+  transition: color .2s ease, text-decoration-color .2s ease;
 }
-.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible { color: #0f5e76; text-decoration: underline; text-decoration-color: rgba(15,94,118,0.5); }
+.breadcrumb a:focus-visible { outline: 2px solid rgba(18,113,143,0.3); outline-offset: 2px; border-radius: 6px; }
 .breadcrumb [aria-current="page"]{
   color: #14313a;
   font-weight: 700;
+}
+@media (max-width: 560px) {
+  .page-nav { gap: 10px; }
+  .breadcrumb { font-size: 0.78rem; column-gap: 7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-back, .breadcrumb a { transition: none; }
 }
 
 @media (min-width: 700px) {
