@@ -569,6 +569,31 @@ tr:hover td { background: #f6fef6; }
 .tip-content h4 { font-family: 'Hind', sans-serif; font-size: 0.92rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
 .tip-content p { font-size: 0.8rem; color: var(--text-light); line-height: 1.6; }
 
+/* DAILY ADVISORY */
+.daily-wrap{max-width:920px;margin:0 auto;padding:20px 16px 40px;display:grid;gap:14px;}
+.daily-form-card,.daily-result-card{background:#fff;border:2px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:16px;}
+.daily-form-card h3{color:var(--green);font-size:1.05rem;margin-bottom:4px;}
+.daily-form-card p{color:#4f5d52;font-size:0.82rem;margin-bottom:12px;line-height:1.5;}
+.daily-grid{display:grid;gap:10px;grid-template-columns:1fr;}
+.daily-grid label{font-size:0.78rem;color:#4f5d52;font-weight:700;display:grid;gap:6px;}
+.daily-grid select{width:100%;padding:11px 12px;border:1.8px solid var(--border);border-radius:12px;font-size:0.86rem;font-family:'Hind',sans-serif;outline:none;background:#fff;color:var(--text);}
+.daily-grid select:focus{border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(46,125,50,0.12);}
+.daily-run{margin-top:12px;width:100%;border:none;border-radius:12px;padding:12px 14px;background:linear-gradient(120deg,#2f7d3f,#2a6e38);color:#fff;font-size:0.9rem;font-weight:700;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;}
+.daily-run:hover{transform:translateY(-1px);box-shadow:0 10px 20px rgba(28,78,42,0.2);}
+.daily-safe-note{margin-top:10px;font-size:0.74rem;line-height:1.5;color:#486153;padding:10px 12px;background:#f2f9f3;border:1px solid #d7ead9;border-radius:12px;}
+.daily-result-empty{font-size:0.84rem;color:#5c695f;line-height:1.55;}
+.daily-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;background:#eef8ef;color:#256536;border-radius:999px;border:1px solid #d6e9d8;font-size:0.72rem;font-weight:700;margin-bottom:10px;}
+.daily-priority{border-left:4px solid #2f7d3f;border-radius:10px;background:#f4fbf5;padding:11px 12px;margin-bottom:12px;}
+.daily-priority h4{color:#1f5d2f;margin-bottom:4px;font-size:0.9rem;}
+.daily-priority p{margin:0;font-weight:700;color:#244f30;font-size:0.86rem;line-height:1.45;}
+.daily-section{margin:12px 0;}
+.daily-section h4{font-size:0.85rem;margin-bottom:6px;color:#214f2f;}
+.daily-list{margin:0;padding-left:18px;color:#3f4f44;font-size:0.82rem;line-height:1.55;display:grid;gap:4px;}
+.daily-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+.daily-link{border:1px solid #d5e8d6;background:#f8fcf8;color:#255f33;border-radius:999px;padding:7px 12px;font-size:0.76rem;font-weight:700;cursor:pointer;}
+.daily-link:hover{background:#e7f4e8;}
+.daily-region-note{margin-top:10px;font-size:0.77rem;color:#4e6355;padding:10px 11px;border-radius:11px;border:1px dashed #cfe2d1;background:#f8fcf8;}
+
 /* SUPPORT DONATION */
 .support-donation-section {
   max-width: 1200px;
@@ -701,6 +726,7 @@ footer a { color: #81c784; text-decoration: none; }
 }
 @media (min-width: 820px) {
   .allied-quick-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .daily-grid { grid-template-columns: 1fr 1fr; }
   .support-donation-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
 @media (max-width: 600px) {
@@ -893,6 +919,7 @@ footer a { color: #81c784; text-decoration: none; }
       <a href="#" onclick="showPage('schemes')">🏛️Schemes</a>
       <a href="fishery.html">🐟 Fishery</a>
       <a href="livestock.html">🐄 Livestock</a>
+      <a href="#" onclick="showPage('daily-advisory')">🧭 Daily Advisory</a>
       <a href="#" onclick="showPage('seasonal')">🌦️ Tips</a>
       <a href="#" onclick="showPage('glossary')">📖 Glossary</a>
       <a href="#" onclick="showPage('faq')">❓ FAQ</a>
@@ -999,6 +1026,7 @@ footer a { color: #81c784; text-decoration: none; }
         <div class="glass-card tool-card" onclick="showPage('calendar')"><div class="glass-icon">📅</div><h3>Crop Calendar</h3><p>Monthly operations for sowing, irrigation, and pest watch.</p><p class="tools-meta">Who it helps: routine planners and beginners.</p><span class="sector-action">Explore Calendar →</span></div>
         <div class="glass-card tool-card" onclick="showPage('student-notes')"><div class="glass-icon">📚</div><h3>Student Notes</h3><p>Structured revision cards for exam-focused agri topics.</p><p class="tools-meta">Who it helps: diploma/B.Sc learners.</p><span class="sector-action">Explore Tool →</span></div>
         <div class="glass-card tool-card" onclick="showPage('schemes')"><div class="glass-icon">🏛️</div><h3>Scheme Finder</h3><p>Scheme categories for credit, subsidy, and support awareness.</p><p class="tools-meta">Who it helps: small and aspiring entrepreneurs.</p><span class="sector-action">Find Schemes →</span></div>
+        <div class="glass-card tool-card" onclick="showPage('daily-advisory')"><div class="glass-icon">🧭</div><h3>Daily Advisory</h3><p>What should I do today? Stage + weather + region-based crop actions.</p><p class="tools-meta">Who it helps: farmers and students doing daily planning.</p><span class="sector-action">Get Today's Farm Plan →</span></div>
         <div class="glass-card tool-card" onclick="showPage('seasonal')"><div class="glass-icon">🌦️</div><h3>Weather-aware Advisory</h3><p>Season-linked reminders for spray, irrigation, and risk management.</p><p class="tools-meta">Who it helps: farmers planning daily operations.</p><span class="sector-action">Check Seasonal Advice →</span></div>
       </div>
     </section>
@@ -1048,6 +1076,7 @@ footer a { color: #81c784; text-decoration: none; }
       <div class="qn-card" onclick="showPage('women-agri')"><div class="qn-icon">👩‍🌾</div><div class="qn-title">Women Agri</div></div>
       <div class="qn-card" onclick="showPage('student-notes')"><div class="qn-icon">📚</div><div class="qn-title">Students</div></div>
       <div class="qn-card" onclick="showPage('calendar')"><div class="qn-icon">📅</div><div class="qn-title">Calendar</div></div>
+      <div class="qn-card" onclick="showPage('daily-advisory')"><div class="qn-icon">🧭</div><div class="qn-title">Daily Advisory</div></div>
       <div class="qn-card" onclick="showPage('district-guide')"><div class="qn-icon">🗺️</div><div class="qn-title">Districts</div></div>
       <div class="qn-card" onclick="showPage('schemes')"><div class="qn-icon">🏛️</div><div class="qn-title">Schemes</div></div>
       <div class="qn-card" onclick="showPage('glossary')"><div class="qn-icon">📖</div><div class="qn-title">Glossary</div></div>
@@ -1336,6 +1365,41 @@ footer a { color: #81c784; text-decoration: none; }
     <div id="season-content"></div>
   </div>
       </div>
+<!-- ===== DAILY ADVISORY ===== -->
+<div id="daily-advisory" class="page">
+  <div class="page-header" style="background:linear-gradient(135deg,#1b5e20,#2f7d3f);">
+    <h1>🧭 Daily Advisory</h1>
+    <p>What should I do today? Practical crop actions by stage, season, weather, and region.</p>
+  </div>
+  <div class="daily-wrap">
+    <div class="daily-form-card">
+      <h3>🌱 Select Your Crop Situation</h3>
+      <p>Simple daily planning for Odisha, Andhra Pradesh, and India-wide conditions.</p>
+      <div class="daily-grid">
+        <label>Crop
+          <select id="dailyCrop" onchange="updateDailyStageOptions()"></select>
+        </label>
+        <label>Crop Stage
+          <select id="dailyStage"></select>
+        </label>
+        <label>Season
+          <select id="dailySeason"></select>
+        </label>
+        <label>Region
+          <select id="dailyRegion"></select>
+        </label>
+        <label>Weather Mode
+          <select id="dailyWeather"></select>
+        </label>
+      </div>
+      <button class="daily-run" onclick="renderDailyAdvisoryResult()">Get Today's Farm Plan</button>
+      <div class="daily-safe-note">Educational guidance only. Identify properly before spraying. Local conditions matter. For severe outbreaks, verify with local agriculture expert/KVK.</div>
+    </div>
+
+    <div id="dailyResult" class="daily-result-card"></div>
+  </div>
+</div>
+
   <!-- ===== AI CHAT ===== -->
 <div id="ai-chat" class="page">
   <div class="page-header">
@@ -1778,6 +1842,7 @@ footer a { color: #81c784; text-decoration: none; }
     <a href="#" onclick="showPage('women-agri')">Women Agri</a> ·
     <a href="#" onclick="showPage('student-notes')">Students</a> ·
     <a href="#" onclick="showPage('district-guide')">Districts</a> ·
+    <a href="#" onclick="showPage('daily-advisory')">Daily Advisory</a> ·
     <a href="fishery.html">Fishery</a> ·
     <a href="livestock.html">Livestock</a> ·
     <a href="#" onclick="showPage('schemes')">Schemes</a> ·
