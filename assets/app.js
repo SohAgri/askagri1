@@ -624,73 +624,96 @@ const scannerConfig = {
   mode: 'local', // future upgrade: api/model
 };
 
-const scannerDemoData = {
-  rice: [
+const PHOTO_CHECK_LIBRARY = {
+  paddy: [
     {
-      disease: 'Rice Blast',
-      cause: 'Fungal infection (Magnaporthe) in humid weather and excess nitrogen',
-      symptoms: 'Diamond-shaped grey/brown spots on leaves, neck infection near panicle.',
-      prevention: 'Use resistant variety, avoid excess urea, maintain proper spacing and field hygiene.',
-      treatment: 'Spray Tricyclazole 75 WP @ 6g/15L water as per label and local advisory.',
-      inputs: ['Tricyclazole 75 WP', 'Balanced NPK fertilizer', 'Neem-based bio-protectant']
+      key: 'blast',
+      problem: 'Paddy Blast',
+      confidence: 'High match',
+      reasons: ['Brown spindle-shaped lesions on leaves', 'Moist field weather favors blast spread', 'Leaf spots appear fast in patches'],
+      checks: ['Check if spots have gray center with dark border', 'Inspect nearby plants for rapid patchy spread', 'Review last 7-day humidity and cloudy weather', 'Compare old leaves vs newly emerged leaves'],
+      firstAction: ['Scout 20 nearby hills immediately', 'Remove severely infected leaves from hotspot area', 'Avoid excess nitrogen top-dressing today', 'Plan label-approved fungicide only after confirmation'],
+      avoid: ['Do not spray random tank mix without confirming blast', 'Do not apply heavy urea during active disease pressure', 'Do not delay action after first hotspot'],
+      related: { crop: 'crop-guide', disease: 'diseases', pest: 'diseases', advisory: 'daily-advisory' }
     },
     {
-      disease: 'Bacterial Leaf Blight (BLB)',
-      cause: 'Bacterial spread favored by heavy rain/wind and high nitrogen use.',
-      symptoms: 'Yellowing and drying from leaf tip/edges, straw-colored streaks.',
-      prevention: 'Use clean seed, avoid excess nitrogen, improve drainage and remove heavily affected leaves.',
-      treatment: 'Use locally recommended bactericide/copper product only after agri expert advice.',
-      inputs: ['Copper oxychloride product', 'Potash-rich nutrition', 'Seed treatment material']
+      key: 'blb',
+      problem: 'Bacterial Leaf Blight (Probable)',
+      confidence: 'Medium match',
+      reasons: ['Leaf tip drying with yellow-to-straw streaking', 'Water movement can spread symptoms quickly', 'Field pattern often starts from damaged leaves'],
+      checks: ['Look for yellow ooze-like streak when leaf is cut', 'Check whether symptoms start from leaf tip', 'Check if rainfall/wind injury happened recently'],
+      firstAction: ['Stop unnecessary topdress nitrogen today', 'Improve field sanitation and drainage', 'Mark affected blocks for follow-up scouting'],
+      avoid: ['Do not assume fungal spray alone will solve bacterial issue', 'Do not ignore fast spread after storm/wind'],
+      related: { crop: 'crop-guide', disease: 'diseases', pest: 'diseases', advisory: 'daily-advisory' }
+    },
+    {
+      key: 'bph',
+      problem: 'Brown Plant Hopper Damage',
+      confidence: 'Medium match',
+      reasons: ['Hopper burn-like yellow-brown patch', 'Damage appears in pockets', 'Likely sucking pest stress near tiller base'],
+      checks: ['Inspect lower stem base for hoppers', 'See if damage is patchy and concentrated', 'Check for ants/honeydew signs'],
+      firstAction: ['Drain standing water for 24 hours where possible', 'Scout neighboring plants at base level', 'Use need-based control only after pest presence confirmation'],
+      avoid: ['Do not spray before checking hopper count', 'Do not keep excessive standing water in hotspot'],
+      related: { crop: 'crop-guide', disease: 'diseases', pest: 'diseases', advisory: 'daily-advisory' }
+    },
+    {
+      key: 'nitrogen',
+      problem: 'Nitrogen Deficiency Pattern',
+      confidence: 'Low match',
+      reasons: ['Older leaves showing uniform pale yellowing', 'No clear lesion edge or pest injury signs', 'Growth appears weak and light green'],
+      checks: ['Compare old leaves with new leaves', 'Check recent fertilizer history', 'Check if yellowing is uniform across field'],
+      firstAction: ['Use balanced nutrition plan after local dose check', 'Avoid one-shot overuse of urea', 'Track response in 3–4 days'],
+      avoid: ['Do not over-correct with heavy urea', 'Do not ignore possibility of disease mixed with deficiency'],
+      related: { crop: 'crop-guide', disease: 'diseases', pest: 'fertilizers', advisory: 'daily-advisory' }
     }
   ],
   tomato: [
     {
-      disease: 'Tomato Early Blight',
-      cause: 'Fungal disease (Alternaria) under warm humid conditions.',
-      symptoms: 'Target-like concentric brown spots on older leaves, lower leaves dry first.',
-      prevention: 'Crop rotation, remove infected leaves, avoid late-evening overhead irrigation.',
-      treatment: 'Spray Mancozeb/Chlorothalonil as per crop label and local recommendation.',
-      inputs: ['Mancozeb 75 WP', 'Sticker/spreader', 'Calcium + micronutrient spray']
+      key: 'leaf-curl',
+      problem: 'Tomato Leaf Curl (Probable)',
+      confidence: 'High match',
+      reasons: ['Upward curling of new leaves', 'Mosaic/yellowing around young growth', 'Possible whitefly-linked pattern'],
+      checks: ['Inspect underside of leaves for whitefly', 'Check whether new leaves are more affected', 'Observe nearby weeds as whitefly source'],
+      firstAction: ['Isolate heavily affected plants where practical', 'Install yellow sticky traps today', 'Delay random spray until vector is confirmed'],
+      avoid: ['Do not spray repeated same molecule blindly', 'Do not keep infected plants in nursery area'],
+      related: { crop: 'crop-guide', disease: 'diseases', pest: 'diseases', advisory: 'daily-advisory' }
     },
-    {
-      disease: 'Tomato Late Blight',
-      cause: 'Water-mold infection in cool humid/wet conditions.',
-      symptoms: 'Water-soaked dark lesions on leaves/stems with fast spread; fruit rot in severe cases.',
-      prevention: 'Good airflow, avoid leaf wetness, remove infected plant parts quickly.',
-      treatment: 'Use local advisory fungicide schedule immediately when symptoms appear.',
-      inputs: ['Metalaxyl + Mancozeb', 'Protective fungicide', 'Disease scouting kit']
-    }
+    { key: 'early-blight', problem: 'Tomato Early Blight', confidence: 'Medium match', reasons: ['Brown concentric spots on lower leaves', 'Progress from older leaves upward', 'Humidity and wet leaf surface increase risk'], checks: ['Look for target-board ring patterns', 'Check if lower canopy is first affected', 'Check irrigation splash/wet leaves'], firstAction: ['Remove badly infected lower leaves', 'Improve airflow and avoid evening wetness', 'Take local fungicide guidance before spray'], avoid: ['Do not irrigate late evening overhead', 'Do not ignore lower-canopy first symptoms'], related: { crop: 'crop-guide', disease: 'diseases', pest: 'diseases', advisory: 'daily-advisory' } },
+    { key: 'late-blight', problem: 'Tomato Late Blight (Probable)', confidence: 'Medium match', reasons: ['Water-soaked dark lesion appearance', 'Fast spread in cool humid weather', 'Fruit/stem blackening may follow'], checks: ['Check if lesions expand within 24-48h', 'Inspect stem for dark spread', 'Review recent cloudy + moist weather'], firstAction: ['Mark hotspots and avoid movement through wet crop', 'Remove heavily affected foliage safely', 'Plan immediate local-expert guided control'], avoid: ['Do not delay response in cool-humid outbreak', 'Do not spray right before rain'], related: { crop: 'crop-guide', disease: 'diseases', pest: 'diseases', advisory: 'daily-advisory' } }
   ],
   chilli: [
-    {
-      disease: 'Chilli Leaf Curl',
-      cause: 'Mostly viral; spread by whiteflies and thrips.',
-      symptoms: 'Upward/downward leaf curl, stunted plants, poor flowering and fruit set.',
-      prevention: 'Use healthy seedlings, install yellow sticky traps, control vector insects early.',
-      treatment: 'Remove severe plants and follow local vector-control spray recommendation.',
-      inputs: ['Yellow sticky traps', 'Neem oil 1500 ppm', 'Whitefly/thrips control product']
-    }
+    { key: 'thrips', problem: 'Chilli Thrips Injury', confidence: 'High match', reasons: ['Silvery streaking with upward leaf curl', 'Tender leaves look crinkled', 'Sucking pest damage signs visible'], checks: ['Tap leaves on white sheet to confirm thrips', 'Inspect top canopy and undersides', 'Check if damage is patchy hotspots'], firstAction: ['Scout entire block before spraying', 'Use need-based control with rotation plan', 'Reduce dust stress and maintain field hygiene'], avoid: ['Do not spray without confirming pest', 'Do not repeat same insecticide class'], related: { crop: 'crop-guide', disease: 'diseases', pest: 'diseases', advisory: 'daily-advisory' } },
+    { key: 'mite', problem: 'Chilli Mite Damage (Probable)', confidence: 'Medium match', reasons: ['Leaf puckering and downward curling', 'Bronzing on tender leaves', 'Mite injury often appears in hot dry phase'], checks: ['Inspect with magnifier on underside', 'Check if top shoots are distorted', 'See if nearby plants share similar injury'], firstAction: ['Remove severely distorted top growth if needed', 'Start targeted scouting in nearby rows', 'Use label-approved mite control only after confirmation'], avoid: ['Do not mix multiple products without guidance', 'Do not wait until whole block is damaged'], related: { crop: 'crop-guide', disease: 'diseases', pest: 'diseases', advisory: 'daily-advisory' } }
   ],
-  grapes: [
-    {
-      disease: 'Powdery Mildew',
-      cause: 'Fungal infection favored by warm days and humid nights.',
-      symptoms: 'White powdery growth on leaves/young shoots, leaf curling, poor fruit quality.',
-      prevention: 'Pruning for aeration, avoid dense canopy, regular field scouting.',
-      treatment: 'Use wettable sulphur or local recommended fungicide per label.',
-      inputs: ['Wettable sulphur', 'Canopy management tools', 'Recommended fungicide rotation plan']
-    }
+  wheat: [
+    { key: 'powdery', problem: 'Wheat Powdery Mildew-like Symptoms', confidence: 'Medium match', reasons: ['Powdery white patches over leaves', 'Older dense canopy tends to get affected', 'Humidity + cool conditions support spread'], checks: ['Rub leaf: powdery growth comes off', 'Check spread in dense shaded area', 'Inspect lower and middle canopy'], firstAction: ['Improve airflow where possible', 'Separate hotspot notes for follow-up', 'Take expert advice before fungicide decision'], avoid: ['Do not over-irrigate dense crop during humid days', 'Do not overuse nitrogen in susceptible stage'], related: { crop: 'crop-guide', disease: 'diseases', pest: 'diseases', advisory: 'daily-advisory' } },
+    { key: 'rust', problem: 'Wheat Rust-like Pattern', confidence: 'Low match', reasons: ['Rust-colored pustule-like marks', 'Patch spread may increase quickly', 'Often appears after favorable weather'], checks: ['Check if pustules rub off as powder', 'Compare severity across field blocks', 'Look for early spread on border rows'], firstAction: ['Start quick monitoring of all sections', 'Keep note of growth stage and weather', 'Consult local recommendation before spray'], avoid: ['Do not assume nutrient issue when pustules are visible', 'Do not delay control if spread is rapid'], related: { crop: 'crop-guide', disease: 'diseases', pest: 'diseases', advisory: 'daily-advisory' } }
+  ],
+  mango: [
+    { key: 'anthracnose', problem: 'Mango Anthracnose (Probable)', confidence: 'Medium match', reasons: ['Black/brown lesions on leaves or fruit', 'Humid weather increases incidence', 'Spots may coalesce on fruit surface'], checks: ['Inspect fruit stalk area and tender leaves', 'Check orchard humidity and canopy density', 'Look for similar lesions in nearby trees'], firstAction: ['Collect and remove heavily infected fallen material', 'Prune for better airflow where possible', 'Consult orchard spray schedule locally'], avoid: ['Do not spray before rain forecast', 'Do not leave infected debris under canopy'], related: { crop: 'crop-guide', disease: 'diseases', pest: 'diseases', advisory: 'daily-advisory' } },
+    { key: 'hopper', problem: 'Mango Hopper Damage (Probable)', confidence: 'Medium match', reasons: ['Sucking pest sign near panicle/tender shoots', 'Sticky residue may appear', 'Flowering flush may weaken'], checks: ['Inspect panicle/tender shoots early morning', 'Check for sooty mold on honeydew', 'Observe insect presence with hand lens'], firstAction: ['Scout hotspot trees first', 'Maintain orchard sanitation around canopy', 'Plan control after pest confirmation'], avoid: ['Do not spray without confirming hopper count', 'Do not ignore first flowering flush damage'], related: { crop: 'crop-guide', disease: 'diseases', pest: 'diseases', advisory: 'daily-advisory' } }
   ],
   default: [
-    {
-      disease: 'Possible Nutrient Stress / Fungal Leaf Spot',
-      cause: 'Could be due to nutrient imbalance, moisture stress, or common leaf infection.',
-      symptoms: 'Yellowing, spotting or patchy leaf discoloration visible in affected area.',
-      prevention: 'Do soil test, maintain balanced nutrition, avoid over-irrigation and stagnant water.',
-      treatment: 'Use crop-specific recommendation from local KVK/agri officer after field verification.',
-      inputs: ['Soil test kit', 'Balanced NPK fertilizer', 'Bio-fungicide (Trichoderma)']
-    }
+    { key: 'general', problem: 'General Stress / Mixed Issue Pattern', confidence: 'Low match', reasons: ['Photo clues are not fully distinct', 'Could be nutrient stress, disease, or pest mix', 'Image angle/lighting may hide key signs'], checks: ['Retake close-up + whole-plant photo in daylight', 'Check underside of leaves and stem base', 'Observe patchy vs uniform spread'], firstAction: ['Use follow-up symptom questions to narrow issue', 'Avoid immediate random spray', 'Consult local expert if spread is fast'], avoid: ['Do not treat this as confirmed diagnosis', 'Do not ignore severe outbreak signs'], related: { crop: 'crop-guide', disease: 'diseases', pest: 'diseases', advisory: 'daily-advisory' } }
   ]
+};
+
+const PHOTO_CHECK_FOLLOWUPS = [
+  { id: 'insects', q: 'Are visible insects present on leaves or tender parts?', options: ['Yes', 'No', 'Not sure'] },
+  { id: 'spots', q: 'Are spots mainly brown/black?', options: ['Yes', 'No', 'Mixed'] },
+  { id: 'curl', q: 'If leaves are curling, direction is mostly?', options: ['Upward', 'Downward', 'No curling'] },
+  { id: 'spread', q: 'Is damage pattern mostly patchy or uniform?', options: ['Patchy', 'Uniform', 'Not sure'] }
+];
+
+const PHOTO_CHECK_ENGINE = {
+  mode: 'mock',
+  async analyze({ crop, plantPart }) {
+    await new Promise(res => setTimeout(res, 1100));
+    const pool = PHOTO_CHECK_LIBRARY[crop] || PHOTO_CHECK_LIBRARY.default;
+    const pick = pool[Math.floor(Math.random() * pool.length)] || PHOTO_CHECK_LIBRARY.default[0];
+    const fallbackNeeded = crop === 'default' || (plantPart === 'auto' && Math.random() < 0.5);
+    return { primary: pick, topLikely: pool.slice(0, 3), fallbackNeeded };
+  }
 };
 
 let scannerLastFileName = '';
@@ -703,7 +726,7 @@ function previewImage(e) {
 
   if (!file.type.startsWith('image/')) {
     if (errorBox) {
-      errorBox.textContent = 'Please upload a valid image file (JPG/PNG).';
+      errorBox.textContent = 'Please upload a valid crop image (JPG/PNG/WEBP).';
       errorBox.style.display = 'block';
     }
     return;
@@ -716,19 +739,15 @@ function previewImage(e) {
     const preview = document.getElementById('uploadPreview');
     const analyzeBtn = document.getElementById('analyzeBtn');
     const result = document.getElementById('analysisResult');
+    const followup = document.getElementById('scanFollowup');
     if (!imgEl || !preview || !analyzeBtn || !result) return;
     imgEl.src = ev.target.result;
     preview.style.display = 'block';
     analyzeBtn.style.display = 'inline-block';
     result.style.display = 'none';
+    if (followup) followup.style.display = 'none';
   };
   reader.readAsDataURL(file);
-}
-
-function pickDemoDiagnosis(crop) {
-  const selected = scannerDemoData[crop] || scannerDemoData.default;
-  const idx = Math.floor(Math.random() * selected.length);
-  return selected[idx];
 }
 
 function inferCropForDemo() {
@@ -736,71 +755,113 @@ function inferCropForDemo() {
   const selected = cropSel ? cropSel.value : 'auto';
   if (selected && selected !== 'auto') return selected;
 
-  if (scannerLastFileName.includes('rice') || scannerLastFileName.includes('paddy')) return 'rice';
+  if (scannerLastFileName.includes('rice') || scannerLastFileName.includes('paddy')) return 'paddy';
   if (scannerLastFileName.includes('tomato')) return 'tomato';
   if (scannerLastFileName.includes('chilli') || scannerLastFileName.includes('chili')) return 'chilli';
-  if (scannerLastFileName.includes('grape')) return 'grapes';
+  if (scannerLastFileName.includes('wheat')) return 'wheat';
+  if (scannerLastFileName.includes('mango')) return 'mango';
   return 'default';
+}
+
+function cropLabelFromId(crop) {
+  const labels = { paddy: 'Paddy / Rice', tomato: 'Tomato', chilli: 'Chilli', wheat: 'Wheat', mango: 'Mango', default: 'General crop' };
+  return labels[crop] || 'General crop';
+}
+
+function partLabel(part) {
+  const labels = { leaf: 'Leaf', stem: 'Stem', fruit: 'Fruit', whole_plant: 'Whole plant', auto: 'Auto' };
+  return labels[part] || 'Auto';
+}
+
+function regionLabel(region) {
+  const labels = { odisha: 'Odisha', andhra: 'Andhra Pradesh', general: 'General India' };
+  return labels[region] || 'General India';
+}
+
+function renderPhotoFollowup(topLikely) {
+  const box = document.getElementById('scanFollowup');
+  if (!box) return;
+  box.style.display = 'block';
+  box.innerHTML = `
+    <h3>🧭 Smart fallback questions</h3>
+    <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:10px;">Photo model is uncertain. Use these checks to narrow probable issue before any spray decision.</p>
+    <div class="info-box" style="margin-bottom:10px;">
+      <h4>Top likely issues right now</h4>
+      <ul class="photo-result-list">${topLikely.slice(0,3).map(item=>`<li>${item.problem} (${item.confidence})</li>`).join('')}</ul>
+    </div>
+    ${PHOTO_CHECK_FOLLOWUPS.map(item => `<div class="info-box" style="margin-bottom:8px;"><h4>${item.q}</h4><div class="photo-chip-row">${item.options.map(opt=>`<span class="photo-chip">${opt}</span>`).join('')}</div></div>`).join('')}
+    <p style="font-size:0.78rem;color:var(--text-light);margin-top:10px;">Tip: re-upload a close image of the affected part in daylight for better probable matching.</p>
+  `;
 }
 
 async function analyzeImage() {
   const btn = document.getElementById('analyzeBtn');
   const resultBox = document.getElementById('analysisResult');
+  const followupBox = document.getElementById('scanFollowup');
   const errorBox = document.getElementById('scanError');
   const img = document.getElementById('previewImg');
+  const partSel = document.getElementById('scanPartSelect');
+  const regionSel = document.getElementById('scanRegionSelect');
 
   if (errorBox) errorBox.style.display = 'none';
   if (!img || !img.src) {
     if (errorBox) {
-      errorBox.textContent = 'Please upload crop photo before scanning.';
+      errorBox.textContent = 'Please upload crop photo before analysis.';
       errorBox.style.display = 'block';
     }
     return;
   }
 
-  btn.innerHTML = '<span class="loading"></span> Scanning crop...';
+  const crop = inferCropForDemo();
+  const part = partSel ? partSel.value : 'auto';
+  const region = regionSel ? regionSel.value : 'general';
+
+  btn.innerHTML = '<span class="loading"></span> Analyzing photo...';
   btn.disabled = true;
 
   try {
-    await new Promise(res => setTimeout(res, 1200));
-    const crop = inferCropForDemo();
-    const r = pickDemoDiagnosis(crop);
-    const conf = 78 + Math.floor(Math.random() * 18);
+    const analysis = await PHOTO_CHECK_ENGINE.analyze({ crop, plantPart: part, region });
+    const { primary, topLikely, fallbackNeeded } = analysis;
 
     resultBox.style.display = 'block';
     resultBox.innerHTML = `
-      <h3>🧪 Crop Disease Scanner Result <span style="font-size:0.72rem;background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:8px;margin-left:8px;">Demo Mode</span></h3>
-      <p style="font-size:0.84rem;color:var(--text-light);margin-bottom:8px;">Likely analysis based on uploaded image and crop selection.</p>
-      <p style="font-size:1.03rem;font-weight:800;color:var(--green);margin-bottom:4px;">${r.disease}</p>
-      <p style="font-size:0.8rem;color:var(--text-light);margin-bottom:8px;">Crop: <strong>${crop === 'default' ? 'General Crop' : crop.charAt(0).toUpperCase() + crop.slice(1)}</strong></p>
-      <p style="font-size:0.8rem;font-weight:700;color:var(--text-light);margin-bottom:4px;">Confidence</p>
-      <div class="confidence-bar"><div class="confidence-fill" id="confFill" style="width:0%"></div></div>
-      <p style="font-size:0.8rem;color:var(--green);font-weight:700;margin-bottom:12px;">${conf}% match</p>
-
-      <div class="info-grid">
-        <div class="info-box"><h4>🌾 Crop Name</h4><p>${crop === 'default' ? 'Not specified (auto demo)' : crop.charAt(0).toUpperCase() + crop.slice(1)}</p></div>
-        <div class="info-box"><h4>🧬 Possible Cause</h4><p>${r.cause}</p></div>
+      <h3>📷 Crop Photo Check Result <span style="font-size:0.72rem;background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:8px;margin-left:8px;">AI-assisted</span></h3>
+      <p style="font-size:0.84rem;color:var(--text-light);margin-bottom:8px;">This is photo-based support for probable issue detection. Verify before spraying.</p>
+      <div class="photo-chip-row" style="margin-bottom:12px;">
+        <span class="photo-chip">Crop: ${cropLabelFromId(crop)}</span>
+        <span class="photo-chip">Plant part: ${partLabel(part)}</span>
+        <span class="photo-chip">Region: ${regionLabel(region)}</span>
       </div>
-      <div class="info-box" style="margin-top:10px;"><h4>🔍 Visible Symptoms</h4><p>${r.symptoms}</p></div>
-      <div class="info-box" style="margin-top:10px;"><h4>💡 Prevention Tips</h4><p>${r.prevention}</p></div>
-      <div class="info-box" style="margin-top:10px;"><h4>✅ Treatment / Control Advice</h4><p>${r.treatment}</p></div>
-      <div class="info-box" style="margin-top:10px;background:#fff8e1;border-color:#ffe082;"><h4 style="color:#e65100;">🧪 Suggested Treatment Materials (Informational)</h4><ul>${r.inputs.map(i => `<li>${i}</li>`).join('')}</ul></div>
-      <div class="info-box" style="margin-top:10px;"><h4>⚠️ Advisory</h4><p>This scanner is for educational guidance only. Verify pesticide/fungicide use, dosage, and waiting period with local agriculture expert/KVK before field application.</p></div>
-      <a class="whatsapp-share" style="margin-top:14px;" href="https://wa.me/?text=${encodeURIComponent('AskKrishi Scanner (Demo): ' + r.disease + '\\nCause: ' + r.cause + '\\nTreatment: ' + r.treatment)}" target="_blank">📲 Share Result</a>
+      <div class="info-box" style="margin-top:10px;"><h4>A. Most Likely Problem</h4><p style="font-size:1.01rem;font-weight:800;color:var(--green);">${primary.problem}</p></div>
+      <div class="info-box" style="margin-top:10px;"><h4>B. Confidence / Likelihood</h4><p><strong>${primary.confidence}</strong> (probable issue match, not guaranteed diagnosis)</p></div>
+      <div class="info-box" style="margin-top:10px;"><h4>C. Why it looks like this</h4><ul class="photo-result-list">${primary.reasons.map(i=>`<li>${i}</li>`).join('')}</ul></div>
+      <div class="info-box" style="margin-top:10px;"><h4>D. What to check next</h4><ul class="photo-result-list">${primary.checks.map(i=>`<li>${i}</li>`).join('')}</ul></div>
+      <div class="info-box" style="margin-top:10px;"><h4>E. First action today</h4><ul class="photo-result-list">${primary.firstAction.map(i=>`<li>${i}</li>`).join('')}</ul></div>
+      <div class="info-box" style="margin-top:10px;background:#fff8e1;border-color:#ffe082;"><h4 style="color:#996200;">F. Avoid these mistakes</h4><ul class="photo-result-list">${primary.avoid.map(i=>`<li>${i}</li>`).join('')}</ul></div>
+      <div class="info-box" style="margin-top:10px;"><h4>G. Related AskKrishi links</h4><div class="photo-chip-row">
+        <button class="photo-link-btn" onclick="showPage('${primary.related.crop}')">📘 Crop guide</button>
+        <button class="photo-link-btn" onclick="showPage('${primary.related.disease}')">🦠 Disease guide</button>
+        <button class="photo-link-btn" onclick="showPage('${primary.related.pest}')">🐛 Related pest/input page</button>
+        <button class="photo-link-btn" onclick="showPage('${primary.related.advisory}')">🧭 Daily Advisory</button>
+        <button class="photo-link-btn" onclick="localStorage.setItem('askkrishi_ai_prompt','I uploaded a ${cropLabelFromId(crop)} photo and got probable issue: ${primary.problem}. What should I verify next?');applyPendingAiPrompt();">🤖 Ask AI follow-up</button>
+      </div></div>
+      <div class="info-box" style="margin-top:10px;"><h4>Trust & safety</h4><p>Educational photo-based support only. This is a probable issue result, not a guaranteed diagnosis. Verify pest/disease before spraying, local conditions matter, and for severe outbreaks consult local agriculture expert/KVK.</p></div>
     `;
 
-    setTimeout(() => {
-      const cf = document.getElementById('confFill');
-      if (cf) cf.style.width = conf + '%';
-    }, 100);
+    if (fallbackNeeded) {
+      renderPhotoFollowup(topLikely);
+    } else if (followupBox) {
+      followupBox.style.display = 'none';
+    }
 
   } catch (err) {
     if (errorBox) {
-      errorBox.textContent = 'Scanner is unable to process right now. Please try again.';
+      errorBox.textContent = 'Photo analysis service is unavailable now. Showing fallback mode only.';
       errorBox.style.display = 'block';
     }
+    renderPhotoFollowup(PHOTO_CHECK_LIBRARY[crop] || PHOTO_CHECK_LIBRARY.default);
   } finally {
-    btn.innerHTML = `🔬 <span data-key="analyze_btn">${t('analyze_btn')}</span>`;
+    btn.innerHTML = '📷 Check Crop Photo';
     btn.disabled = false;
   }
 }
@@ -2345,7 +2406,7 @@ function buildDailyAdvisory(cropId, stageId, seasonId, weatherId, regionId){
     { label: 'View fertilizer guide', action: `showPage('fertilizers')` },
     { label: 'Check disease guide', action: `showPage('diseases')` },
     { label: 'Ask AI assistant', action: `localStorage.setItem('askkrishi_ai_prompt','What should I do today for ${crop.label} at ${stageId.replace(/_/g, ' ')} stage in ${regionId}?');applyPendingAiPrompt();` },
-    { label: 'Upload crop photo (coming soon)', action: `showPage('upload')` },
+    { label: 'Use Crop Photo Check', action: `showPage('upload')` },
     { label: 'See seasonal tasks', action: `showPage('calendar')` }
   ];
 
