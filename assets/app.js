@@ -1800,6 +1800,266 @@ function filterFisheryContent(query=''){
   });
 }
 
+// ===== DAILY ADVISORY ENGINE =====
+const DAILY_ADVISORY_CONFIG = {
+  seasons: [
+    { id: 'kharif', label: 'Kharif' },
+    { id: 'rabi', label: 'Rabi' },
+    { id: 'zaid', label: 'Zaid' },
+    { id: 'all', label: 'Any Season' }
+  ],
+  weatherModes: [
+    { id: 'rain', label: 'Rain expected' },
+    { id: 'hotdry', label: 'Hot / dry' },
+    { id: 'humid', label: 'Humid / cloudy' },
+    { id: 'normal', label: 'Normal' }
+  ],
+  regions: [
+    { id: 'odisha', label: 'Odisha' },
+    { id: 'andhra', label: 'Andhra Pradesh' },
+    { id: 'general', label: 'General India' }
+  ]
+};
+
+const DAILY_ADVISORY_LIBRARY = {
+  regionNotes: {
+    odisha: 'Odisha note: Kharif often has high humidity and rain bursts. Keep drainage ready and watch fungal disease after cloudy spells.',
+    andhra: 'Andhra Pradesh note: Coastal belts can stay humid while Rayalaseema can turn hot/dry. Adjust irrigation and pest scouting by local condition.',
+    general: 'General India note: Use this as a practical base plan and fine-tune with local weather, water availability, and crop variety.'
+  },
+  weatherRules: {
+    rain: {
+      priorityPrefix: 'Rain likely today:',
+      actions: ['Avoid pesticide spray before rainfall window.', 'Delay top-dressing if runoff risk is high.', 'Open drainage channels and check standing water.'],
+      watch: ['Fungal disease risk may increase after canopy stays wet.', 'Nutrient wash loss risk in low-lying fields.'],
+      avoid: ['Do not spray just before rain.', 'Do not apply urea in waterlogged field.']
+    },
+    hotdry: {
+      priorityPrefix: 'Heat stress watch today:',
+      actions: ['Prioritize morning/evening irrigation if soil is drying.', 'Use mulch or moisture conservation where possible.', 'Keep plants stress-free during flowering and fruit set.'],
+      watch: ['Leaf scorch and moisture stress signs.', 'Mite/thrips flare-up in dry weather.'],
+      avoid: ['Do not spray in strong afternoon heat.', 'Do not allow severe wilting before irrigation.']
+    },
+    humid: {
+      priorityPrefix: 'Humid conditions today:',
+      actions: ['Reduce unnecessary irrigation if soil remains moist.', 'Scout inner canopy and lower leaves for early disease spots.', 'Maintain field and orchard aeration where possible.'],
+      watch: ['Blast/blight/mildew type infection pressure may rise.', 'Soft growth can attract sucking pests.'],
+      avoid: ['Do not keep canopy wet for long hours.', 'Do not ignore first visible lesion or hotspot.']
+    },
+    normal: {
+      priorityPrefix: 'Standard operation day:',
+      actions: ['Follow stage-based routine operations and record observations.', 'Continue preventive scouting and balanced input use.'],
+      watch: ['Early pest hotspots and nutrient imbalance signs.'],
+      avoid: ['Do not skip weekly field scouting.']
+    }
+  },
+  seasonRules: {
+    kharif: {
+      actions: ['Keep drainage and bunds ready during sudden rain spells.'],
+      watch: ['High humidity disease pressure in dense crop canopy.']
+    },
+    rabi: {
+      actions: ['Track irrigation interval carefully under cooler dry spells.'],
+      watch: ['Aphid and rust-like issues in some crops during cool periods.']
+    },
+    zaid: {
+      actions: ['Protect crops from midday heat and moisture stress.'],
+      watch: ['Quick soil moisture loss in light soils.']
+    },
+    all: { actions: [], watch: [] }
+  },
+  crops: {
+    paddy: {
+      label: 'Paddy (Rice)',
+      stages: {
+        nursery: { priority: 'Keep nursery healthy and uniform before transplanting.', actions: ['Check seedling vigor and remove weak patches.', 'Maintain thin water film; avoid deep standing water.', 'Scout for blast-like nursery spots and early stem borer entry.', 'Plan seedling age (20–25 days) before transplanting window.'], watch: ['Damping-off or nursery patch mortality.', 'Nutrient deficiency in pale seedlings.'], avoid: ['Do not over-seed nursery bed.', 'Do not keep nursery waterlogged continuously.'] },
+        transplanting_early: { priority: 'Ensure quick establishment after transplanting.', actions: ['Replant missing hills for uniform stand.', 'Use shallow irrigation after establishment.', 'Start weed control early before top dressing.', 'Check for snail/stem borer activity in low spots.'], watch: ['Patchy stand and yellowing due to transplant shock.', 'Water stagnation in uneven field.'], avoid: ['Do not flood deeply in first days.', 'Do not delay gap filling.'] },
+        tillering: { priority: 'This is a key stage for tiller development and split nitrogen.', actions: ['Count productive tillers and check uniform crop growth.', 'Do split nitrogen as per recommendation and field condition.', 'Control weeds before heavy nutrient application.', 'Scout lower canopy for BPH and stem borer signs.', 'Apply irrigation only when field starts drying; avoid deep flooding.'], watch: ['BPH buildup at plant base.', 'Leaf yellowing from N or Zn imbalance.'], avoid: ['Do not overuse urea in one shot.', 'Do not keep continuous deep water.'] },
+        panicle_initiation: { priority: 'Support panicle formation with balanced moisture and nutrients.', actions: ['Complete PI-stage nutrient top dressing on time.', 'Keep field moisture stable; avoid moisture stress.', 'Scout for neck blast and stem borer.', 'Check canopy density and improve air flow where possible.'], watch: ['Blast risk in humid spells.', 'Hidden borer damage before heading.'], avoid: ['Do not skip PI nutrition window.', 'Do not apply excess nitrogen late.'] },
+        flowering_grain: { priority: 'Protect flowering and grain filling from stress and pests.', actions: ['Maintain light irrigation and avoid stress during flowering.', 'Scout for panicle pests and disease spread in ear-head stage.', 'Keep drainage ready if rain is expected.', 'Track grain filling and lodging-prone spots.'], watch: ['Neck blast and earhead issues.', 'Gundhi bug or late stem borer pockets.'], avoid: ['Do not spray without proper pest identification.', 'Do not allow moisture stress during grain filling.'] },
+        harvest: { priority: 'Harvest at correct maturity and reduce post-harvest losses.', actions: ['Harvest when 80–85% grains are mature.', 'Drain field before harvest for easier operation.', 'Dry grain to safe moisture before storage.', 'Separate diseased panicles and maintain clean threshing area.'], watch: ['Lodging and delayed harvest losses.', 'Storage insect risk if grain moisture is high.'], avoid: ['Do not store wet grain.', 'Do not delay harvest after maturity in rain-prone window.'] }
+      }
+    },
+    wheat: {
+      label: 'Wheat',
+      stages: {
+        sowing_germination: { priority: 'Aim for uniform emergence and healthy stand.', actions: ['Check seedling emergence and patchy gaps.', 'Light irrigation if topsoil is drying after sowing.', 'Begin early weed watch in first 20 days.', 'Monitor seedling yellowing for nutrient issues.'], watch: ['Poor germination patches.', 'Early weed competition.'], avoid: ['Do not over-irrigate at germination stage.', 'Do not delay first weeding in infested fields.'] },
+        crown_root_initiation: { priority: 'CRI is the most critical irrigation and nutrient stage.', actions: ['Ensure timely CRI irrigation (~20–25 DAS).', 'Top-dress nitrogen as per recommendation.', 'Remove weeds before canopy closes.', 'Check crop color and early tiller development.'], watch: ['Moisture stress at CRI reduces tillers strongly.', 'Aphid pockets on border rows.'], avoid: ['Do not miss CRI irrigation timing.', 'Do not apply full nitrogen at once.'] },
+        tillering: { priority: 'Support productive tiller retention and clean field.', actions: ['Observe tiller count and field uniformity.', 'Manage weeds and maintain proper soil moisture.', 'Scout rust and aphid hotspots weekly.', 'Plan next nutrient split based on crop vigor.'], watch: ['Yellow rust signs in cool/humid pockets.', 'N deficiency in pale crop strips.'], avoid: ['Do not keep field moisture stressed for long.', 'Do not ignore early rust flecks.'] },
+        booting_flowering: { priority: 'Protect reproductive stage from stress and disease.', actions: ['Maintain moderate moisture and avoid stress.', 'Scout for rust and aphid buildup near ear emergence.', 'Avoid unnecessary nitrogen now.', 'Check lodging-prone high-growth patches.'], watch: ['Rust progression during humid/cool weather.', 'Flowering stress from heat spike.'], avoid: ['Do not spray in peak afternoon heat.', 'Do not over-irrigate before lodging-prone wind events.'] },
+        grain_filling: { priority: 'Maintain healthy grain filling and avoid late stress.', actions: ['Irrigate as needed to avoid terminal stress.', 'Monitor for late rust and foliar diseases.', 'Prepare harvest logistics and clean storage plan.', 'Track grain hardening progress.'], watch: ['Shriveled grain from late heat/moisture stress.', 'Lodging in over-irrigated patches.'], avoid: ['Do not apply late heavy nitrogen.', 'Do not delay harvest planning.'] },
+        harvest: { priority: 'Harvest timely and keep grain quality high.', actions: ['Harvest at physiological maturity and dry grain well.', 'Avoid shattering and contamination during threshing.', 'Store only cleaned, dry grain.', 'Keep bag stacks above floor level.'], watch: ['Unexpected rain during harvest.', 'Storage moisture and insect risks.'], avoid: ['Do not store grain at high moisture.', 'Do not leave harvested bundles in open rain-prone area.'] }
+      }
+    },
+    tomato: {
+      label: 'Tomato',
+      stages: {
+        nursery: { priority: 'Raise sturdy, disease-free seedlings.', actions: ['Inspect seedlings daily for damping-off and vigor.', 'Avoid waterlogging in nursery beds/trays.', 'Harden seedlings before transplanting.', 'Use clean tools and remove weak seedlings.'], watch: ['Damping-off and leaf spot in humid beds.', 'Thrips/whitefly movement near nursery.'], avoid: ['Do not overwater nursery.', 'Do not transplant weak or diseased seedlings.'] },
+        transplant_establishment: { priority: 'Ensure quick root establishment and low transplant shock.', actions: ['Irrigate lightly after transplant; maintain uniform moisture.', 'Check plant stand and replace dead seedlings quickly.', 'Keep field weed-free during first weeks.', 'Scout for cutworm, leaf curl vector, and early sucking pests.'], watch: ['Wilting due to root stress.', 'Early whitefly/thrips pressure.'], avoid: ['Do not flood beds after transplanting.', 'Do not apply heavy nitrogen immediately.'] },
+        vegetative: { priority: 'Build balanced canopy without excess soft growth.', actions: ['Maintain regular irrigation without water stress.', 'Support plants with staking/training where needed.', 'Follow balanced nutrient schedule; avoid excess N.', 'Scout lower leaves and underside for pests.'], watch: ['Leaf curl vector pressure.', 'Early blight spots in dense canopy.'], avoid: ['Do not overuse urea for fast green growth.', 'Do not ignore first pest hotspot.'] },
+        flowering: { priority: 'Protect flowering and reduce flower drop.', actions: ['Maintain balanced soil moisture; avoid stress swings.', 'Scout for thrips and whitefly around flowers.', 'Ensure potash and micronutrient balance.', 'Keep field clean and remove infected leaves quickly.'], watch: ['Flower drop due to heat or moisture stress.', 'Viral spread through vector insects.'], avoid: ['Do not allow severe dry-wet stress cycles.', 'Do not spray without confirming pest presence.'] },
+        fruiting: { priority: 'Protect fruits from borers, rot, and nutrient stress.', actions: ['Irrigate uniformly to reduce fruit cracking.', 'Scout fruits for borer entry and disease lesions.', 'Harvest mature fruits at regular intervals.', 'Maintain field hygiene and remove damaged fruits.'], watch: ['Fruit borer and fruit rot risk.', 'Calcium deficiency symptoms like blossom-end rot.'], avoid: ['Do not over-irrigate after long dry spell.', 'Do not leave infested fruits in field.'] },
+        harvest: { priority: 'Harvest clean produce and maintain shelf life.', actions: ['Harvest in cooler hours and avoid rough handling.', 'Sort damaged fruits from healthy lot.', 'Keep crates clean and shaded.', 'Plan quick transport for better market quality.'], watch: ['Post-harvest rot in bruised fruits.', 'Quality loss from delayed marketing.'], avoid: ['Do not stack wet fruits in closed bags.', 'Do not harvest during intense afternoon heat.'] }
+      }
+    },
+    chilli: {
+      label: 'Chilli',
+      stages: {
+        nursery: { priority: 'Keep nursery healthy and vector-safe.', actions: ['Check seedling vigor and uniform growth daily.', 'Protect nursery from thrips/mites/whitefly movement.', 'Use light irrigation and avoid nursery stress.', 'Remove suspicious leaf-curl seedlings early.'], watch: ['Leaf curl vector pressure.', 'Damping-off and seedling collapse.'], avoid: ['Do not crowd nursery seedlings.', 'Do not spray indiscriminately in nursery.'] },
+        transplant_establishment: { priority: 'Establish healthy crop stand without stress.', actions: ['Irrigate after transplant and maintain even moisture.', 'Replace missing plants quickly.', 'Start early scouting for thrips and mites.', 'Maintain clean field borders to reduce vectors.'], watch: ['Transplant stress and stunted growth.', 'Early leaf curl symptoms.'], avoid: ['Do not allow prolonged dry stress after transplant.', 'Do not ignore first vector hotspot.'] },
+        vegetative: { priority: 'Build strong plants and prevent early pest outbreak.', actions: ['Monitor leaf color and plant vigor weekly.', 'Keep weeds controlled to reduce pest shelter.', 'Use balanced nutrients; avoid excess nitrogen.', 'Scout underside leaves for mites/thrips.'], watch: ['Mite damage and upward curl symptoms.', 'Sucking pest buildup in dry spells.'], avoid: ['Do not repeat same pesticide chemistry continuously.', 'Do not push soft growth with excess urea.'] },
+        flowering: { priority: 'Protect flowering and fruit set from stress and vectors.', actions: ['Maintain steady moisture and avoid water stress.', 'Scout for thrips, mites and leaf curl vectors.', 'Support pollinator-friendly timing for spray decisions.', 'Remove heavily infected plants when needed.'], watch: ['Flower drop from heat or stress.', 'Leaf curl spread from unmanaged vectors.'], avoid: ['Do not spray during peak pollinator activity hours.', 'Do not delay response after first symptoms.'] },
+        fruiting: { priority: 'Protect fruits and maintain picking quality.', actions: ['Pick mature fruits regularly for better yield flow.', 'Monitor for fruit rot and borer injuries.', 'Keep irrigation moderate and consistent.', 'Maintain field sanitation and remove infested fruits.'], watch: ['Anthracnose/fruit rot risk in humid spells.', 'Mite resurgence in hot/dry weather.'], avoid: ['Do not over-irrigate in humid period.', 'Do not skip regular picking rounds.'] },
+        harvest: { priority: 'Harvest on time and preserve colour/quality.', actions: ['Harvest at proper maturity as per market purpose.', 'Dry produce on clean surface if making dry chilli lot.', 'Protect harvested material from unexpected rain.', 'Store in dry aerated place.'], watch: ['Mold growth in poorly dried produce.', 'Loss of color due to sun scorch or moisture.'], avoid: ['Do not bag produce before proper drying.', 'Do not mix damaged fruits with healthy lot.'] }
+      }
+    },
+    mango: {
+      label: 'Mango',
+      stages: {
+        vegetative_flush: { priority: 'Support healthy flush and clean orchard floor.', actions: ['Maintain orchard sanitation and prune dead twigs.', 'Irrigate young trees based on soil moisture status.', 'Scout for hopper and mealybug movement.', 'Apply nutrition as per tree age and orchard plan.'], watch: ['Sooty mold due to sucking pests.', 'Flush damage from prolonged dry spell.'], avoid: ['Do not over-irrigate mature trees unnecessarily.', 'Do not ignore trunk and basin sanitation.'] },
+        flowering: { priority: 'Protect panicles and reduce stress during bloom.', actions: ['Avoid moisture stress during flowering period.', 'Scout for mango hopper and powdery mildew signs.', 'Keep orchard airy and remove infected panicles.', 'Use need-based plant protection after proper identification.'], watch: ['Hopper damage reducing fruit set.', 'Powdery mildew in humid/cloudy weather.'], avoid: ['Do not spray without confirming pest/disease stage.', 'Do not overuse nitrogen during flowering.'] },
+        fruit_set: { priority: 'Reduce fruit drop and protect young fruits.', actions: ['Maintain balanced moisture and avoid stress shocks.', 'Monitor hopper and fruit fly risk.', 'Collect and destroy fallen infested fruits.', 'Keep orchard clean and weed-free around basin.'], watch: ['Physiological fruit drop.', 'Early fruit infection in humid weather.'], avoid: ['Do not apply heavy irrigation after long dry period suddenly.', 'Do not neglect fallen fruit sanitation.'] },
+        fruit_development: { priority: 'Protect developing fruits and plan market harvest.', actions: ['Maintain irrigation at critical intervals.', 'Scout for fruit fly and anthracnose symptoms.', 'Support branches where fruit load is heavy.', 'Plan harvesting labor and market channel early.'], watch: ['Fruit cracking or drop due to irregular moisture.', 'Disease spots on developing fruits.'], avoid: ['Do not keep orchard floor with rotten fruits.', 'Do not delay fruit fly monitoring.'] },
+        harvest: { priority: 'Harvest at right maturity and handle fruits gently.', actions: ['Harvest with stalk management to reduce sap burn.', 'Sort and grade fruits immediately.', 'Keep harvested fruit in shade and ventilated area.', 'Avoid rough handling during transport.'], watch: ['Post-harvest anthracnose/rot.', 'Heat injury if fruits kept in open sun.'], avoid: ['Do not harvest immature fruits for distant market without plan.', 'Do not stack fruits roughly.'] }
+      }
+    },
+    maize: { label: 'Maize', stages: { vegetative: { priority: 'Support fast vegetative growth with moisture and nutrition balance.', actions: ['Check plant population and gap filling.', 'Top-dress as per schedule and soil moisture.', 'Control weeds early.', 'Scout whorl for fall armyworm signs.'], watch: ['FAW egg masses and whorl damage.', 'N deficiency in pale leaves.'], avoid: ['Do not delay FAW scouting.', 'Do not apply fertilizer on very dry soil.'] }, tasseling_silking: { priority: 'Protect pollination and reduce moisture stress.', actions: ['Maintain timely irrigation at tasseling/silking.', 'Scout ear zone for pest entry.', 'Avoid severe stress at flowering stage.'], watch: ['Poor kernel set from stress.', 'Ear rot risk in humid conditions.'], avoid: ['Do not allow water stress at silking.', 'Do not ignore early ear damage.'] }, harvest: { priority: 'Harvest at proper grain maturity for quality and storage.', actions: ['Harvest when grains are hard and moisture is safe.', 'Dry cobs/grain properly before storage.', 'Clean storage and monitor insects.'], watch: ['Storage weevil risk in damp grain.'], avoid: ['Do not store wet grain.'] } } },
+    banana: { label: 'Banana', stages: { establishment: { priority: 'Establish plants with steady moisture and clean basin.', actions: ['Maintain regular irrigation and mulching.', 'Remove weak suckers and keep one follower as needed.', 'Monitor pseudostem and leaf health.', 'Keep basin weed-free.'], watch: ['Water stress causing leaf tearing and poor growth.', 'Early stem/corm issues in poorly drained plots.'], avoid: ['Do not allow water stagnation around root zone.', 'Do not overload with nitrogen only.'] }, bunch_development: { priority: 'Protect bunch quality and reduce stress.', actions: ['Irrigate uniformly and support propping.', 'Use bunch cover where relevant.', 'Scout for sigatoka and pseudostem weevil.', 'Maintain clean drainage in rain.'], watch: ['Leaf disease pressure in humid weather.', 'Bunch quality decline under stress.'], avoid: ['Do not skip propping in heavy bunch stage.', 'Do not delay disease scouting.'] }, harvest: { priority: 'Harvest at market maturity and handle bunch carefully.', actions: ['Cut bunch at proper maturity for target market.', 'Avoid bruising during transport.', 'Sort and shade produce before dispatch.'], watch: ['Finger damage during handling.'], avoid: ['Do not stack bunches roughly.'] } } },
+    groundnut: { label: 'Groundnut', stages: { sowing_early: { priority: 'Ensure uniform stand and early weed control.', actions: ['Check germination and fill gaps quickly.', 'Maintain light irrigation if no rain.', 'Control early weeds before peg formation.', 'Scout for leaf miner and sucking pests.'], watch: ['Patchy emergence and seedling loss.', 'Early pest pockets at field edges.'], avoid: ['Do not delay weed control.', 'Do not waterlog young crop.'] }, pegging_pod: { priority: 'Protect pegging and pod development with balanced moisture.', actions: ['Maintain moderate moisture during pegging/pod set.', 'Apply gypsum/calcium as recommended.', 'Scout for leaf spot and rust symptoms.', 'Keep field weed-free to support pegging.'], watch: ['Leaf spot/rust progression in humid weather.', 'Pod filling stress in dry spells.'], avoid: ['Do not over-irrigate during pegging.', 'Do not skip disease scouting.'] }, harvest: { priority: 'Harvest at correct maturity to reduce pod loss.', actions: ['Sample pods for maturity before lifting.', 'Lift crop in suitable soil moisture.', 'Dry pods properly before storage.', 'Store in dry aerated conditions.'], watch: ['Aflatoxin risk if pods remain damp.'], avoid: ['Do not store pods with high moisture.'] } } }
+  }
+};
+
+function escapeHtml(value){
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function mergeUnique(...lists){
+  const out = [];
+  lists.flat().forEach(item => {
+    if(item && !out.includes(item)) out.push(item);
+  });
+  return out;
+}
+
+function populateDailyAdvisoryInputs(){
+  const cropSel = document.getElementById('dailyCrop');
+  const seasonSel = document.getElementById('dailySeason');
+  const regionSel = document.getElementById('dailyRegion');
+  const weatherSel = document.getElementById('dailyWeather');
+  if(!cropSel || !seasonSel || !regionSel || !weatherSel) return;
+
+  cropSel.innerHTML = Object.entries(DAILY_ADVISORY_LIBRARY.crops)
+    .map(([id, cfg]) => `<option value="${id}">${cfg.label}</option>`)
+    .join('');
+  seasonSel.innerHTML = DAILY_ADVISORY_CONFIG.seasons.map(s => `<option value="${s.id}">${s.label}</option>`).join('');
+  weatherSel.innerHTML = DAILY_ADVISORY_CONFIG.weatherModes.map(w => `<option value="${w.id}">${w.label}</option>`).join('');
+  regionSel.innerHTML = DAILY_ADVISORY_CONFIG.regions.map(r => `<option value="${r.id}">${r.label}</option>`).join('');
+
+  cropSel.value = 'paddy';
+  seasonSel.value = 'kharif';
+  weatherSel.value = 'normal';
+  regionSel.value = 'odisha';
+  updateDailyStageOptions();
+}
+
+function updateDailyStageOptions(){
+  const cropId = document.getElementById('dailyCrop')?.value;
+  const stageSel = document.getElementById('dailyStage');
+  if(!cropId || !stageSel) return;
+  const crop = DAILY_ADVISORY_LIBRARY.crops[cropId];
+  if(!crop) return;
+  stageSel.innerHTML = Object.keys(crop.stages)
+    .map(stageId => `<option value="${stageId}">${stageId.replace(/_/g,' ').replace(/\b\w/g,m=>m.toUpperCase())}</option>`)
+    .join('');
+}
+
+function buildDailyAdvisory(cropId, stageId, seasonId, weatherId, regionId){
+  const crop = DAILY_ADVISORY_LIBRARY.crops[cropId];
+  if(!crop) return null;
+  const stage = crop.stages[stageId];
+  if(!stage) return null;
+  const weather = DAILY_ADVISORY_LIBRARY.weatherRules[weatherId] || DAILY_ADVISORY_LIBRARY.weatherRules.normal;
+  const season = DAILY_ADVISORY_LIBRARY.seasonRules[seasonId] || DAILY_ADVISORY_LIBRARY.seasonRules.all;
+  const regionNote = DAILY_ADVISORY_LIBRARY.regionNotes[regionId] || DAILY_ADVISORY_LIBRARY.regionNotes.general;
+
+  const priority = `${weather.priorityPrefix} ${stage.priority}`;
+  const actions = mergeUnique(stage.actions, weather.actions, season.actions).slice(0, 6);
+  const watch = mergeUnique(stage.watch, weather.watch, season.watch).slice(0, 6);
+  const avoid = mergeUnique(stage.avoid, weather.avoid, [
+    'Do not ignore early symptoms; act on first hotspot.',
+    'Do not repeat same pesticide chemistry unnecessarily.'
+  ]).slice(0, 6);
+
+  const links = [
+    { label: 'Open crop guide', action: `showPage('crop-guide')` },
+    { label: 'View fertilizer guide', action: `showPage('fertilizers')` },
+    { label: 'Check disease guide', action: `showPage('diseases')` },
+    { label: 'Ask AI assistant', action: `localStorage.setItem('askkrishi_ai_prompt','What should I do today for ${crop.label} at ${stageId.replace(/_/g, ' ')} stage in ${regionId}?');applyPendingAiPrompt();` },
+    { label: 'Upload crop photo (coming soon)', action: `showPage('upload')` },
+    { label: 'See seasonal tasks', action: `showPage('calendar')` }
+  ];
+
+  return { crop, stageId, seasonId, weatherId, regionId, priority, actions, watch, avoid, links, regionNote };
+}
+
+function renderDailyAdvisoryResult(){
+  const cropId = document.getElementById('dailyCrop')?.value;
+  const stageId = document.getElementById('dailyStage')?.value;
+  const seasonId = document.getElementById('dailySeason')?.value;
+  const weatherId = document.getElementById('dailyWeather')?.value;
+  const regionId = document.getElementById('dailyRegion')?.value;
+  const box = document.getElementById('dailyResult');
+  if(!box) return;
+  const advisory = buildDailyAdvisory(cropId, stageId, seasonId, weatherId, regionId);
+  if(!advisory){
+    box.innerHTML = `<p class="daily-result-empty">Unable to generate advisory for this selection. Please try another crop-stage combination.</p>`;
+    return;
+  }
+
+  const weatherLabel = DAILY_ADVISORY_CONFIG.weatherModes.find(w => w.id === weatherId)?.label || weatherId;
+  const seasonLabel = DAILY_ADVISORY_CONFIG.seasons.find(s => s.id === seasonId)?.label || seasonId;
+  const regionLabel = DAILY_ADVISORY_CONFIG.regions.find(r => r.id === regionId)?.label || regionId;
+  const stageLabel = stageId.replace(/_/g,' ').replace(/\b\w/g,m=>m.toUpperCase());
+
+  box.innerHTML = `
+    <div class="daily-badge">Today’s Crop Guidance · ${escapeHtml(advisory.crop.label)}</div>
+    <div class="daily-priority">
+      <h4>A. Today’s Priority</h4>
+      <p>${escapeHtml(advisory.priority)}</p>
+    </div>
+    <div class="daily-section">
+      <h4>B. What to Do Today</h4>
+      <ul class="daily-list">${advisory.actions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+    </div>
+    <div class="daily-section">
+      <h4>C. Watch Out For</h4>
+      <ul class="daily-list">${advisory.watch.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+    </div>
+    <div class="daily-section">
+      <h4>D. Avoid These Mistakes</h4>
+      <ul class="daily-list">${advisory.avoid.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+    </div>
+    <div class="daily-section">
+      <h4>E. Useful Related Links</h4>
+      <div class="daily-links">${advisory.links.map(link => `<button type="button" class="daily-link" onclick="${link.action}">${escapeHtml(link.label)}</button>`).join('')}</div>
+    </div>
+    <div class="daily-region-note"><strong>Selection:</strong> ${escapeHtml(stageLabel)} · ${escapeHtml(seasonLabel)} · ${escapeHtml(weatherLabel)} · ${escapeHtml(regionLabel)}<br>${escapeHtml(advisory.regionNote)}</div>
+  `;
+}
+
+function initDailyAdvisory(){
+  populateDailyAdvisoryInputs();
+  const box = document.getElementById('dailyResult');
+  if(box){
+    box.innerHTML = `<p class="daily-result-empty">Choose crop, stage, season, region, and weather mode. Then tap <strong>Get Today's Farm Plan</strong> for practical actions.</p>`;
+  }
+}
+
 // ===== PAGE NAVIGATION (extended) =====
 
 function initScrollReveal(){
@@ -1890,6 +2150,7 @@ function showPage(id){
   if(id==='faq')renderFAQ();
   if(id==='schemes'){loadSchemes();} 
   if(id==='seasonal')showSeason('kharif',document.querySelector('.season-tab'));
+  if(id==='daily-advisory') renderDailyAdvisoryResult();
   if(id==='diseases')renderDiseaseCropGrid();
   if(id==='fishery'){
     const fisherySearch=document.getElementById('fisherySearch');
@@ -1946,6 +2207,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderWomen();
   renderGlossary();
   renderFAQ();
+  initDailyAdvisory();
   renderCropGuide('all');
   renderFV('all');
   renderFert('all');
