@@ -1284,6 +1284,154 @@ expandedCropCatalog.forEach(([id,icon,name,category])=>{
     related:{fertilizers:['Urea','DAP'],inputs:['Neem Oil'],diseases:['General disease scouting'],calendar:'Use month-wise calendar page for operations',ai:[`Best practices for ${name} in my district?`]}
   });
 });
+
+const districtTipsByCrop={
+  'paddy-g':{
+    odisha:{
+      rain:'High monsoon rain: keep drainage cut open and do not keep deep standing water for many days.',
+      soil:'In acidic red/laterite soils, add lime in off-season and apply zinc once if leaves show pale bands.',
+      districts:{
+        Balasore:'Flood-prone weeks: check bund leakage and drain quickly after heavy rain.',
+        Bargarh:'Canal irrigation zones: follow alternate wetting-drying to save water and avoid BPH.',
+        Ganjam:'Cyclone risk: keep drainage and nursery backup ready in coastal belts.'
+      }
+    },
+    andhra:{
+      rain:'Delta and coastal belts get intense rain spells. Drain stagnant water within 24 hours.',
+      soil:'In alluvial delta soils, split nitrogen into 3 parts to reduce loss and lodging.',
+      districts:{
+        'East Godavari':'Canal-fed fields: avoid excess urea in one dose; prefer split + potash.',
+        'West Godavari':'High humidity: monitor blast and sheath blight twice each week.',
+        Nellore:'Coastal winds/salinity pockets: use proper bunding and fresh-water flushing where possible.'
+      }
+    }
+  },
+  'chilli-g':{
+    odisha:{
+      rain:'During humid/rainy weeks, avoid overhead irrigation and improve airflow to reduce fruit rot.',
+      soil:'Light soils need small frequent fertigation; avoid one heavy fertilizer dose.',
+      districts:{
+        Khordha:'Peri-urban market crop: focus on clean picking and frequent pest scouting.',
+        Ganjam:'Coastal humidity: keep wider spacing and remove infected fruits fast.'
+      }
+    },
+    andhra:{
+      rain:'Dry spells followed by sudden rain increase wilt and fruit cracking risk; keep moisture stable.',
+      soil:'Red loam zones respond better to split fertigation with higher potash during fruiting.',
+      districts:{
+        Guntur:'Export quality focus: grade fruits, dry safely, and avoid residue-risk sprays near harvest.',
+        Prakasam:'Semi-arid area: use mulch + drip to reduce stress and thrips flare-up.'
+      }
+    }
+  },
+  'tomato-g':{
+    odisha:{
+      rain:'Rainy season crop needs raised beds and quick drainage to avoid wilt and blight.',
+      soil:'In acidic soils, apply lime before planting and maintain calcium sprays at fruiting.',
+      districts:{
+        Cuttack:'Hot-humid spells: stake plants and prune lower leaves for airflow.',
+        Balasore:'Coastal moisture: start blight watch early and spray only when symptoms/weather risk appears.'
+      }
+    },
+    andhra:{
+      rain:'In Rayalaseema dry belts, keep steady drip moisture; avoid dry-wet shock.',
+      soil:'Red sandy soils need organic matter and frequent low-dose fertigation.',
+      districts:{
+        Chittoor:'Staking + regular picking helps better market quality and shelf life.',
+        Kurnool:'Heat stress months: use mulch and evening irrigation to reduce flower drop.'
+      }
+    }
+  },
+  default:{
+    odisha:{rain:'Monsoon intensity can change quickly. Keep drainage channels clear.',soil:'Many Odisha soils are acidic; soil test + lime where needed improves nutrient use.',districts:{}},
+    andhra:{rain:'Andhra has both dry and humid belts; adjust irrigation to local rainfall pattern.',soil:'Use district soil report (red/black/alluvial) before final fertilizer plan.',districts:{}}
+  }
+};
+
+function getDecisionSupport(c){
+  const support={
+    situation:{
+      yellow:c.id==='paddy-g'
+        ? ['Nitrogen deficiency (older leaves yellow first)','Iron or zinc issue (young leaves pale with green veins)','Early blast or root stress in waterlogged patches']
+        : ['Nitrogen deficiency','Micronutrient issue (zinc/iron)','Root stress due to waterlogging or dry spell'],
+      yellowActions:c.id==='paddy-g'
+        ? ['Apply split urea dose, not one heavy dose','Spray Zn/Fe only if symptom pattern matches','Drain excess water and inspect roots']
+        : ['Give balanced NPK top-up in split','Use foliar micronutrient mix if young leaves remain pale','Correct irrigation (avoid too dry or too wet)'],
+      pest:c.id==='chilli-g'
+        ? {likely:'Thrips/mites/whitefly are common',actions:['Check underside of tender leaves in 20 plants','Install blue + yellow sticky traps today','Do need-based selective spray in evening only']}
+        : c.id==='tomato-g'
+          ? {likely:'Whitefly/fruit borer/leaf miner likely',actions:['Identify insect first (leaf underside, flowers, fruits)','Remove heavily infested leaves/fruits','Use trap + need-based label-approved control']}
+          : {likely:'Common local pests (sucking or chewing)',actions:['Inspect 5 field spots before spraying','Use traps and sanitation first','Spray only when infestation is clear']},
+      slow:c.id==='banana-g'
+        ? ['Check moisture daily and avoid stress','Add potash-rich feeding schedule','Apply organic matter + micronutrient mix']
+        : ['Check root-zone moisture','Apply balanced NPK in split doses','Add micronutrient mix + organic matter']
+    },
+    diagnostic:[
+      {q:'Step 1: What do you see first?',opts:['Leaves yellow','Pest/insect visible','Plant growth slow']},
+      {q:'Step 2: Where is the problem more?',opts:['Whole field','Only patches','Mostly border rows']},
+      {q:'Step 3: What happened recently?',opts:['Heavy rain/waterlogging','Long dry days','Recent fertilizer/spray']}
+    ],
+    today:{
+      stageWise:[
+        {stage:'Early stage',daily:'Check germination/stand and remove weak plants.',weekly:'Light irrigation + first weed check + starter nutrient.'},
+        {stage:'Vegetative stage',daily:'Look at leaf color and pest signs in 5 spots.',weekly:'Topdress/fertigation split + interculture + drainage check.'},
+        {stage:'Flowering/Fruiting stage',daily:'Check flowers/fruits and moisture stress.',weekly:'Potash-rich feed, pest scouting, harvest planning.'}
+      ],
+      checks:['Irrigation: no stress, no standing water','Fertilizer: split dose only, avoid overuse','Pest check: inspect underside of leaves and new growth']
+    },
+    mistakes:[
+      'Too much urea in one shot',
+      'Spraying without proper pest/disease identification',
+      'Ignoring drainage and field scouting for many days'
+    ]
+  };
+
+  if(c.id==='paddy-g'){
+    support.today.stageWise=[
+      {stage:'Nursery/Transplant',daily:'Check seedling health and shallow water.',weekly:'Apply basal nutrients and maintain spacing.'},
+      {stage:'Tillering',daily:'Inspect yellowing and stem borer signs.',weekly:'Topdress N split + weed + drain excess water.'},
+      {stage:'Panicle/Grain fill',daily:'Check blast/BPH at plant base.',weekly:'Moisture balance, potash support, harvest prep.'}
+    ];
+    support.mistakes=['Keeping deep standing water all time','Late heavy urea after disease appears','Not checking plant base for BPH early'];
+  }
+
+  if(c.id==='chilli-g'){
+    support.mistakes=['Repeating same pesticide again and again','Water stress at flowering and fruit set','Ignoring first thrips/mites signs on tender leaves'];
+  }
+
+  if(c.id==='tomato-g'){
+    support.mistakes=['No staking/pruning in humid weather','Uneven irrigation causing cracking/blossom-end rot','Late action after whitefly/virus symptoms'];
+  }
+
+  return support;
+}
+
+function getDistrictTipForCrop(cropId,state,district){
+  const cropPack=districtTipsByCrop[cropId]||districtTipsByCrop.default;
+  const statePack=cropPack[state]||districtTipsByCrop.default[state]||districtTipsByCrop.default.odisha;
+  return {
+    rain:statePack.rain,
+    soil:statePack.soil,
+    district:statePack.districts?.[district]||'Select your district for a local quick tip.'
+  };
+}
+
+function renderCropDistrictTip(cropId){
+  const stateSel=document.getElementById('cropStateSelect');
+  const districtSel=document.getElementById('cropDistrictSelect');
+  const tipBox=document.getElementById('cropDistrictTip');
+  if(!stateSel||!districtSel||!tipBox) return;
+
+  const state=stateSel.value;
+  const list=(districts[state]||[]).map(d=>d.name);
+  const current=districtSel.value;
+  districtSel.innerHTML='<option value="">Select district</option>'+list.map(n=>`<option value="${n}">${n}</option>`).join('');
+  if(list.includes(current)) districtSel.value=current;
+
+  const tip=getDistrictTipForCrop(cropId,state,districtSel.value);
+  tipBox.innerHTML=`<strong>Rainfall hint:</strong> ${tip.rain}<br><strong>Soil hint:</strong> ${tip.soil}<br><strong>District tip:</strong> ${tip.district}`;
+}
+
 let currentCropFilter='all';
 function filterCropGuide(cat,btn){
   currentCropFilter=cat;renderCropGuide(cat);
@@ -1299,13 +1447,15 @@ function renderCropGuide(cat){
     function showCropDetail(id){
   const c=cropGuideData.find(x=>x.id===id);if(!c)return;
   const det=document.getElementById('cropGuideDetail');
+  const support=getDecisionSupport(c);
+  const districtTip=getDistrictTipForCrop(c.id,'odisha','');
   det.style.display='block';
   det.innerHTML=`<button class="result-back" onclick="document.getElementById('cropGuideDetail').style.display='none'">← Back</button>
   <div class="result-card" id="crop-top">
     <h3>${c.icon} ${c.name}</h3>
     <p style="margin-bottom:10px;">${c.intro}</p>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;position:sticky;top:64px;background:#fff;z-index:3;padding:8px 0;">
-      ${['overview','sowing','fertilizer','pests','diseases','harvest','yield'].map(ch=>`<a href='#crop-${ch}' class='tag' style='text-decoration:none;'>${ch[0].toUpperCase()+ch.slice(1)}</a>`).join('')}
+      ${['overview','sowing','fertilizer','situation','today','mistakes','local'].map(ch=>`<a href='#crop-${ch}' class='tag' style='text-decoration:none;'>${ch[0].toUpperCase()+ch.slice(1)}</a>`).join('')}
     </div>
     <div class="info-grid" id="crop-overview">
       <div class="info-box"><h4>🏷️ Overview</h4><p><strong>Season:</strong> ${c.season}<br><strong>Category:</strong> ${c.category}<br><strong>Local names:</strong> ${c.local||'--'}</p></div>
@@ -1313,6 +1463,7 @@ function renderCropGuide(cat){
       <div class="info-box"><h4>🚜 Land Preparation</h4><p>${c.landPrep}</p></div>
       <div class="info-box" id="crop-sowing"><h4>🌱 Seed & Sowing</h4><p>${c.sowing}</p></div>
     </div>
+
     <div class="info-box" id="crop-fertilizer" style="margin-top:8px;"><h4>🧪 Nutrient Management</h4><p>${c.nutrient}</p></div>
     <div class="info-grid" style="margin-top:8px;">
       <div class="info-box"><h4>💧 Irrigation</h4><p>${c.irrigation}</p></div>
@@ -1322,10 +1473,49 @@ function renderCropGuide(cat){
       <div class="info-box" id="crop-pests"><h4>🐛 Pest Management</h4><p>${c.pests}</p></div>
       <div class="info-box" id="crop-diseases"><h4>🦠 Disease Management</h4><p>${c.diseases}</p></div>
     </div>
-    <div class="info-grid" style="margin-top:8px;">
-      <div class="info-box" id="crop-harvest"><h4>🌾 Harvest & Yield</h4><p id="crop-yield">${c.harvest}</p></div>
-      <div class="info-box"><h4>📍 Odisha & Andhra Relevance</h4><p>${c.region}</p></div>
+
+    <div class="info-box" id="crop-situation" style="margin-top:8px;background:#eef8ff;border-color:#bbdefb;">
+      <h4>🧭 Farmer Situation Mode (Simple Decision Support)</h4>
+      <p><strong>IF leaves yellow:</strong> ${support.situation.yellow.join(' • ')}</p>
+      <p><strong>Do now:</strong> ${support.situation.yellowActions.join(' • ')}</p>
+      <p><strong>IF pest seen:</strong> Likely ${support.situation.pest.likely}. <strong>Immediate control:</strong> ${support.situation.pest.actions.join(' • ')}</p>
+      <p><strong>IF growth slow:</strong> ${support.situation.slow.join(' • ')}</p>
     </div>
+
+    <div class="info-box" style="margin-top:8px;background:#f8fdf2;border-color:#dcedc8;">
+      <h4>🪜 Simple Diagnostic Logic (Step-by-step)</h4>
+      <ul>${support.diagnostic.map(step=>`<li><strong>${step.q}</strong><br>${step.opts.map(o=>`<span class='tag'>${o}</span>`).join(' ')}</li>`).join('')}</ul>
+      <p style="margin-top:6px;">Use these 3 steps: symptom → possible cause → action. Keep it simple, check field first, then decide input.</p>
+    </div>
+
+    <div class="info-box" id="crop-today" style="margin-top:8px;background:#f3fff7;">
+      <h4>📅 What to do TODAY</h4>
+      ${support.today.stageWise.map(s=>`<p><strong>${s.stage}</strong><br>Daily: ${s.daily}<br>Weekly: ${s.weekly}</p>`).join('')}
+      <p><strong>Today quick checks:</strong></p>
+      <ul>${support.today.checks.map(ch=>`<li>${ch}</li>`).join('')}</ul>
+    </div>
+
+    <div class="info-box" id="crop-mistakes" style="margin-top:8px;background:#fff3f3;border:2px solid #ffb3b3;">
+      <h4 style="color:#b71c1c;">⚠️ Mistake Prevention Box (Top 3)</h4>
+      <ul>${support.mistakes.map(m=>`<li><strong>${m}</strong></li>`).join('')}</ul>
+    </div>
+
+    <div class="info-grid" id="crop-local" style="margin-top:8px;">
+      <div class="info-box"><h4>📍 Odisha & Andhra Relevance</h4><p>${c.region}</p></div>
+      <div class="info-box">
+        <h4>🗺️ Localization (District + Rainfall + Soil)</h4>
+        <p style="margin-bottom:6px;">Select your state and district for quick local hints.</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;">
+          <select id="cropStateSelect" onchange="renderCropDistrictTip('${c.id}')" style="padding:7px;border:1px solid var(--border);border-radius:8px;">
+            <option value="odisha">Odisha</option>
+            <option value="andhra">Andhra Pradesh</option>
+          </select>
+          <select id="cropDistrictSelect" onchange="renderCropDistrictTip('${c.id}')" style="padding:7px;border:1px solid var(--border);border-radius:8px;"></select>
+        </div>
+        <p id="cropDistrictTip"><strong>Rainfall hint:</strong> ${districtTip.rain}<br><strong>Soil hint:</strong> ${districtTip.soil}<br><strong>District tip:</strong> ${districtTip.district}</p>
+      </div>
+    </div>
+
     <div class="info-box" style="margin-top:8px;background:#f5fbf5;"><h4>🔗 Related on AskKrishi</h4>
       <p><strong>Fertilizers:</strong> ${(c.related?.fertilizers||[]).map(n=>`<button class='tag' style='border:0;cursor:pointer;' onclick="showPage('fertilizers');setTimeout(()=>showFertDetail('${n}'),120)">${n}</button>`).join('')}</p>
       <p><strong>Input topics:</strong> ${(c.related?.inputs||[]).join(', ')}</p>
@@ -1333,12 +1523,14 @@ function renderCropGuide(cat){
       <p><strong>Calendar:</strong> ${c.related?.calendar||''}</p>
       <p><strong>AI prompts:</strong> ${(c.related?.ai||[]).map(a=>`<span class='tag' style='cursor:pointer;' onclick="localStorage.setItem('askkrishi_ai_prompt','${a}');showPage('ai-chat');applyPendingAiPrompt();">${a}</span>`).join('')}</p>
     </div>
+
     <a class="whatsapp-share" style="margin-top:10px;" href="https://wa.me/?text=${encodeURIComponent('AskKrishi Crop Guide: '+c.name+' – '+c.nutrient)}" target="_blank">📲 Share Guide</a>
   </div>`;
   det.scrollIntoView({behavior:'smooth'});
+  renderCropDistrictTip(c.id);
 }
 
-  // ===== FRUITS & VEG (50+ entries) =====
+// ===== FRUITS & VEG (50+ entries) =====
   // ===== FRUITS & VEG (50+ entries) =====
 const fvData=[
   {id:'mango',icon:'🥭',name:'Mango',type:'fruit',climate:'Tropical/sub-tropical 24-27°C',soil:'Deep loam, pH 5.5-7.5',fertilizer:'NPK 300:100:150 g/tree; KNO3 1% at fruiting',pest:'Hopper, fruit fly, anthracnose, powdery mildew'},
