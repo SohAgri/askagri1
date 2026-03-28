@@ -2138,6 +2138,159 @@ function mergeUnique(...lists){
   return out;
 }
 
+const DAILY_RISK_DEFINITIONS = [
+  // Disease alerts
+  {
+    id: 'paddy_blast_humid',
+    title: 'Blast Risk High',
+    explanation: 'Humid weather and dense paddy canopy can rapidly spread blast infection.',
+    action: 'Monitor spindle/diamond leaf spots, improve airflow, and avoid excess nitrogen top dressing.',
+    severity: 'high',
+    tags: ['disease', 'fungal'],
+    when: ({ cropId, weatherId }) => cropId === 'paddy' && weatherId === 'humid'
+  },
+  {
+    id: 'wheat_powdery_mildew_humid',
+    title: 'Powdery Mildew Watch',
+    explanation: 'Cool-humid spells increase powdery mildew pressure in wheat canopy.',
+    action: 'Scout lower-to-middle leaves and keep canopy nutrition balanced; avoid excessive late nitrogen.',
+    severity: 'medium',
+    tags: ['disease', 'fungal'],
+    when: ({ cropId, weatherId }) => cropId === 'wheat' && weatherId === 'humid'
+  },
+  {
+    id: 'tomato_early_blight_humid',
+    title: 'Early Blight Risk',
+    explanation: 'Humid conditions and leaf wetness can trigger early blight spread in tomato.',
+    action: 'Remove first infected leaves, keep staking/pruning clean, and reduce long canopy wetness hours.',
+    severity: 'high',
+    tags: ['disease', 'fungal'],
+    when: ({ cropId, weatherId }) => cropId === 'tomato' && weatherId === 'humid'
+  },
+  // Pest alerts
+  {
+    id: 'paddy_bph_stem_borer',
+    title: 'BPH / Stem Borer Alert',
+    explanation: 'Paddy fields can quickly develop BPH and stem borer pockets, especially in lush crop.',
+    action: 'Check plant base and dead-heart symptoms in random spots; act early on hotspots.',
+    severity: 'high',
+    tags: ['pest'],
+    when: ({ cropId, stageId }) => cropId === 'paddy' && ['tillering', 'panicle_initiation', 'flowering_grain'].includes(stageId)
+  },
+  {
+    id: 'tomato_whitefly_fruit_borer',
+    title: 'Whitefly / Fruit Borer Watch',
+    explanation: 'Tomato at vegetative-to-fruiting stages is vulnerable to whitefly vectors and fruit borer.',
+    action: 'Inspect leaf underside and fruits frequently; remove infested fruits and manage vectors early.',
+    severity: 'medium',
+    tags: ['pest'],
+    when: ({ cropId, stageId }) => cropId === 'tomato' && ['vegetative', 'flowering', 'fruiting'].includes(stageId)
+  },
+  {
+    id: 'chilli_thrips_mites',
+    title: 'Thrips / Mites Alert',
+    explanation: 'Chilli is highly prone to thrips and mite flare-ups under stress and dry air.',
+    action: 'Inspect underside of tender leaves and flowers; intervene at first hotspot.',
+    severity: 'high',
+    tags: ['pest'],
+    when: ({ cropId, stageId }) => cropId === 'chilli' && ['vegetative', 'flowering', 'fruiting'].includes(stageId)
+  },
+  {
+    id: 'mango_hopper',
+    title: 'Mango Hopper Watch',
+    explanation: 'Mango hopper pressure can rise around panicle and fruit-set period.',
+    action: 'Scout panicles and tender flush in morning hours; keep orchard floor clean and airy.',
+    severity: 'medium',
+    tags: ['pest'],
+    when: ({ cropId, stageId }) => cropId === 'mango' && ['flowering', 'fruit_set'].includes(stageId)
+  },
+  // Nutrient alerts
+  {
+    id: 'nitrogen_deficiency_risk',
+    title: 'Nitrogen Deficiency Risk',
+    explanation: 'Fast growth phases can show hidden nitrogen deficiency if split application is delayed.',
+    action: 'Check leaf colour uniformity and follow crop-stage split nutrition instead of one-time heavy dose.',
+    severity: 'medium',
+    tags: ['nutrient'],
+    when: ({ stageId }) => ['tillering', 'crown_root_initiation', 'vegetative'].includes(stageId)
+  },
+  {
+    id: 'urea_overuse_warning',
+    title: 'Overuse of Urea Warning',
+    explanation: 'Excess urea drives soft growth and increases pest/disease susceptibility.',
+    action: 'Use balanced NPK plan and avoid repeated heavy urea top dressing.',
+    severity: 'high',
+    tags: ['nutrient'],
+    when: ({ weatherId, cropId }) => weatherId === 'humid' && ['paddy', 'tomato', 'chilli', 'wheat'].includes(cropId)
+  },
+  // Weather alerts
+  {
+    id: 'rain_no_spray',
+    title: 'Rain Alert: Avoid Spray',
+    explanation: 'Spray loss and runoff risk is high when rainfall is expected.',
+    action: 'Postpone foliar spray and fertilizer top dressing until rain window passes.',
+    severity: 'high',
+    tags: ['weather'],
+    when: ({ weatherId }) => weatherId === 'rain'
+  },
+  {
+    id: 'heat_irrigation_stress',
+    title: 'Heat Stress Irrigation Alert',
+    explanation: 'Hot and dry mode can quickly push crops into moisture stress.',
+    action: 'Irrigate during cooler hours and use moisture conservation practices where feasible.',
+    severity: 'high',
+    tags: ['weather'],
+    when: ({ weatherId }) => weatherId === 'hotdry'
+  },
+  {
+    id: 'humidity_fungal_risk',
+    title: 'Humidity Fungal Risk',
+    explanation: 'Persistent humidity raises fungal infection chance across many crops.',
+    action: 'Increase scouting frequency and reduce prolonged canopy wetness.',
+    severity: 'medium',
+    tags: ['weather', 'fungal'],
+    when: ({ weatherId }) => weatherId === 'humid'
+  },
+  // Season-sensitive overlays
+  {
+    id: 'kharif_general_fungal',
+    title: 'Kharif Fungal Pressure Watch',
+    explanation: 'Kharif season often combines rain + humidity, raising fungal disease pressure.',
+    action: 'Keep drainage functional and do frequent hotspot checks after cloudy/rainy spells.',
+    severity: 'medium',
+    tags: ['season', 'disease'],
+    when: ({ seasonId, weatherId }) => seasonId === 'kharif' && ['humid', 'rain'].includes(weatherId)
+  }
+];
+
+const DAILY_RISK_SEVERITY_META = {
+  low: { label: 'Low', className: 'low' },
+  medium: { label: 'Medium', className: 'medium' },
+  high: { label: 'High', className: 'high' }
+};
+
+function computeDailyRiskAlerts(cropId, stageId, seasonId, weatherId){
+  const ctx = { cropId, stageId, seasonId, weatherId };
+  const alerts = DAILY_RISK_DEFINITIONS
+    .filter(rule => {
+      try { return !!rule.when(ctx); } catch (_) { return false; }
+    })
+    .map(rule => ({
+      id: rule.id,
+      title: rule.title,
+      explanation: rule.explanation,
+      action: rule.action,
+      severity: DAILY_RISK_SEVERITY_META[rule.severity] ? rule.severity : 'low',
+      tags: rule.tags || []
+    }));
+
+  // Keep UI simple and focused: show strongest alerts first.
+  const score = { high: 3, medium: 2, low: 1 };
+  return alerts
+    .sort((a, b) => (score[b.severity] - score[a.severity]) || a.title.localeCompare(b.title))
+    .slice(0, 5);
+}
+
 function populateDailyAdvisoryInputs(){
   const cropSel = document.getElementById('dailyCrop');
   const seasonSel = document.getElementById('dailySeason');
@@ -2196,7 +2349,9 @@ function buildDailyAdvisory(cropId, stageId, seasonId, weatherId, regionId){
     { label: 'See seasonal tasks', action: `showPage('calendar')` }
   ];
 
-  return { crop, stageId, seasonId, weatherId, regionId, priority, actions, watch, avoid, links, regionNote };
+  const riskAlerts = computeDailyRiskAlerts(cropId, stageId, seasonId, weatherId);
+
+  return { crop, stageId, seasonId, weatherId, regionId, priority, riskAlerts, actions, watch, avoid, links, regionNote };
 }
 
 function renderDailyAdvisoryResult(){
@@ -2220,24 +2375,42 @@ function renderDailyAdvisoryResult(){
 
   box.innerHTML = `
     <div class="daily-badge">Today’s Crop Guidance · ${escapeHtml(advisory.crop.label)}</div>
+    <div class="daily-risk-section">
+      <h4>⚠️ Risk Alerts Today</h4>
+      ${
+        advisory.riskAlerts.length
+          ? `<div class="daily-risk-grid">${advisory.riskAlerts.map(alert => {
+            const severityMeta = DAILY_RISK_SEVERITY_META[alert.severity] || DAILY_RISK_SEVERITY_META.low;
+            return `<article class="daily-risk-card ${severityMeta.className}">
+              <div class="daily-risk-head">
+                <h5>${escapeHtml(alert.title)}</h5>
+                <span class="daily-risk-severity ${severityMeta.className}">${escapeHtml(severityMeta.label)}</span>
+              </div>
+              <p>→ ${escapeHtml(alert.explanation)}</p>
+              <p><strong>Action:</strong> ${escapeHtml(alert.action)}</p>
+            </article>`;
+          }).join('')}</div>`
+          : '<p class="daily-risk-empty">No major alert triggered for this selection. Continue regular scouting and balanced operations.</p>'
+      }
+    </div>
     <div class="daily-priority">
-      <h4>A. Today’s Priority</h4>
+      <h4>B. Today’s Priority</h4>
       <p>${escapeHtml(advisory.priority)}</p>
     </div>
     <div class="daily-section">
-      <h4>B. What to Do Today</h4>
+      <h4>C. What to Do Today</h4>
       <ul class="daily-list">${advisory.actions.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
     </div>
     <div class="daily-section">
-      <h4>C. Watch Out For</h4>
+      <h4>D. Watch Out For</h4>
       <ul class="daily-list">${advisory.watch.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
     </div>
     <div class="daily-section">
-      <h4>D. Avoid These Mistakes</h4>
+      <h4>E. Avoid These Mistakes</h4>
       <ul class="daily-list">${advisory.avoid.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
     </div>
     <div class="daily-section">
-      <h4>E. Useful Related Links</h4>
+      <h4>F. Useful Related Links</h4>
       <div class="daily-links">${advisory.links.map(link => `<button type="button" class="daily-link" onclick="${link.action}">${escapeHtml(link.label)}</button>`).join('')}</div>
     </div>
     <div class="daily-region-note"><strong>Selection:</strong> ${escapeHtml(stageLabel)} · ${escapeHtml(seasonLabel)} · ${escapeHtml(weatherLabel)} · ${escapeHtml(regionLabel)}<br>${escapeHtml(advisory.regionNote)}</div>
