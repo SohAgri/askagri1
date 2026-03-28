@@ -436,70 +436,30 @@ function renderResults(q) {
 
     // ===== DISEASE DATA =====
 const diseases = {
-  paddy:{title:'Paddy / Rice Diseases 🌾',sub:'Common diseases affecting paddy crop in India',items:[
-    {name:'Blast Disease',cause:'Fungus Magnaporthe oryzae',symptoms:'Diamond-shaped grey-brown spots on leaves; neck blast causes white sterile panicles (white ear)',solution:'Spray Tricyclazole 75WP @ 6g/15L. Preventive spray at booting stage. Use resistant varieties.'},
-    {name:'Brown Plant Hopper (BPH)',cause:'Insect Nilaparvata lugens',symptoms:'Plants dry up suddenly (hopper burn), yellowing at base, masses of brown insects at stem base',solution:'Drain field, spray Imidacloprid 17.8 SL @ 0.25ml/L or Buprofezin 25 SC @ 1ml/L'},
-    {name:'Bacterial Leaf Blight',cause:'Bacteria Xanthomonas oryzae pv. oryzae',symptoms:'Water-soaked lesions on leaf tips, turn yellow then straw colored, leaves dry up',solution:'Spray Streptocycline 500ppm + Copper oxychloride 0.3% (3g/L)'},
-    {name:'Sheath Blight',cause:'Fungus Rhizoctonia solani',symptoms:'Oval water-soaked lesions on leaf sheath near water level, white mycelium visible',solution:'Spray Hexaconazole 5EC @ 2ml/L or Validamycin 3SL @ 2ml/L. Reduce plant density.'},
-    {name:'False Smut',cause:'Fungus Ustilaginoidea virens',symptoms:'Individual grains replaced by orange/green powdery balls (smut balls)',solution:'Spray Propiconazole 25EC @ 0.1% at boot leaf stage. Use certified seeds.'}
+  paddy:{title:'Paddy / Rice Problem Guide 🌾',sub:'Field-ready disease and pest references with safe management logic',items:[
+    {name:'Blast Disease',type:'Fungal',cause:'Magnaporthe oryzae',symptoms:'Diamond-shaped spots on leaves, neck infection at panicle base, white earheads in severe cases',earlySigns:'Small spindle lesions with gray center on lower leaves during humid weather',favorable:'20–28°C, leaf wetness, dense crop, excess nitrogen',prevention:'Balanced fertilizer, avoid heavy late urea, keep field aerated, use tolerant varieties',firstStep:'Scout nearby plants and isolate high infection patches before whole-field spray',organic:'Pseudomonas fluorescens seed/foliar support + silica rich nutrition',chemical:'Use labeled blast fungicide as per local advisory; rotate chemistry to avoid resistance',lookalike:'Can look similar to nutrient scorch or bacterial blight at early stage',relatedInputs:['Tricyclazole','Silicon amendment','Balanced NPK'],relatedCrops:['Paddy'],similar:['Nitrogen deficiency','Bacterial leaf blight']},
+    {name:'Bacterial Leaf Blight',type:'Bacterial',cause:'Xanthomonas oryzae',symptoms:'Yellowing from leaf tip/edge, straw-colored streaks, drying leaves',earlySigns:'Water-soaked streak near tip after wind/rain injury',favorable:'Heavy rain, wind damage, excess nitrogen, infected seed',prevention:'Clean seed, avoid overuse of urea, better drainage and spacing',firstStep:'Stop nitrogen top-dress immediately and remove heavily affected leaves',organic:'Cow-based microbial extracts + copper-compatible bioprotectants where locally accepted',chemical:'Copper/bactericide choice should follow local recommendation and label',lookalike:'Can be confused with zinc deficiency in early stage',relatedInputs:['Copper Oxychloride','DAP','MOP'],relatedCrops:['Paddy'],similar:['Zinc deficiency','Blast disease']},
   ]},
-  tomato:{title:'Tomato Diseases 🍅',sub:'Common diseases affecting tomato crop',items:[
-    {name:'Early Blight',cause:'Fungus Alternaria solani',symptoms:'Dark brown spots with concentric rings (target-board pattern) on older leaves first',solution:'Spray Mancozeb 75 WP @ 2.5g/L or Copper oxychloride @ 3g/L every 10 days'},
-    {name:'Late Blight',cause:'Oomycete Phytophthora infestans',symptoms:'Water-soaked dark lesions on leaves/stems, white fungal growth on underside in humid conditions, fruit rot',solution:'Spray Metalaxyl + Mancozeb 72 WP @ 2.5g/L. Remove infected plants.'},
-    {name:'Leaf Curl Virus (ToLCV)',cause:'Begomovirus, spread by whitefly Bemisia tabaci',symptoms:'Upward curling of leaves, yellowing, stunted growth, reduced fruit set',solution:'Control whiteflies with Imidacloprid @ 0.3ml/L. Remove infected plants. Use resistant varieties.'},
-    {name:'Fusarium Wilt',cause:'Soil fungus Fusarium oxysporum f.sp. lycopersici',symptoms:'Yellowing lower leaves, brown vascular discoloration inside stem, plant wilts and dies',solution:'No chemical cure. Use resistant varieties. Trichoderma viride seed treatment. Avoid waterlogging.'}
+  tomato:{title:'Tomato Disease Guide 🍅',sub:'Common tomato field issues with comparison support',items:[
+    {name:'Leaf Curl Complex',type:'Viral (whitefly transmitted)',cause:'Begomovirus spread by whitefly',symptoms:'Upward curl, yellowing, stunted growth, poor fruit set',earlySigns:'Fresh top leaves curl and thicken while lower leaves stay green',favorable:'High whitefly pressure, dry warm weather, unmanaged weed hosts',prevention:'Insect net nursery, yellow traps, remove alternate hosts and early infected plants',firstStep:'Rogue infected plants and start vector control quickly',organic:'Neem-based spray and sticky traps',chemical:'Need-based whitefly management with rotation; avoid repeated same molecule',lookalike:'Can resemble herbicide injury or boron toxicity',relatedInputs:['Imidacloprid','Neem Oil'],relatedCrops:['Tomato','Chilli'],similar:['Herbicide drift','Mite damage']},
+    {name:'Early Blight',type:'Fungal',cause:'Alternaria solani',symptoms:'Target-like concentric brown spots on older leaves',earlySigns:'Small dark spots with yellow halo at lower canopy',favorable:'Warm humid weather and repeated leaf wetness',prevention:'Crop rotation, avoid overhead irrigation late day, field sanitation',firstStep:'Remove infected leaves and improve airflow',organic:'Trichoderma and compost tea support with sanitation',chemical:'Use protective fungicide program as labeled and rotate groups',lookalike:'Can resemble nutrient burn when spotting starts near edges',relatedInputs:['Mancozeb','Trichoderma'],relatedCrops:['Tomato','Potato'],similar:['Late blight','Potassium deficiency']},
   ]},
-  wheat:{title:'Wheat Diseases 🌿',sub:'Common diseases affecting wheat crop',items:[
-    {name:'Yellow Rust (Stripe Rust)',cause:'Fungus Puccinia striiformis',symptoms:'Bright yellow-orange pustules in stripes along leaf veins; white powdery strips visible',solution:'Spray Propiconazole 25 EC @ 0.1% at first sign. Resistant varieties: HD-2967, PBW-550.'},
-    {name:'Loose Smut',cause:'Fungus Ustilago segetum var. tritici',symptoms:'All grains in ear replaced by black powdery mass (smut spores)',solution:'Treat seeds with Carboxin 37.5% + Thiram 37.5% (Vitavax) @ 3g/kg seed before sowing.'},
-    {name:'Powdery Mildew',cause:'Fungus Blumeria graminis f.sp. tritici',symptoms:'White powdery patches on leaves; severe in cool humid weather 15-20°C',solution:'Spray Karathane (Dinocap) @ 1ml/L or Sulfex (Wettable Sulfur) @ 3g/L'},
-    {name:'Root Rot (Karnal Bunt)',cause:'Fungus Tilletia indica',symptoms:'Partial replacement of grain with black powdery smut; fishy smell from grains',solution:'Treat seeds with Thiram @ 2.5g/kg. Use certified disease-free seeds.'}
+  chilli:{title:'Chilli Pest & Disease Guide 🌶️',sub:'Thrips, wilt, leaf curl and fruit rot focused advisory',items:[
+    {name:'Thrips + Leaf Curl Complex',type:'Insect + Viral complex',cause:'Thrips and mites causing feeding injury and viral spread',symptoms:'Silvering, curling, rough leaves, reduced flowering',earlySigns:'Tender leaves show silvery streaking and slight curl',favorable:'Dry weather, excess nitrogen, weed infestation',prevention:'Blue/yellow traps, border crops, balanced nutrition and irrigation',firstStep:'Confirm pest presence on underside of leaves before spray',organic:'Neem oil + Beauveria/Verticillium options',chemical:'Need-based selective insecticide; rotate mode of action',lookalike:'Could be confused with micronutrient deficiency',relatedInputs:['Spinosad','Neem Oil','Micronutrient Mix'],relatedCrops:['Chilli','Cotton'],similar:['Zinc deficiency','Mite damage']},
+    {name:'Anthracnose Fruit Rot',type:'Fungal',cause:'Colletotrichum spp.',symptoms:'Sunken dark lesions on ripening fruits with pink/orange spore mass',earlySigns:'Tiny depressed black dots on fruit skin',favorable:'High humidity, rain splash, dense canopy',prevention:'Field sanitation, mulching, avoid fruit injury and water splash',firstStep:'Remove infected fruits from field immediately',organic:'Trichoderma + clean harvest handling',chemical:'Fungicide at early stage with label compliance',lookalike:'Can resemble bacterial spot on fruits',relatedInputs:['Mancozeb','Copper Oxychloride'],relatedCrops:['Chilli','Capsicum'],similar:['Bacterial fruit spot','Sunscald']},
   ]},
-  chilli:{title:'Chilli Diseases 🌶️',sub:'Common diseases affecting chilli crop',items:[
-    {name:'Anthracnose (Fruit Rot)',cause:'Fungus Colletotrichum capsici',symptoms:'Circular dark sunken spots on ripe fruits, orange spore mass in humid conditions',solution:'Spray Mancozeb 75 WP @ 2g/L. Remove infected fruits. Avoid wetting foliage.'},
-    {name:'Powdery Mildew',cause:'Fungus Leveillula taurica',symptoms:'White powdery coating on underside of leaves, yellowing of upper surface, defoliation',solution:'Spray Wettable Sulfur @ 3g/L or Hexaconazole @ 1ml/L'},
-    {name:'Leaf Curl (Chilli Virus)',cause:'Multiple viruses spread by thrips/mites',symptoms:'Downward curling of leaves, yellowing, stunted growth, reduced flowering',solution:'Control thrips with Spinosad 45 SC @ 0.3ml/L. Use virus-free seedlings. Spray neem oil.'},
-    {name:'Damping Off',cause:'Soil fungi Pythium aphanidermatum',symptoms:'Seedlings collapse at soil level, brown constriction visible at stem base',solution:'Drench nursery with Copper oxychloride @ 3g/L. Use sterile nursery soil + Trichoderma.'}
+  wheat:{title:'Wheat Disease Guide 🌿',sub:'Rust, mildew and nutrient confusion support',items:[
+    {name:'Yellow Rust',type:'Fungal',cause:'Puccinia striiformis',symptoms:'Yellow/orange pustules in stripes on leaves',earlySigns:'Narrow yellow streaks appearing in cool mornings',favorable:'Cool humid weather 10–18°C',prevention:'Rust tolerant varieties, avoid late sowing, balanced nutrition',firstStep:'Spot-check neighboring fields for spread',organic:'Silicon and sulfur nutrition support plant resilience',chemical:'Need-based systemic fungicide at first appearance',lookalike:'Can resemble nitrogen striping in early stage',relatedInputs:['Propiconazole','Sulphur'],relatedCrops:['Wheat','Barley'],similar:['Nitrogen deficiency','Powdery mildew']},
   ]},
-  brinjal:{title:'Brinjal (Eggplant) Diseases 🍆',sub:'Common diseases affecting brinjal crop',items:[
-    {name:'Shoot & Fruit Borer',cause:'Moth larvae Leucinodes orbonalis',symptoms:'Wilting of young shoots, entry holes in fruits, frass visible, maggots inside',solution:'Remove infested shoots weekly. Spray Chlorantraniliprole 18.5 SC @ 0.3ml/L'},
-    {name:'Little Leaf Disease',cause:'Phytoplasma (spread by leafhopper Amrasca biguttula)',symptoms:'Leaves become tiny, flower petals leaf-like, severe stunting, no fruit set',solution:'Remove infected plants immediately. Control leafhoppers with Imidacloprid. No cure.'},
-    {name:'Phomopsis Blight',cause:'Fungus Phomopsis vexans',symptoms:'Brown circular spots on leaves, dark lesions on stems, fruit rot',solution:'Spray Copper oxychloride 3g/L + Mancozeb 2g/L alternately every 10 days.'},
-    {name:'Bacterial Wilt',cause:'Bacteria Ralstonia solanacearum',symptoms:'Sudden wilting without leaf yellowing, stem shows brown discoloration when cut',solution:'No effective cure. Remove plants. Use resistant rootstock grafting. Rotate crops.'}
+  cotton:{title:'Cotton Problem Guide 🌸',sub:'Whitefly, bollworm, and foliar disorders',items:[
+    {name:'Whitefly & Sooty Mold Complex',type:'Insect + secondary fungal growth',cause:'Whitefly feeding and honeydew deposition',symptoms:'Leaf yellowing, sticky surface, black sooty layer',earlySigns:'Whitefly adults on underside, leaf stickiness',favorable:'Hot humid weather and excess nitrogen',prevention:'Field sanitation, resistant hybrids, avoid indiscriminate sprays',firstStep:'Monitor population before deciding spray',organic:'Neem + yellow traps + predators conservation',chemical:'Use selective chemistry and rotate molecules to prevent resistance',lookalike:'May look like nutrient deficiency from top view',relatedInputs:['Imidacloprid','Neem Oil'],relatedCrops:['Cotton','Brinjal'],similar:['Nitrogen deficiency','Jassid burn']},
   ]},
-  potato:{title:'Potato Diseases 🥔',sub:'Common diseases affecting potato crop',items:[
-    {name:'Late Blight',cause:'Oomycete Phytophthora infestans',symptoms:'Water-soaked dark lesions on leaves, white mold on underside, tuber rot with brown discoloration',solution:'Spray Metalaxyl + Mancozeb @ 2.5g/L every 7-10 days. Avoid overhead irrigation.'},
-    {name:'Early Blight',cause:'Alternaria solani',symptoms:'Dark brown circular spots with yellow halo and concentric rings on older leaves',solution:'Spray Mancozeb 75 WP @ 2.5g/L or Chlorothalonil 75 WP @ 2g/L'},
-    {name:'Common Scab',cause:'Bacteria Streptomyces scabies',symptoms:'Raised, pitted or sunken brown corky lesions on tuber skin',solution:'Maintain acidic soil (pH 5.0-5.2). Ensure steady soil moisture at tuber initiation.'},
-    {name:'Black Scurf (Rhizoctonia)',cause:'Fungus Rhizoctonia solani',symptoms:'Black hard sclerotia on tuber surface, stem canker, stunted plants with aerial tubers',solution:'Treat seed tubers with Carbendazim 50 WP @ 2g/kg before planting.'}
-  ]},
-  onion:{title:'Onion Diseases 🧅',sub:'Common diseases affecting onion crop',items:[
-    {name:'Purple Blotch',cause:'Fungus Alternaria porri',symptoms:'Small white lesions with purple center on leaves/stalks; severe infection causes crop lodging',solution:'Spray Mancozeb 75 WP @ 2.5g/L or Iprodione 50 WP @ 2g/L at 10-day intervals.'},
-    {name:'Thrips (Thrips tabaci)',cause:'Insect pest; spreads IYSV virus',symptoms:'Silvery streaks and speckling on leaves, severe distortion, reduced bulb size',solution:'Spray Spinosad 45 SC @ 0.3ml/L or Fipronil 5 SC @ 1.5ml/L. Blue sticky traps.'},
-    {name:'Downy Mildew',cause:'Peronospora destructor',symptoms:'Pale green to yellow lesions covered with violet-grey fungal growth',solution:'Spray Metalaxyl + Mancozeb 72 WP @ 2.5g/L. Avoid overhead irrigation.'},
-    {name:'Basal Rot',cause:'Fusarium oxysporum f.sp. cepae',symptoms:'Roots rot from tip, basal plate turns pink-brown, bulbs shrivel and rot',solution:'Treat sets with Thiram. Practice crop rotation minimum 3 years. Improve drainage.'}
-  ]},
-  cotton:{title:'Cotton Diseases 🌸',sub:'Common diseases affecting cotton crop',items:[
-    {name:'American Bollworm',cause:'Helicoverpa armigera larvae',symptoms:'Holes in buds, flowers, and bolls; partially eaten bolls with frass',solution:'Spray Profenofos 50 EC @ 2ml/L or Chlorantraniliprole @ 0.3ml/L. Pheromone traps.'},
-    {name:'Bacterial Blight',cause:'Xanthomonas citri pv. malvacearum',symptoms:'Angular water-soaked leaf spots, stem blackening (black arm), boll rot',solution:'Spray Streptocycline 500ppm + Copper oxychloride 0.3%. Use certified disease-free seeds.'},
-    {name:'Alternaria Leaf Spot',cause:'Alternaria macrospora',symptoms:'Circular brown spots with yellow halo; severe defoliation in humid conditions',solution:'Spray Mancozeb 75 WP @ 2.5g/L. Maintain proper plant spacing 90x60 cm.'},
-    {name:'Root Rot (Phytophthora)',cause:'Phytophthora parasitica var. camphora',symptoms:'Reddish-brown root discoloration, sudden plant wilting and death',solution:'Improve field drainage. Drench Metalaxyl 25 WP @ 2g/L around root zone.'}
-  ]},
-  sugarcane:{title:'Sugarcane Diseases 🎋',sub:'Common diseases affecting sugarcane crop',items:[
-    {name:'Red Rot',cause:'Fungus Colletotrichum falcatum',symptoms:'Drying of leaves from tips downward, red discoloration inside cane with white patches and smell',solution:'Use disease-free setts. Treat setts with Carbendazim @ 1g/L for 10 min. Remove infected canes.'},
-    {name:'Wilt',cause:'Fungus Fusarium sacchari + moist heat',symptoms:'Yellowing leaves, shriveled stalks, hollow canes with internal brown discoloration',solution:'Use resistant varieties. Hot water sett treatment at 50°C for 2 hours. Use healthy nursery material.'},
-    {name:'Smut',cause:'Fungus Sporisorium scitamineum',symptoms:'Long black whip (smut sorus) emerging from the growing point of plant',solution:'Remove and destroy smutted shoots immediately. Use resistant varieties. Hot water treatment.'},
-    {name:'Grassy Shoot Disease',cause:'Phytoplasma (insect-borne)',symptoms:'Excessive tillering, pale yellow thin shoots, no normal cane formation',solution:'Use healthy setts. Destroy affected clumps. Control insect vectors.'}
-  ]},
-  maize:{title:'Maize Diseases 🌽',sub:'Common diseases affecting maize crop',items:[
-    {name:'Turcicum Blight (N. Leaf Blight)',cause:'Fungus Exserohilum turcicum',symptoms:'Long tan-colored cigar-shaped lesions (5-15 cm) on leaves',solution:'Spray Mancozeb 75 WP @ 2g/L or Propiconazole @ 1ml/L. Use resistant hybrids.'},
-    {name:'Fall Armyworm (FAW)',cause:'Spodoptera frugiperda (invasive pest)',symptoms:'Ragged holes in leaves, frass in whorls, damage to cobs; caterpillar with inverted Y on head',solution:'Apply Chlorantraniliprole 18.5 SC @ 0.3ml/L inside whorls. Spinetoram 11.7 SC @ 0.5ml/L.'},
-    {name:'Common Rust',cause:'Puccinia sorghi',symptoms:'Oval to elongate reddish-brown powdery pustules on both leaf surfaces',solution:'Spray Propiconazole 25 EC @ 0.1% at first sign. Use resistant hybrids.'},
-    {name:'Downy Mildew',cause:'Peronosclerospora sorghi',symptoms:'Yellow striping on young leaves, white downy growth on underside, stunted plants',solution:'Treat seeds with Metalaxyl 35 WS @ 6g/kg. Remove infected plants early.'}
+  maize:{title:'Maize Issue Guide 🌽',sub:'Leaf blight and fall armyworm checks',items:[
+    {name:'Fall Armyworm',type:'Insect',cause:'Spodoptera frugiperda',symptoms:'Window feeding, ragged leaves, frass in whorl',earlySigns:'Tiny pinholes in whorl leaves and fresh frass',favorable:'Warm weather with continuous host crop',prevention:'Pheromone traps, early scouting, destroy egg masses',firstStep:'Inspect 20 plants before any control action',organic:'Neem/NPV + biological parasitoids',chemical:'Whorl-targeted spray only when threshold is crossed',lookalike:'Can be mistaken for stem borer in early stage',relatedInputs:['Chlorantraniliprole','Pheromone Traps'],relatedCrops:['Maize','Sorghum'],similar:['Stem borer damage','Hail injury']},
   ]}
 };
 
-   function showDisease(crop) {
+function showDisease(crop) {
   const d = diseases[crop];
   if (!d) return;
   document.getElementById('disease-title').textContent = d.title;
@@ -509,17 +469,27 @@ const diseases = {
     html += `<div class="result-card">
       <h3>🌿 ${item.name}</h3>
       <div class="info-grid">
-        <div class="info-box"><h4>📋 Cause</h4><p>${item.cause}</p></div>
+        <div class="info-box"><h4>🧬 Type & Cause</h4><p><strong>${item.type}</strong> • ${item.cause}</p></div>
         <div class="info-box"><h4>🔍 Symptoms</h4><p>${item.symptoms}</p></div>
+        <div class="info-box"><h4>🕒 Early Signs</h4><p>${item.earlySigns}</p></div>
+        <div class="info-box"><h4>🌦️ Favorable Conditions</h4><p>${item.favorable}</p></div>
       </div>
-      <div class="info-box" style="margin-bottom:10px;"><h4>✅ Solution</h4><p>${item.solution}</p></div>
-      <a class="whatsapp-share" href="https://wa.me/?text=AskKrishi: ${encodeURIComponent(item.name + ' – ' + item.solution)}" target="_blank">📲 Share</a>
+      <div class="info-box" style="margin-bottom:10px;"><h4>🛡️ Prevention</h4><p>${item.prevention}</p></div>
+      <div class="info-box" style="margin-bottom:10px;"><h4>🚨 First-step response</h4><p>${item.firstStep}</p></div>
+      <div class="info-grid">
+        <div class="info-box"><h4>🌿 Organic / non-chemical</h4><p>${item.organic}</p></div>
+        <div class="info-box"><h4>🧪 Educational chemical guidance</h4><p>${item.chemical}</p></div>
+      </div>
+      <div class="info-box" style="margin-top:10px;background:#fff8e1;border-color:#ffe082;"><h4 style="color:#e65100;">🧭 Looks similar to</h4><p>${item.lookalike}</p><div style="margin-top:6px;">${(item.similar||[]).map(s=>`<span class="tag">${s}</span>`).join('')}</div></div>
+      <div style="margin-top:9px;"><strong style="font-size:0.78rem;color:var(--text-light);">Related inputs:</strong> ${(item.relatedInputs||[]).map(n=>`<button class="tag" style="cursor:pointer;border:0;" onclick="showPage('fertilizers');setTimeout(()=>showFertDetail('${n}'),120)">${n}</button>`).join('')}</div>
+      <a class="whatsapp-share" href="https://wa.me/?text=AskKrishi: ${encodeURIComponent(item.name + ' – ' + item.firstStep)}" target="_blank">📲 Share</a>
     </div>`;
   });
   document.getElementById('disease-content').innerHTML = html;
   showPage('disease-page');
-    } 
+}
 
+    // ===== MANDI DATA =====
     // ===== MANDI DATA =====
 const mandiData = [
   {crop:'🌾 Paddy', mandi:'Amritsar', state:'Punjab', min:1940, max:2160, trend:'up'},
@@ -1270,19 +1240,48 @@ function showDistrictDetail(name,state){
 
 // ===== CROP GUIDE DATA =====
 const cropGuideData=[
-  {id:'paddy-g',icon:'🌾',name:'Paddy (Rice)',category:'kharif',climate:'Tropical 25-35°C, 150-200cm rain',soil:'Clay loam, pH 5.5-6.5',season:'Kharif (Jun-Nov), Rabi (Nov-Mar in South)',fertilizer:'N:P:K=120:60:60 kg/ha. Basal DAP+MOP; split urea — 25% basal+50% tillering+25% PI stage.',pests:'Blast, BLB, stem borer, BPH, sheath blight. Tricyclazole for blast. Imidacloprid for BPH.',yield:'25-35 q/ha common; 40-50 q/ha HYV irrigated; 60+ q/ha hybrid',organic:'Azospirillum+PSB seed treatment. Vermicompost 2 t/ha. Neem cake 100 kg/ha. Jeevamrutha 200L/ha.'},
-  {id:'wheat-g',icon:'🌿',name:'Wheat',category:'rabi',climate:'Cool 15-25°C, cold exposure needed',soil:'Loam to clay loam, pH 6-7',season:'Rabi — sow Oct 25–Nov 15 (optimal)',fertilizer:'N:P:K=120:60:40 kg/ha. Split urea: basal+CRI (21 days)+jointing (45 days).',pests:'Yellow/brown rust, Karnal bunt, aphids, powdery mildew. Propiconazole for rust.',yield:'30-40 q/ha irrigated; 15-20 q/ha rainfed',organic:'Trichoderma seed treatment. Azospirillum inoculant. FYM 8 t/ha.'},
-  {id:'maize-g',icon:'🌽',name:'Maize',category:'kharif',climate:'Warm 21-27°C, 500-750mm rain',soil:'Sandy loam to loam, pH 5.8-7',season:'Kharif (Jun-Sep) & Rabi (Nov-Feb) in South',fertilizer:'N:P:K=150:75:60 kg/ha. Heavy N feeder; apply in 3 splits. Side-dress at knee-high stage.',pests:'FAW (invasive), stem borer, turcicum blight. Chlorantraniliprole for FAW (in whorls).',yield:'40-50 q/ha hybrid; 25-30 q/ha local',organic:'FYM 10 t/ha. Azospirillum+PSB. Trichogramma for stem borer egg masses.'},
-  {id:'cotton-g',icon:'🌸',name:'Cotton',category:'kharif',climate:'Warm dry 20-30°C, 500-700mm',soil:'Black cotton soil (Vertisol), pH 6-8',season:'Kharif (May-Jun sowing; Oct-Jan harvest)',fertilizer:'N:P:K=100:50:50 kg/ha. Foliar 2% DAP at flowering. Boron at boll development.',pests:'Bollworm (use Bt cotton), whitefly, BLB. Profenofos for bollworm.',yield:'15-20 q/ha seed cotton irrigated',organic:'Neem oil for whitefly. Trichogramma egg parasitoid release. NPV spray.'},
-  {id:'sugarcane-g',icon:'🎋',name:'Sugarcane',category:'kharif',climate:'Tropical 20-35°C, 1500mm',soil:'Deep loam to clay loam, pH 6-7.5',season:'Sow Nov-Feb; harvest after 10-12 months',fertilizer:'N:P:K=250:100:120 kg/ha. Split N in 4 doses. Trash mulching conserves moisture.',pests:'Red rot, smut, top borer. Treat setts before planting. Metalaxyl for red rot.',yield:'800-1200 q/ha irrigated',organic:'Pressmud 10 t/ha. Trichoderma+Azospirillum. Trash mulching.'},
-  {id:'groundnut-g',icon:'🥜',name:'Groundnut',category:'kharif',climate:'Warm dry 25-30°C, 500-600mm',soil:'Sandy loam, well-drained, pH 6-6.5',season:'Kharif (Jun-Jul); Rabi (Nov-Dec in AP/TN)',fertilizer:'N:P:K=20:60:30 kg/ha. Gypsum 250 kg/ha at pegging (calcium for pods). Sulphur 20 kg/ha.',pests:'Leaf spot (Cercospora), collar rot, tobacco caterpillar. Chlorothalonil for leaf spot.',yield:'15-20 q/ha pods irrigated; 8-10 q/ha rainfed',organic:'Rhizobium+PGPR seed treatment. Neem cake 200 kg/ha. FYM 5 t/ha.'},
-  {id:'turmeric-g',icon:'🟡',name:'Turmeric',category:'kharif',climate:'Humid tropical 20-30°C, 1500mm',soil:'Sandy clay loam, pH 5-7.5',season:'Apr-May planting; 8-9 months (Dec-Jan harvest)',fertilizer:'N:P:K=150:60:120 kg/ha. FYM 25 t/ha essential. Neem cake 250 kg/ha.',pests:'Rhizome rot (Pythium), leaf blotch, shoot borer. Metalaxyl drench for rhizome rot.',yield:'25-30 t/ha fresh; 5-6 t/ha dry',organic:'Trichoderma+Pseudomonas rhizome treatment. Raised beds. Mulching with paddy straw.'},
-  {id:'chilli-g',icon:'🌶️',name:'Chilli',category:'kharif',climate:'Warm 20-30°C, moderate rain',soil:'Sandy loam to loam, pH 6-7',season:'Kharif: Jun-Jul transplant; Rabi: Oct-Nov (AP)',fertilizer:'N:P:K=120:80:80 kg/ha. Split N in 3 doses. Foliar micronutrients at flowering-fruit set.',pests:'Anthracnose, leaf curl virus, thrips, mites, powdery mildew.',yield:'20-25 q/ha dry chilli irrigated; premium Teja variety 30 q/ha',organic:'Neem oil 5ml/L for thrips. Trichoderma for anthracnose. Bordeaux paste on stem.'},
-  {id:'ginger-g',icon:'🫚',name:'Ginger',category:'kharif',climate:'Warm humid 19-28°C, 150-250cm',soil:'Sandy clay loam, rich organic matter',season:'Apr-May planting; harvest Dec-Mar (8-9 months)',fertilizer:'N:P:K=75:50:50 kg/ha. FYM 25 t/ha. Split N in 3 doses.',pests:'Soft rot (Pythium — most destructive), shoot borer, nematodes.',yield:'15-20 t/ha fresh ginger',organic:'Trichoderma+Pseudomonas slurry rhizome treatment. Raised beds mandatory.'},
-  {id:'mango-g',icon:'🥭',name:'Mango',category:'horticulture',climate:'Tropical/sub-tropical 24-27°C',soil:'Deep well-drained loam, pH 5.5-7.5',season:'Flowering Dec-Feb; fruit harvest May-Jul',fertilizer:'NPK 300:100:150 g/tree/year (increase yearly). FYM 50 kg/tree. Foliar KNO3 1% at fruiting.',pests:'Mango hopper (most serious), fruit fly, powdery mildew, anthracnose.',yield:'100-200 kg/tree mature; Banginapalli AP — 150-250 kg/tree',organic:'Neem oil for hopper. Bordeaux paste trunk protection. Kaolin clay spray for fruit fly.'},
-  {id:'banana-g',icon:'🍌',name:'Banana',category:'horticulture',climate:'Humid tropical 26-30°C, 2000mm',soil:'Deep rich loam, high organic matter, pH 6-7.5',season:'Year-round tropical; harvest 11-13 months after planting',fertilizer:'N:P:K=200:30:300 g/plant. High K for quality. Split in 3-4 doses. FYM 25 kg/plant.',pests:'Panama wilt (Fusarium), Sigatoka, BBTV virus, banana weevil.',yield:'20-40 t/ha Cavendish/Grand Naine; Nendran Kerala 15-25 t/ha',organic:'Trichoderma + FYM preventive soil application. Pseudomonas for Panama wilt.'},
-  {id:'mustard-g',icon:'🌿',name:'Mustard',category:'rabi',climate:'Cool dry 10-25°C',soil:'Loamy to sandy loam, pH 6.5-7.5',season:'Rabi Oct-Nov sowing; Feb-Mar harvest',fertilizer:'N:P:K=80:40:40 kg/ha. Sulphur 20 kg/ha (critical for oil content). Boron 1 kg/ha.',pests:'Aphids (peak Jan-Feb), Alternaria blight, powdery mildew, Sclerotinia rot.',yield:'12-16 q/ha irrigated; 6-8 q/ha rainfed',organic:'Rhizobium inoculant. Wettable sulphur (organic-approved fungicide).'},
+  {id:'paddy-g',icon:'🌾',name:'Paddy (Rice)',category:'kharif',season:'Kharif / Rabi (irrigated)',local:'Dhan, Biyyam',intro:'Staple food crop of India with high relevance in Odisha and Andhra.',climate:'22–32°C, high humidity, 1000–2000 mm rain',soil:'Clay loam to alluvial, pH 5.5–7',landPrep:'Puddled field or direct-seeded bed with level surface',sowing:'Nursery: Jun-Jul; transplant 20-30 day seedlings at 20x15 cm',nutrient:'Basal P+K, split N at transplanting, tillering, panicle initiation',irrigation:'2-5 cm standing water in key stages; drain before fertilizer',weed:'Conoweeder / early manual weeding / pre-emergence herbicide as advised',pests:'Stem borer, BPH, leaf folder; monitor weekly and follow IPM',diseases:'Blast, BLB, sheath blight',harvest:'30-36 q/ha common; harvest when 80-85% grains mature',region:'Odisha: coastal + delta belts; Andhra: Godavari/Krishna deltas',related:{fertilizers:['Urea','DAP','MOP (Muriate of Potash)'],inputs:['Tricyclazole','Imidacloprid'],diseases:['Blast Disease','Bacterial Leaf Blight'],calendar:'Jun nursery, Jul transplant, Aug topdress, Oct-Nov harvest',ai:['My paddy leaves are yellow, what to do?','Best paddy fertilizer split schedule'] }},
+  {id:'wheat-g',icon:'🌿',name:'Wheat',category:'rabi',season:'Rabi',local:'Gehu',intro:'Major winter cereal needing timely sowing and CRI irrigation.',climate:'12–25°C with cool growing period',soil:'Loam to clay loam, pH 6–7.5',landPrep:'Fine tilth seedbed with one pre-sowing irrigation where needed',sowing:'Nov window, 20-22 cm row spacing',nutrient:'Basal P+K + split N at sowing/CRI/jointing',irrigation:'Critical at CRI stage, then tillering and flowering',weed:'Early weed control in 25-35 DAS is critical',pests:'Aphid, termite, armyworm',diseases:'Yellow rust, powdery mildew',harvest:'35-45 q/ha irrigated',region:'Odisha irrigated pockets and AP highlands in rabi',related:{fertilizers:['DAP','Urea','Zinc Sulphate'],inputs:['Propiconazole'],diseases:['Yellow Rust'],calendar:'Nov sowing, Dec-Jan CRI irrigation, Mar-Apr harvest',ai:['What is CRI stage in wheat?'] }},
+  {id:'maize-g',icon:'🌽',name:'Maize',category:'kharif',season:'Kharif / Rabi',local:'Makka, Mokkajonna',intro:'Versatile cereal for grain, feed, and fodder.',climate:'18–30°C, 500–900 mm rain',soil:'Well-drained loam, pH 5.8–7.5',landPrep:'Raised beds in heavy rain zones',sowing:'Jun-Jul kharif; Oct-Nov rabi in irrigated zones',nutrient:'Basal P+K and N in 3 splits (basal, knee-high, tasseling)',irrigation:'Critical at knee-high, tasseling, grain filling',weed:'2 hoeings or pre-emergence control',pests:'Fall armyworm, stem borer',diseases:'Turcicum blight, rust',harvest:'45-60 q/ha hybrid',region:'Odisha uplands, AP maize belts',related:{fertilizers:['NPK 20:20:0:13','Urea'],inputs:['Chlorantraniliprole'],diseases:['Fall Armyworm'],calendar:'Jun sowing, Jul topdress, Sep harvest',ai:['How to manage fall armyworm in maize?'] }},
+  {id:'chilli-g',icon:'🌶️',name:'Chilli',category:'cash',season:'Kharif / Rabi',local:'Mirchi',intro:'High-value spice crop, especially in Andhra market systems.',climate:'20–30°C dry sunny weather',soil:'Sandy loam, pH 6–7',landPrep:'Raised beds with FYM; nursery to transplant model',sowing:'Nursery 30-35 days before transplanting',nutrient:'Basal + split N and K, micronutrient sprays at flowering',irrigation:'Light frequent irrigation; avoid water stress at fruit set',weed:'Mulch + inter-cultivation',pests:'Thrips, mites, fruit borer',diseases:'Leaf curl complex, anthracnose, wilt',harvest:'20-30 q/ha dry chilli (variety based)',region:'AP Guntur/Prakasam major; Odisha coastal and western pockets',related:{fertilizers:['NPK 19:19:19','MOP (Muriate of Potash)'],inputs:['Spinosad','Neem Oil'],diseases:['Thrips + Leaf Curl Complex'],calendar:'Jun transplant, Aug pest watch, Nov-Jan picking',ai:['Chilli thrips control with IPM?'] }},
+  {id:'tomato-g',icon:'🍅',name:'Tomato',category:'horticulture',season:'Year-round by region',local:'Tamatar',intro:'Popular vegetable with high nutrient and market value.',climate:'18–30°C',soil:'Well-drained loam pH 6–7',landPrep:'Raised beds + compost incorporation',sowing:'Nursery and transplant at 45x45 cm',nutrient:'Basal compost + NPK splits + calcium support',irrigation:'Regular moisture, avoid long dry-wet fluctuation',weed:'Mulch and early interculture',pests:'Whitefly, fruit borer',diseases:'Leaf curl, early blight, wilt',harvest:'250-450 q/ha',region:'Odisha peri-urban belts, AP Chittoor and Kurnool belts',related:{fertilizers:['Calcium Nitrate','NPK 19:19:19'],inputs:['Imidacloprid','Mancozeb'],diseases:['Leaf Curl Complex','Early Blight'],calendar:'Nursery month-wise based on local climate',ai:['Tomato leaf curl first step?'] }},
+  {id:'onion-g',icon:'🧅',name:'Onion',category:'horticulture',season:'Rabi / Kharif',local:'Pyaj',intro:'Key vegetable for storage and price-sensitive markets.',climate:'13–24°C for bulb development',soil:'Sandy loam pH 6–7',landPrep:'Fine beds and transplant',sowing:'Nursery then 45-50 day transplant',nutrient:'Basal P+K and split N',irrigation:'Frequent light irrigation, stop before harvest',weed:'Two weeding operations in first 45 days',pests:'Thrips',diseases:'Purple blotch, downy mildew',harvest:'100-180 q/ha',region:'Odisha western & AP dry belts',related:{fertilizers:['DAP','MOP (Muriate of Potash)'],inputs:['Spinosad'],diseases:['Purple Blotch'],calendar:'Oct-Dec transplant; Mar-Apr harvest',ai:['Onion thrips management'] }},
+  {id:'potato-g',icon:'🥔',name:'Potato',category:'rabi',season:'Rabi',local:'Aloo',intro:'Short duration tuber crop for food and processing.',climate:'15–25°C',soil:'Sandy loam pH 5.2–6.5',landPrep:'Ridged beds with seed tubers',sowing:'Oct-Nov planting',nutrient:'Basal + earthing-up stage topdress',irrigation:'Light irrigation at stolon and tuber formation',weed:'Earthing up suppresses weeds',pests:'Cutworm, aphid',diseases:'Late blight, early blight',harvest:'180-280 q/ha',region:'Odisha plateau and AP cooler pockets',related:{fertilizers:['NPK 12:32:16'],inputs:['Metalaxyl + Mancozeb'],diseases:['Early Blight'],calendar:'Nov sowing, Jan-Feb harvest',ai:['Potato late blight warning signs'] }},
+  {id:'mango-g',icon:'🥭',name:'Mango',category:'horticulture',season:'Perennial',local:'Aam, Mamidi',intro:'Major fruit tree crop with flowering and fruit-drop management needs.',climate:'24–35°C, dry period for flowering',soil:'Deep well-drained loam',landPrep:'Pit planting with FYM and basin formation',sowing:'Monsoon planting for new orchards',nutrient:'Stage-wise NPK + micronutrient spray around flowering',irrigation:'Critical in fruit set and development',weed:'Basin weed control and mulching',pests:'Hopper, fruit fly',diseases:'Anthracnose, powdery mildew',harvest:'8-15 t/ha mature orchards',region:'Odisha coastal + AP Chittoor belts',related:{fertilizers:['MOP (Muriate of Potash)','Micronutrient Mix'],inputs:['Neem Oil'],diseases:['Anthracnose'],calendar:'Dec-Feb flowering watch, May-Jul harvest',ai:['Mango fruit drop management tips'] }},
+  {id:'banana-g',icon:'🍌',name:'Banana',category:'horticulture',season:'Perennial',local:'Kela, Arati',intro:'Year-round fruit crop with high nutrient and water requirement.',climate:'20–35°C humid',soil:'Rich loam, pH 6–7.5',landPrep:'Pit or furrow planting with organic matter',sowing:'Year-round with irrigation',nutrient:'High K requirement, split fertigation recommended',irrigation:'Consistent moisture; drip preferred',weed:'Mulch + periodic weeding',pests:'Pseudostem weevil',diseases:'Panama wilt, Sigatoka',harvest:'25-45 t/ha',region:'Andhra deltas and Odisha coastal belts',related:{fertilizers:['Urea','MOP (Muriate of Potash)'],inputs:['Trichoderma'],diseases:['Sigatoka'],calendar:'11-13 month crop cycle',ai:['Banana fertilizer schedule by stage'] }},
+  {id:'groundnut-g',icon:'🥜',name:'Groundnut',category:'kharif',season:'Kharif / Rabi irrigated',local:'Moongphali',intro:'Important oilseed for rainfed and irrigated systems.',climate:'22–30°C',soil:'Sandy loam, pH 6–7',landPrep:'Fine friable bed for pegging',sowing:'Jun-Jul kharif or Nov rabi (irrigated)',nutrient:'Low N, higher P, gypsum at pegging',irrigation:'Flowering and pegging are critical',weed:'Early 30 DAS weeding crucial',pests:'Leaf miner, tobacco caterpillar',diseases:'Tikka leaf spot, rust',harvest:'15-25 q/ha pods',region:'AP Anantapur and Odisha dry belts',related:{fertilizers:['SSP (Single Super Phosphate)','Gypsum'],inputs:['Chlorothalonil'],diseases:['Leaf spot'],calendar:'Jun sowing, Sep-Oct harvest',ai:['Groundnut leaf spot control'] }},
+  {id:'mustard-g',icon:'🌿',name:'Mustard',category:'rabi',season:'Rabi',local:'Sarson',intro:'Major rabi oilseed requiring sulfur nutrition.',climate:'10–25°C',soil:'Loam pH 6–7.5',landPrep:'Fine seedbed with moisture conservation',sowing:'Oct-Nov',nutrient:'Balanced NPK + sulfur + boron where deficient',irrigation:'2-3 irrigations at flowering/pod filling',weed:'Early manual weeding',pests:'Aphid',diseases:'Alternaria blight',harvest:'10-18 q/ha',region:'Odisha western belts, AP limited irrigated pockets',related:{fertilizers:['Ammonium Sulphate','Borax'],inputs:['Neem Oil'],diseases:['Alternaria'],calendar:'Nov sowing, Mar harvest',ai:['Mustard aphid management without over spray'] }},
+  {id:'cotton-g',icon:'🌸',name:'Cotton',category:'cash',season:'Kharif',local:'Kapas',intro:'Fiber crop needing careful whitefly and nutrient management.',climate:'20–32°C',soil:'Black soil preferred',landPrep:'Broad bed furrow and good drainage',sowing:'May-Jun',nutrient:'Split N and K, avoid heavy early nitrogen',irrigation:'Square and boll formation stages critical',weed:'Early weed-free period 45 DAS',pests:'Whitefly, pink bollworm',diseases:'Leaf reddening and blight complexes',harvest:'15-25 q/ha kapas',region:'AP and Odisha cotton pockets',related:{fertilizers:['NPK 20:20:0:13','MOP (Muriate of Potash)'],inputs:['Imidacloprid'],diseases:['Whitefly & Sooty Mold Complex'],calendar:'Jun sowing, Sep-Nov picking',ai:['Whitefly control in cotton IPM'] }}
 ];
+const expandedCropCatalog=[
+  ['sorghum','🌾','Sorghum (Jowar)','kharif'],['bajra','🌾','Bajra (Pearl Millet)','kharif'],['ragi','🌾','Ragi (Finger Millet)','kharif'],['barley','🌿','Barley','rabi'],
+  ['greengram','🫘','Green Gram (Moong)','kharif'],['blackgram','🫘','Black Gram (Urad)','kharif'],['redgram','🫘','Red Gram (Pigeonpea)','kharif'],['bengalgram','🫘','Bengal Gram (Chickpea)','rabi'],['lentil','🫘','Lentil','rabi'],['pea','🫘','Pea','rabi'],
+  ['sesame','🌱','Sesame','kharif'],['sunflower','🌻','Sunflower','rabi'],['soybean','🌱','Soybean','kharif'],['castor','🌱','Castor','cash'],['linseed','🌱','Linseed','rabi'],
+  ['sugarcane','🎋','Sugarcane','cash'],['jute','🧵','Jute','cash'],['tobacco','🍂','Tobacco (Educational)','cash'],
+  ['brinjal','🍆','Brinjal','horticulture'],['garlic','🧄','Garlic','horticulture'],['okra','🥬','Okra','horticulture'],['cabbage','🥬','Cabbage','horticulture'],['cauliflower','🥦','Cauliflower','horticulture'],['spinach','🥬','Spinach','horticulture'],['bottle-gourd','🥒','Bottle Gourd','horticulture'],['bitter-gourd','🥒','Bitter Gourd','horticulture'],['pumpkin','🎃','Pumpkin','horticulture'],['ridge-gourd','🥒','Ridge Gourd','horticulture'],['cucumber','🥒','Cucumber','horticulture'],['beans','🫘','Beans','horticulture'],['carrot','🥕','Carrot','horticulture'],['radish','🥕','Radish','horticulture'],['beetroot','🫜','Beetroot','horticulture'],['sweet-potato','🍠','Sweet Potato','horticulture'],
+  ['papaya','🍈','Papaya','horticulture'],['guava','🍐','Guava','horticulture'],['coconut','🥥','Coconut','horticulture'],['jackfruit','🍈','Jackfruit','horticulture'],['litchi','🍒','Litchi','horticulture'],['pomegranate','🍎','Pomegranate','horticulture'],['orange','🍊','Orange','horticulture'],['lemon','🍋','Lemon','horticulture'],['sapota','🟤','Sapota','horticulture'],['pineapple','🍍','Pineapple','horticulture'],['watermelon','🍉','Watermelon','horticulture'],['muskmelon','🍈','Muskmelon','horticulture'],['grapes','🍇','Grapes','horticulture'],['apple','🍎','Apple (General)','horticulture'],['amla','🟢','Amla','horticulture'],
+  ['turmeric','🟡','Turmeric','cash'],['ginger','🫚','Ginger','cash'],['coriander','🌿','Coriander','horticulture'],['cumin','🌿','Cumin','rabi'],['fenugreek','🌿','Fenugreek','rabi'],['fennel','🌿','Fennel','rabi'],['cardamom','🌿','Cardamom','horticulture'],['black-pepper','⚫','Black Pepper','horticulture'],['clove','🌿','Clove','horticulture'],['cinnamon','🪵','Cinnamon','horticulture'],['curry-leaf','🍃','Curry Leaf','horticulture'],
+  ['mushroom','🍄','Mushroom Farming','cash'],['beekeeping','🐝','Beekeeping','cash'],['medicinal-plants','🌿','Medicinal Plants','cash'],['floriculture','🌸','Floriculture Basics','cash']
+];
+expandedCropCatalog.forEach(([id,icon,name,category])=>{
+  if(cropGuideData.some(c=>c.id===id)) return;
+  cropGuideData.push({
+    id,icon,name,category,season:'Location-specific',local:'Regional names vary',
+    intro:'Educational starter profile. Use local KVK/advisory for district-specific decisions.',
+    climate:'Crop-specific climate range; verify with local seasonal forecast.',
+    soil:'Well-drained suitable soil with pH correction based on soil test.',
+    landPrep:'Prepare fine tilth/bed and improve drainage before sowing.',
+    sowing:'Follow local sowing window and recommended variety for your district.',
+    nutrient:'Use balanced NPK + organic matter; avoid single-fertilizer dependency.',
+    irrigation:'Irrigate by crop stage and avoid overwatering/waterlogging.',
+    weed:'Keep field weed-free in early growth stage using manual/mechanical/IPM logic.',
+    pests:'Identify pest correctly before control; prefer threshold-based action.',
+    diseases:'Observe early symptoms and compare with nutrient deficiency before spraying.',
+    harvest:'Harvest at crop maturity signs and handle post-harvest carefully.',
+    region:'Odisha and Andhra suitability depends on district rainfall, soil, and irrigation.',
+    related:{fertilizers:['Urea','DAP'],inputs:['Neem Oil'],diseases:['General disease scouting'],calendar:'Use month-wise calendar page for operations',ai:[`Best practices for ${name} in my district?`]}
+  });
+});
 let currentCropFilter='all';
 function filterCropGuide(cat,btn){
   currentCropFilter=cat;renderCropGuide(cat);
@@ -1300,21 +1299,44 @@ function renderCropGuide(cat){
   const det=document.getElementById('cropGuideDetail');
   det.style.display='block';
   det.innerHTML=`<button class="result-back" onclick="document.getElementById('cropGuideDetail').style.display='none'">← Back</button>
-  <div class="result-card"><h3>${c.icon} ${c.name} — Complete Cultivation Guide</h3>
-    <div class="info-grid">
-      <div class="info-box"><h4>🌤️ Climate</h4><p>${c.climate}</p></div>
-      <div class="info-box"><h4>🪨 Soil</h4><p>${c.soil}</p></div>
-      <div class="info-box"><h4>📅 Season</h4><p>${c.season}</p></div>
-      <div class="info-box"><h4>📦 Expected Yield</h4><p>${c.yield}</p></div>
+  <div class="result-card" id="crop-top">
+    <h3>${c.icon} ${c.name}</h3>
+    <p style="margin-bottom:10px;">${c.intro}</p>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;position:sticky;top:64px;background:#fff;z-index:3;padding:8px 0;">
+      ${['overview','sowing','fertilizer','pests','diseases','harvest','yield'].map(ch=>`<a href='#crop-${ch}' class='tag' style='text-decoration:none;'>${ch[0].toUpperCase()+ch.slice(1)}</a>`).join('')}
     </div>
-    <div class="info-box" style="margin-top:8px;"><h4>🧪 Fertilizer Schedule</h4><p>${c.fertilizer}</p></div>
-    <div class="info-box" style="margin-top:8px;"><h4>🐛 Pest & Disease Management</h4><p>${c.pests}</p></div>
-    <div class="info-box" style="margin-top:8px;background:#f1f8e9;border-color:#a5d6a7;"><h4 style="color:#2e7d32;">🌿 Organic Practices</h4><p>${c.organic}</p></div>
-    <a class="whatsapp-share" style="margin-top:10px;" href="https://wa.me/?text=${encodeURIComponent('AskKrishi Crop Guide: '+c.name+' – '+c.fertilizer)}" target="_blank">📲 Share Guide</a>
+    <div class="info-grid" id="crop-overview">
+      <div class="info-box"><h4>🏷️ Overview</h4><p><strong>Season:</strong> ${c.season}<br><strong>Category:</strong> ${c.category}<br><strong>Local names:</strong> ${c.local||'--'}</p></div>
+      <div class="info-box"><h4>🌤️ Climate & Soil</h4><p><strong>Climate:</strong> ${c.climate}<br><strong>Soil:</strong> ${c.soil}</p></div>
+      <div class="info-box"><h4>🚜 Land Preparation</h4><p>${c.landPrep}</p></div>
+      <div class="info-box" id="crop-sowing"><h4>🌱 Seed & Sowing</h4><p>${c.sowing}</p></div>
+    </div>
+    <div class="info-box" id="crop-fertilizer" style="margin-top:8px;"><h4>🧪 Nutrient Management</h4><p>${c.nutrient}</p></div>
+    <div class="info-grid" style="margin-top:8px;">
+      <div class="info-box"><h4>💧 Irrigation</h4><p>${c.irrigation}</p></div>
+      <div class="info-box"><h4>🌿 Weed Management</h4><p>${c.weed}</p></div>
+    </div>
+    <div class="info-grid" style="margin-top:8px;">
+      <div class="info-box" id="crop-pests"><h4>🐛 Pest Management</h4><p>${c.pests}</p></div>
+      <div class="info-box" id="crop-diseases"><h4>🦠 Disease Management</h4><p>${c.diseases}</p></div>
+    </div>
+    <div class="info-grid" style="margin-top:8px;">
+      <div class="info-box" id="crop-harvest"><h4>🌾 Harvest & Yield</h4><p id="crop-yield">${c.harvest}</p></div>
+      <div class="info-box"><h4>📍 Odisha & Andhra Relevance</h4><p>${c.region}</p></div>
+    </div>
+    <div class="info-box" style="margin-top:8px;background:#f5fbf5;"><h4>🔗 Related on AskKrishi</h4>
+      <p><strong>Fertilizers:</strong> ${(c.related?.fertilizers||[]).map(n=>`<button class='tag' style='border:0;cursor:pointer;' onclick="showPage('fertilizers');setTimeout(()=>showFertDetail('${n}'),120)">${n}</button>`).join('')}</p>
+      <p><strong>Input topics:</strong> ${(c.related?.inputs||[]).join(', ')}</p>
+      <p><strong>Disease topics:</strong> ${(c.related?.diseases||[]).join(', ')}</p>
+      <p><strong>Calendar:</strong> ${c.related?.calendar||''}</p>
+      <p><strong>AI prompts:</strong> ${(c.related?.ai||[]).map(a=>`<span class='tag' style='cursor:pointer;' onclick="localStorage.setItem('askkrishi_ai_prompt','${a}');showPage('ai-chat');applyPendingAiPrompt();">${a}</span>`).join('')}</p>
+    </div>
+    <a class="whatsapp-share" style="margin-top:10px;" href="https://wa.me/?text=${encodeURIComponent('AskKrishi Crop Guide: '+c.name+' – '+c.nutrient)}" target="_blank">📲 Share Guide</a>
   </div>`;
   det.scrollIntoView({behavior:'smooth'});
-    }
+}
 
+  // ===== FRUITS & VEG (50+ entries) =====
   // ===== FRUITS & VEG (50+ entries) =====
 const fvData=[
   {id:'mango',icon:'🥭',name:'Mango',type:'fruit',climate:'Tropical/sub-tropical 24-27°C',soil:'Deep loam, pH 5.5-7.5',fertilizer:'NPK 300:100:150 g/tree; KNO3 1% at fruiting',pest:'Hopper, fruit fly, anthracnose, powdery mildew'},
@@ -1414,7 +1436,7 @@ async function renderFert(type = 'all') {
 
   try {
     await ensureFertData();
-    const data = type === 'all' ? fertData : fertData.filter(i => i.type === type);
+    const data = type === 'all' ? fertData : fertData.filter(i => i.type === type || i.category===type);
     if (!data.length) {
       grid.innerHTML = `<div class="result-card"><p>No input data found for this filter.</p></div>`;
       if (det) det.style.display = 'none';
@@ -1424,7 +1446,8 @@ async function renderFert(type = 'all') {
       <div class="fert-card" onclick="showFertDetail('${(i.name || '').replace(/'/g, "&#39;")}')">
         <span class="fert-tag">${i.type}</span>
         <h4>${i.name}</h4>
-        <p>${i.desc}</p>
+        <p>${i.mainFunction || i.desc}</p>
+        <p style="font-size:0.72rem;color:var(--green);margin-top:6px;">Use case: ${i.bestUseCase || 'Educational guidance'}</p>
       </div>
     `).join('');
     if (det) det.style.display = 'none';
@@ -1443,18 +1466,32 @@ function showFertDetail(name) {
     <button class="result-back" onclick="document.getElementById('fertDetail').style.display='none'">← Back</button>
     <div class="result-card">
       <h3>🧪 ${item.name}</h3>
-      <span class="tag">${item.type}</span>
-      <p style="margin-top:8px;">${item.desc}</p>
-      <div class="info-box" style="margin-top:10px;">
-        <h4>✅ Usage Note</h4>
-        <p>Always follow label dose, wear protective gear, and consult local agri officer/KVK for crop-stage specific recommendations.</p>
+      <span class="tag">${item.type}</span> <span class="tag">${item.group || 'Input library'}</span>
+      <p style="margin-top:8px;">${item.mainFunction || item.desc}</p>
+      <div class="info-grid" style="margin-top:8px;">
+        <div class="info-box"><h4>📦 Composition</h4><p>${item.composition || 'Varies by product label'}</p></div>
+        <div class="info-box"><h4>🎯 Best use case</h4><p>${item.bestUseCase || '--'}</p></div>
+        <div class="info-box"><h4>🌾 Common crops</h4><p>${(item.commonCrops||[]).join(', ')}</p></div>
+        <div class="info-box"><h4>⏱️ Stage of use</h4><p>${item.stage || '--'}</p></div>
       </div>
+      <div class="info-box" style="margin-top:8px;"><h4>🧭 General dose & method</h4><p>${item.doseGuidance || '--'}</p><p><strong>Method:</strong> ${item.method || '--'}</p></div>
+      <div class="info-grid" style="margin-top:8px;">
+        <div class="info-box"><h4>⚠️ Common mistakes</h4><p>${item.commonMistakes || '--'}</p></div>
+        <div class="info-box"><h4>🛡️ Safety / caution</h4><p>${item.safety || '--'}</p></div>
+      </div>
+      <div class="info-grid" style="margin-top:8px;">
+        <div class="info-box"><h4>🔁 Alternatives</h4><p>${(item.alternatives||[]).join(', ')}</p></div>
+        <div class="info-box"><h4>🌿 Organic substitute</h4><p>${item.organicAlternative || '--'}</p></div>
+      </div>
+      <div class="info-box" style="margin-top:8px;background:#fff8e1;border-color:#ffe082;"><h4 style="color:#e65100;">Good practice</h4><p>Identify the problem first, use only when needed, rotate chemistry, and protect pollinators and beneficial insects.</p></div>
+      <div style="margin-top:9px;"><strong style="font-size:0.78rem;color:var(--text-light);">Linked crops:</strong> ${(item.commonCrops||[]).map(c=>`<span class='tag'>${c}</span>`).join('')}</div>
     </div>
   `;
   det.scrollIntoView({ behavior: 'smooth' });
 }
 
-    // ===== ORGANIC FARMING =====
+// ===== ORGANIC FARMING =====
+// ===== ORGANIC FARMING =====
 const organicData=[
   {title:'Zero Budget Natural Farming (ZBNF)',tag:'AP State Policy — 700,000+ Farmers',desc:'ZBNF uses Jeevamrutha (cow dung + urine fermented), Beejamrutha (seed treatment), Mulching, and Whapasa (air-water balance). Reduces input cost 50-70%. AP government policy for all 6 million farmers.'},
   {title:'Jeevamrutha — Core ZBNF Input',tag:'Bio-stimulant',desc:'10 kg desi cow dung + 10L cow urine + 2 kg jaggery + 2 kg pulse flour + handful soil. Ferment 48 hrs. Apply 200L/acre diluted as soil drench or foliar 2x/month. Activates 300 crore soil microbes per ml.'},
