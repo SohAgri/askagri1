@@ -583,6 +583,21 @@ tr:hover td { background: #f6fef6; }
 .daily-safe-note{margin-top:10px;font-size:0.74rem;line-height:1.5;color:#486153;padding:10px 12px;background:#f2f9f3;border:1px solid #d7ead9;border-radius:12px;}
 .daily-result-empty{font-size:0.84rem;color:#5c695f;line-height:1.55;}
 .daily-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;background:#eef8ef;color:#256536;border-radius:999px;border:1px solid #d6e9d8;font-size:0.72rem;font-weight:700;margin-bottom:10px;}
+.daily-risk-section{margin-bottom:12px;}
+.daily-risk-section h4{font-size:0.9rem;color:#6b4b00;margin-bottom:8px;}
+.daily-risk-grid{display:grid;gap:8px;grid-template-columns:1fr;}
+.daily-risk-card{border:1.5px solid #d8e6da;background:#fbfdfb;border-radius:12px;padding:10px 11px;}
+.daily-risk-card h5{margin:0;font-size:0.84rem;color:#234b2f;}
+.daily-risk-card p{margin:5px 0 0;font-size:0.78rem;color:#435447;line-height:1.5;}
+.daily-risk-head{display:flex;justify-content:space-between;gap:8px;align-items:center;}
+.daily-risk-severity{font-size:0.68rem;font-weight:800;padding:3px 8px;border-radius:999px;border:1px solid;}
+.daily-risk-card.low{border-color:#cfe8d2;background:#f4fbf4;}
+.daily-risk-card.medium{border-color:#f0df9a;background:#fff9e8;}
+.daily-risk-card.high{border-color:#f0b2b0;background:#fff1f0;}
+.daily-risk-severity.low{color:#1f6b38;border-color:#8bc59a;background:#e9f8ed;}
+.daily-risk-severity.medium{color:#8a6400;border-color:#e3c45d;background:#fff3cf;}
+.daily-risk-severity.high{color:#9c1f1f;border-color:#e49090;background:#ffe2e2;}
+.daily-risk-empty{font-size:0.8rem;color:#4f5f53;background:#f7faf8;border:1px dashed #d3e2d6;border-radius:10px;padding:8px 10px;}
 .daily-priority{border-left:4px solid #2f7d3f;border-radius:10px;background:#f4fbf5;padding:11px 12px;margin-bottom:12px;}
 .daily-priority h4{color:#1f5d2f;margin-bottom:4px;font-size:0.9rem;}
 .daily-priority p{margin:0;font-weight:700;color:#244f30;font-size:0.86rem;line-height:1.45;}
@@ -727,6 +742,7 @@ footer a { color: #81c784; text-decoration: none; }
 @media (min-width: 820px) {
   .allied-quick-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
   .daily-grid { grid-template-columns: 1fr 1fr; }
+  .daily-risk-grid { grid-template-columns: 1fr 1fr; }
   .support-donation-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
 @media (max-width: 600px) {
