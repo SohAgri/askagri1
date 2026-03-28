@@ -733,6 +733,24 @@ footer a { color: #81c784; text-decoration: none; }
 .calendar-legend-item{border-radius:10px;padding:5px 13px;font-size:0.75rem;font-weight:700;}
 @media (max-width:720px){.hero-video{object-position:center;} .hero-panel,.landing-section{backdrop-filter:none;-webkit-backdrop-filter:none;} .glass-card{backdrop-filter:none;-webkit-backdrop-filter:none;} .reveal-on-scroll{opacity:1;transform:none;} }
 @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto !important;animation:none !important;transition:none !important;} .reveal-on-scroll{opacity:1;transform:none;}}
+
+/* PHOTO CHECK */
+.photo-check-wrap { max-width: 760px; margin: 0 auto; padding: 20px 16px 44px; }
+.photo-check-intro-card, .photo-check-form-card { background:#fff; border:2px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; margin-bottom: 14px; }
+.photo-check-intro-card h3 { color: var(--green); font-family:'Poppins',sans-serif; font-size:1rem; margin-bottom: 6px; }
+.photo-check-intro-card p { font-size:0.82rem; color:var(--text-light); line-height:1.7; margin-bottom: 8px; }
+.photo-check-note { display:inline-block; background:#fff8e1; border:1px solid #ffe082; color:#8d5a07; font-size:0.74rem; font-weight:700; border-radius:999px; padding:6px 10px; }
+.photo-check-grid { display:grid; gap:10px; margin-bottom: 12px; }
+.photo-field label { display:block; font-size:0.8rem; font-weight:700; color:var(--text-light); margin-bottom:6px; }
+.photo-field label span { font-weight:600; color:#879489; font-size:0.74rem; }
+.photo-select { width:100%; padding:11px 14px; border:2px solid var(--border); border-radius:12px; font-size:0.84rem; font-family:'Hind',sans-serif; outline:none; background:white; color:var(--text); }
+.photo-select:focus { border-color: var(--green-light); box-shadow: 0 0 0 3px rgba(76,175,80,0.13); }
+.photo-chip-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.photo-chip { background:#eef7ef; color:#1f6d2e; border:1px solid #c9e1ce; border-radius:999px; padding:5px 10px; font-size:0.74rem; font-weight:700; }
+.photo-result-list { margin: 0; padding-left: 18px; font-size:0.82rem; color:var(--text-light); line-height:1.7; }
+.photo-link-btn { border:1px solid #c8ddcc; background:#f6fbf7; color:#1f6d2e; padding:8px 10px; border-radius:10px; font-weight:700; font-size:0.76rem; cursor:pointer; }
+.photo-link-btn:hover { background:#e8f5ea; }
+
 /* RESPONSIVE */
 @media (max-width: 800px) {
   .home-sector-header { flex-direction: column; }
@@ -940,7 +958,7 @@ footer a { color: #81c784; text-decoration: none; }
       <a href="#" onclick="showPage('glossary')">📖 Glossary</a>
       <a href="#" onclick="showPage('faq')">❓ FAQ</a>
       <a href="#" onclick="showPage('ai-chat')">🤖 AI Assistant</a>
-      <a href="#" onclick="showPage('upload')">📷 Photo AI</a>
+      <a href="#" onclick="showPage('upload')">📷 Photo Check</a>
     </div>
     <div class="nav-right">
       <select class="lang-select"onchange="setLang(this.value)" id="langSelect">
@@ -1036,7 +1054,7 @@ footer a { color: #81c784; text-decoration: none; }
       <p class="landing-sub">Practical decision tools for day-to-day farm, classroom, and enterprise workflows.</p><p class="landing-sub" style="margin-top:-4px;">Most searched farmer problems: Paddy leaf yellowing • Tomato leaf curl • Chilli pest control • Urea timing • Whitefly in cotton.</p>
       <div class="tool-grid">
         <div class="glass-card tool-card" onclick="showPage('ai-chat')"><div class="glass-icon">🤖</div><h3>AI Farming Assistant</h3><p>Get practical farm answers in simple language.</p><p class="tools-meta">Who it helps: farmers, extension workers, students.</p><span class="sector-action">Ask Now →</span></div>
-        <div class="glass-card tool-card" onclick="showPage('upload')"><div class="glass-icon">🔬</div><h3>Crop Disease Detection</h3><p>Symptom-led support from crop images and visible signs.</p><p class="tools-meta">Who it helps: field users needing quick checks.</p><span class="sector-action">Diagnose Now →</span></div>
+        <div class="glass-card tool-card" onclick="showPage('upload')"><div class="glass-icon">📷</div><h3>Crop Photo Check</h3><p>AI-assisted photo support for probable crop issue detection.</p><p class="tools-meta">Who it helps: farmers and students doing first field checks.</p><span class="sector-action">Check Crop Photo →</span></div>
         <div class="glass-card tool-card" onclick="showPage('mandi')"><div class="glass-icon">📊</div><h3>Market / Mandi Prices</h3><p>Track trends before deciding sale timing.</p><p class="tools-meta">Who it helps: market-linked farmers.</p><span class="sector-action">View Market Trends →</span></div>
         <div class="glass-card tool-card" onclick="showPage('district-guide')"><div class="glass-icon">🗺️</div><h3>District Crop Guide</h3><p>District suitability and local crop opportunity view.</p><p class="tools-meta">Who it helps: planning at village or block level.</p><span class="sector-action">Explore Tool →</span></div>
         <div class="glass-card tool-card" onclick="showPage('calendar')"><div class="glass-icon">📅</div><h3>Crop Calendar</h3><p>Monthly operations for sowing, irrigation, and pest watch.</p><p class="tools-meta">Who it helps: routine planners and beginners.</p><span class="sector-action">Explore Calendar →</span></div>
@@ -1084,6 +1102,7 @@ footer a { color: #81c784; text-decoration: none; }
       <div class="qn-card" onclick="showPage('mandi')"><div class="qn-icon">📊</div><div class="qn-title">Mandi Prices</div></div>
       <div class="qn-card" onclick="showPage('crop-guide')"><div class="qn-icon">🌱</div><div class="qn-title">Crop Guide</div></div>
       <div class="qn-card" onclick="showPage('diseases')"><div class="qn-icon">🔬</div><div class="qn-title">Diseases</div></div>
+      <div class="qn-card" onclick="showPage('upload')"><div class="qn-icon">📷</div><div class="qn-title">Photo Check</div></div>
       <div class="qn-card" onclick="showPage('fruits-veg')"><div class="qn-icon">🍎</div><div class="qn-title">Fruits &amp; Veg</div></div>
       <div class="qn-card" onclick="showPage('fertilizers')"><div class="qn-icon">🧪</div><div class="qn-title">Inputs</div></div>
       <div class="qn-card" onclick="showPage('organic-farming')"><div class="qn-icon">🍃</div><div class="qn-title">Organic</div></div>
@@ -1468,39 +1487,71 @@ footer a { color: #81c784; text-decoration: none; }
   <!-- ===== UPLOAD ===== -->
 <div id="upload" class="page">
   <div class="page-header">
-    <h1>📷 <span data-key="upload_title">Crop Disease Scanner</span></h1>
-    <p data-key="upload_sub">Upload crop photo and get a demo disease result with practical guidance</p>
+    <h1>📷 Crop Photo Check</h1>
+    <p>AI-assisted photo-based support for probable crop issue detection</p>
   </div>
-  <div style="max-width:640px;margin:0 auto;padding:20px 16px 40px;text-align:center;">
-    <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:12px;">This is a demo scanner. It helps farmers understand possible disease signs quickly.</p>
-
-    <div style="text-align:left;margin-bottom:10px;">
-      <label style="font-size:0.8rem;font-weight:700;color:var(--text-light);display:block;margin-bottom:6px;">Select crop (improves demo accuracy)</label>
-      <select id="scanCropSelect" style="width:100%;padding:11px 14px;border:2px solid var(--border);border-radius:12px;font-size:0.84rem;font-family:'Hind',sans-serif;outline:none;background:white;color:var(--text);">
-        <option value="auto">Auto detect (demo)</option>
-        <option value="rice">Rice / Paddy</option>
-        <option value="tomato">Tomato</option>
-        <option value="chilli">Chilli</option>
-        <option value="grapes">Grapes</option>
-      </select>
+  <div class="photo-check-wrap">
+    <div class="photo-check-intro-card">
+      <h3>Photo-based Problem Detection</h3>
+      <p>Upload one clear field photo and get a farmer-friendly probable issue report with next checks and first actions.</p>
+      <div class="photo-check-note">Educational support only • verify before spraying • local conditions matter.</div>
     </div>
 
-    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-      <div class="upload-icon">📸</div>
-      <h3 style="font-family:'Hind',sans-serif;color:var(--green);margin-bottom:8px;" data-key="upload_tap">Tap to Upload Crop Photo</h3>
-      <p style="font-size:0.84rem;color:var(--text-light);" data-key="upload_hint">Supports JPG, PNG — Take a clear photo of affected leaf/plant area</p>
+    <div class="photo-check-form-card">
+      <div class="photo-check-grid">
+        <div class="photo-field">
+          <label for="scanCropSelect">Select crop <span>(recommended)</span></label>
+          <select id="scanCropSelect" class="photo-select">
+            <option value="auto">Auto (let system estimate)</option>
+            <option value="paddy">Paddy / Rice</option>
+            <option value="tomato">Tomato</option>
+            <option value="chilli">Chilli</option>
+            <option value="wheat">Wheat</option>
+            <option value="mango">Mango</option>
+          </select>
+        </div>
+
+        <div class="photo-field">
+          <label for="scanPartSelect">Plant part <span>(optional)</span></label>
+          <select id="scanPartSelect" class="photo-select">
+            <option value="auto">Auto detect from photo</option>
+            <option value="leaf">Leaf</option>
+            <option value="stem">Stem</option>
+            <option value="fruit">Fruit</option>
+            <option value="whole_plant">Whole plant</option>
+          </select>
+        </div>
+
+        <div class="photo-field">
+          <label for="scanRegionSelect">Region</label>
+          <select id="scanRegionSelect" class="photo-select">
+            <option value="odisha">Odisha</option>
+            <option value="andhra">Andhra Pradesh</option>
+            <option value="general">General India</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+        <div class="upload-icon">📸</div>
+        <h3 style="font-family:'Hind',sans-serif;color:var(--green);margin-bottom:8px;">Upload crop photo</h3>
+        <p style="font-size:0.84rem;color:var(--text-light);">Supports JPG, PNG, WEBP — capture one focused image of affected crop area</p>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
+      <div class="upload-preview" id="uploadPreview">
+        <img id="previewImg" src="" alt="Preview">
+      </div>
+
+      <button class="analyze-btn" id="analyzeBtn" onclick="analyzeImage()" style="display:none;">
+        📷 Check Crop Photo
+      </button>
+      <div id="scanError" style="display:none;background:#ffebee;border:1.5px solid #ffcdd2;color:#b71c1c;padding:10px 12px;border-radius:10px;margin-top:12px;font-size:0.79rem;"></div>
+      <div id="scanFollowup" class="analysis-result" style="display:none;"></div>
+      <div class="analysis-result" id="analysisResult"></div>
     </div>
-    <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
-    <div class="upload-preview" id="uploadPreview">
-      <img id="previewImg" src="" alt="Preview">
-    </div>
-    <button class="analyze-btn" id="analyzeBtn" onclick="analyzeImage()" style="display:none;">
-      🔬 <span data-key="analyze_btn">Scan Crop Disease</span>
-    </button>
-    <div id="scanError" style="display:none;background:#ffebee;border:1.5px solid #ffcdd2;color:#b71c1c;padding:10px 12px;border-radius:10px;margin-top:12px;font-size:0.79rem;"></div>
-    <div class="analysis-result" id="analysisResult"></div>
   </div>
 </div>
+
 
 
   <!-- ===== ASK ===== -->
@@ -1864,6 +1915,7 @@ footer a { color: #81c784; text-decoration: none; }
     <a href="#" onclick="showPage('schemes')">Schemes</a> ·
     <a href="#" onclick="showPage('glossary')">Glossary</a> ·
     <a href="#" onclick="showPage('faq')">FAQ</a> ·
+    <a href="#" onclick="showPage('upload')">Crop Photo Check</a> ·
     <a href="#" onclick="showPage('ai-chat')">AI Assistant</a>
   </p>
   <p style="margin-top:7px;font-size:0.78rem;line-height:1.8;">
