@@ -14,7 +14,7 @@ const LANG = {
     sec_disease_guide:'Crop Disease Guide', sec_schemes:'Popular Government Schemes',
     back_home:'Back to Home', back:'Back', disease_sub:'Tap any crop to see diseases, symptoms & solutions',
     mandi_title:'Mandi Market Prices', mandi_sub:"Today's prices across major Indian mandis",
-    mandi_live:'Live Mandi Prices', mandi_updated:'Updated: Today, 9:00 AM',
+    mandi_live:'Live Mandi Prices', mandi_updated:'Updated: 23 May 2026',
     th_crop:'🌾 Crop', th_mandi:'📍 Mandi', th_state:'🏙️ State', th_min:'💰 Min (₹/Q)', th_max:'💰 Max (₹/Q)', th_trend:'📈 Trend',
     mandi_disclaimer:'* Prices are indicative. Verify with local mandi before selling.',
     schemes_title:'Government Schemes for Farmers', schemes_sub:'Know your benefits and how to apply',
@@ -53,7 +53,7 @@ const LANG = {
     sec_disease_guide:'फसल रोग मार्गदर्शिका', sec_schemes:'लोकप्रिय सरकारी योजनाएं',
     back_home:'होम पर वापस', back:'वापस', disease_sub:'किसी भी फसल पर टैप करें — रोग, लक्षण और समाधान देखें',
     mandi_title:'मंडी बाजार भाव', mandi_sub:'प्रमुख भारतीय मंडियों में आज के भाव',
-    mandi_live:'लाइव मंडी भाव', mandi_updated:'अपडेट: आज, सुबह 9 बजे',
+    mandi_live:'लाइव मंडी भाव', mandi_updated:'अपडेट: 23 मई 2026',
     th_crop:'🌾 फसल', th_mandi:'📍 मंडी', th_state:'🏙️ राज्य', th_min:'💰 न्यूनतम', th_max:'💰 अधिकतम', th_trend:'📈 रुझान',
     mandi_disclaimer:'* भाव सांकेतिक हैं। बेचने से पहले स्थानीय मंडी से जांचें।',
     schemes_title:'किसानों के लिए सरकारी योजनाएं', schemes_sub:'अपने लाभ जानें और आवेदन कैसे करें',
@@ -92,7 +92,7 @@ const LANG = {
     sec_disease_guide:'పంట వ్యాధి గైడ్', sec_schemes:'ప్రముఖ ప్రభుత్వ పథకాలు',
     back_home:'హోమ్‌కు తిరిగి', back:'వెనక్కి', disease_sub:'వ్యాధులు చూడటానికి పంటపై నొక్కండి',
     mandi_title:'మండి మార్కెట్ ధరలు', mandi_sub:'ప్రధాన మండులలో నేటి ధరలు',
-    mandi_live:'లైవ్ మండి ధరలు', mandi_updated:'అప్‌డేట్: ఈరోజు, ఉదయం 9 గంటలు',
+    mandi_live:'లైవ్ మండి ధరలు', mandi_updated:'అప్‌డేట్: 23 మే 2026',
     th_crop:'🌾 పంట', th_mandi:'📍 మండి', th_state:'🏙️ రాష్ట్రం', th_min:'💰 కనిష్ట', th_max:'💰 గరిష్ట', th_trend:'📈 ట్రెండ్',
     mandi_disclaimer:'* ధరలు సూచనార్థమైనవి. అమ్మడానికి ముందు స్థానిక మండిని సంప్రదించండి.',
     schemes_title:'రైతులకు ప్రభుత్వ పథకాలు', schemes_sub:'మీ ప్రయోజనాలు తెలుసుకోండి',
@@ -131,7 +131,7 @@ const LANG = {
     sec_disease_guide:'ଫସଲ ରୋଗ ଗାଇଡ', sec_schemes:'ଲୋକପ୍ରିୟ ସରକାରୀ ଯୋଜନା',
     back_home:'ହୋମ୍ ଫେରନ୍ତୁ', back:'ଫେରନ୍ତୁ', disease_sub:'ରୋଗ ଦେଖିବାକୁ ଯେ କୌଣସି ଫସଲ ଉପରେ ଟ୍ୟାପ କରନ୍ତୁ',
     mandi_title:'ମଣ୍ଡି ବଜାର ମୂଲ୍ୟ', mandi_sub:'ପ୍ରଧାନ ଭାରତୀୟ ମଣ୍ଡିଗୁଡ଼ିକରେ ଆଜିର ମୂଲ୍ୟ',
-    mandi_live:'ଲାଇଭ ମଣ୍ଡି ମୂଲ୍ୟ', mandi_updated:'ଅଦ୍ୟତନ: ଆଜି, ସକାଳ ୯ ଟା',
+    mandi_live:'ଲାଇଭ ମଣ୍ଡି ମୂଲ୍ୟ', mandi_updated:'ଅଦ୍ୟତନ: 23 May 2026',
     th_crop:'🌾 ଫସଲ', th_mandi:'📍 ମଣ୍ଡି', th_state:'🏙️ ରାଜ୍ୟ', th_min:'💰 ସର୍ବନିମ୍ନ', th_max:'💰 ସର୍ବୋଚ୍ଚ', th_trend:'📈 ଟ୍ରେଣ୍ଡ',
     mandi_disclaimer:'* ମୂଲ୍ୟ ସୂଚକ। ବିକ୍ରୟ ପୂର୍ବରୁ ସ୍ଥାନୀୟ ମଣ୍ଡି ଯାଞ୍ଚ କରନ୍ତୁ।',
     schemes_title:'କୃଷକଙ୍କ ପାଇଁ ସରକାରୀ ଯୋଜନା', schemes_sub:'ଆପଣଙ୍କ ସୁବିଧା ଜାଣନ୍ତୁ',
@@ -511,6 +511,11 @@ const mandiData = [
   {crop:'🌸 Cotton', mandi:'Akola', state:'Maharashtra', min:6200, max:7500, trend:'down'},
   {crop:'🫘 Moong Dal', mandi:'Jaipur', state:'Rajasthan', min:7200, max:8600, trend:'up'},
   {crop:'🌾 Paddy (Sona Masuri)', mandi:'Nalgonda', state:'Telangana', min:2200, max:2600, trend:'up'},
+  {crop:'🧄 Garlic', mandi:'Kota', state:'Rajasthan', min:9800, max:14800, trend:'up'},
+  {crop:'🌿 Chickpea', mandi:'Bhopal', state:'Madhya Pradesh', min:5100, max:5750, trend:'up'},
+  {crop:'🥬 Cabbage', mandi:'Meerut', state:'Uttar Pradesh', min:600, max:1100, trend:'down'},
+  {crop:'🍆 Brinjal', mandi:'Bhubaneswar', state:'Odisha', min:1200, max:2200, trend:'stable'},
+  {crop:'🌾 Paddy (Sona Masuri)', mandi:'Vijayawada', state:'Andhra Pradesh', min:2250, max:2680, trend:'up'},
 ];
 
 function loadMandi() {
@@ -1177,6 +1182,8 @@ const mandiDataNew={
 function loadMandiNew(state,btn){
   const data=mandiDataNew[state]||mandiDataNew.odisha;
   const tbody=document.getElementById('mandiBodyNew');if(!tbody)return;
+  const stamp=document.querySelector('.mandi-update');
+  if(stamp) stamp.textContent='Updated: 23 May 2026';
   tbody.innerHTML=data.map(r=>{
     const ti=r.trend==='up'?'<span style="color:#2e7d32;font-weight:700;">▲ Rising</span>':r.trend==='down'?'<span style="color:#c62828;font-weight:700;">▼ Falling</span>':'<span style="color:#f57c00;font-weight:700;">─ Stable</span>';
     const mc=r.trend==='up'?'price-up':r.trend==='down'?'price-down':'';
