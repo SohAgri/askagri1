@@ -492,17 +492,75 @@ const diseases = {
   ]}
 };
 
+// Disease translations for Odia and Telugu
+const diseaseTranslations = {
+  od: {
+    'Paddy / Rice Problem Guide 🌾':'ଧାନ / ଚାଉଳ ସମସ୍ୟା ଗାଇଡ 🌾',
+    'Blast Disease':'ବ୍ଲାଷ୍ଟ ରୋଗ',
+    'Fungal':'ଫଙ୍ଗାଲ',
+    'Bacterial Leaf Blight (BLB)':'ବ୍ୟାକ୍ଟେରିଆଲ ଲିଫ ବ୍ଲାଇଟ',
+    'Bacterial':'ବ୍ୟାକ୍ଟେରିଆଲ',
+    'Yellow Stem Borer':'ହଳଦୀ ତନ୍ତୁ ବୋରର',
+    'Insect':'କୀଟ',
+    'Brown Planthopper (BPH)':'ବାଦାମୀ ଉଦ୍ଭିଦ ହପର',
+    'Tomato Disease Guide 🍅':'ଟମାଟୋ ରୋଗ ଗାଇଡ 🍅',
+    'Leaf Curl Complex':'ଲିଫ କର୍ଲ ଜଟିଲ',
+    'Viral (whitefly transmitted)':'ଭାଇରାଲ',
+    'Early Blight':'ପ୍ରାରମ୍ଭିକ ବ୍ଲାଇଟ',
+    'Chilli Pest & Disease Guide 🌶️':'ଲଙ୍କା କୀଟ ରୋଗ ଗାଇଡ 🌶️',
+    'Thrips + Leaf Curl Complex':'ଥ୍ରିପ୍ସ ଲିଫ କର୍ଲ ଜଟିଲ',
+    'Anthracnose Fruit Rot':'ଆନ୍ଥ୍ରାକଲୋଜ ଫଳ ପଚା',
+    'Wheat Disease Guide 🌿':'ଗହମ ରୋଗ ଗାଇଡ 🌿',
+    'Yellow Rust':'ହଳଦୀ ଶୀର୍ଷ',
+    'Cotton Problem Guide 🌸':'କପା ସମସ୍ୟା ଗାଇଡ 🌸',
+    'Whitefly & Sooty Mold Complex':'ଧଳା ମାଛି ଓ ମୋଲ୍ଡ',
+    'Maize Issue Guide 🌽':'ମକା ସମସ୍ୟା ଗାଇଡ 🌽',
+    'Fall Armyworm':'ସୈନ୍ୟ ବୋରର',
+  },
+  te: {
+    'Paddy / Rice Problem Guide 🌾':'వరి / బియ్యం సమస్య గైడ్ 🌾',
+    'Blast Disease':'బ్లాస్ట్ రోగం',
+    'Fungal':'ఫంగల్',
+    'Bacterial Leaf Blight (BLB)':'బ్యాక్టీరియల్ లీఫ్ బ్లైట్',
+    'Bacterial':'బ్యాక్టీరియల్',
+    'Yellow Stem Borer':'పసుపు స్టెమ్ బోరర్',
+    'Insect':'కీటకం',
+    'Brown Planthopper (BPH)':'నీలి నిల్కి',
+    'Tomato Disease Guide 🍅':'టమాటా రోగ గైడ్ 🍅',
+    'Leaf Curl Complex':'లీఫ్ కర్ల్ కాంప్లెక్స్',
+    'Viral (whitefly transmitted)':'వైరల్',
+    'Early Blight':'ప్రారంభ బ్లైట్',
+    'Chilli Pest & Disease Guide 🌶️':'మిర్చి కీటక రోగ గైడ్ 🌶️',
+    'Thrips + Leaf Curl Complex':'త్రిప్‌లు లీఫ్ కర్ల్',
+    'Anthracnose Fruit Rot':'ఆన్థ్రాక్నోస్ ఫ్రూట్ రాట్',
+    'Wheat Disease Guide 🌿':'గోధుమ రోగ గైడ్ 🌿',
+    'Yellow Rust':'పసుపు తుప్పు',
+    'Cotton Problem Guide 🌸':'పత్తి సమస్య గైడ్ 🌸',
+    'Whitefly & Sooty Mold Complex':'చెట్టు ఈలలు మరియు మోల్డ్',
+    'Maize Issue Guide 🌽':'మొక్కజొన్న సమస్య గైడ్ 🌽',
+    'Fall Armyworm':'పతనం సైనిక బోరర్',
+  }
+};
+
+// Function to translate disease content
+function translateDisease(text, lang) {
+  if (!diseaseTranslations[lang] || !diseaseTranslations[lang][text]) {
+    return text;
+  }
+  return diseaseTranslations[lang][text];
+}
+
 function showDisease(crop) {
   const d = diseases[crop];
   if (!d) return;
-  document.getElementById('disease-title').textContent = d.title;
-  document.getElementById('disease-subtitle').textContent = d.sub;
+  document.getElementById('disease-title').textContent = translateDisease(d.title, currentLang);
+  document.getElementById('disease-subtitle').textContent = translateDisease(d.sub, currentLang);
   let html = '';
   d.items.forEach(item => {
     html += `<div class="result-card">
-      <h3>🌿 ${item.name}</h3>
+      <h3>🌿 ${translateDisease(item.name, currentLang)}</h3>
       <div class="info-grid">
-        <div class="info-box"><h4>🧬 Type & Cause</h4><p><strong>${item.type}</strong> • ${item.cause}</p></div>
+        <div class="info-box"><h4>🧬 Type & Cause</h4><p><strong>${translateDisease(item.type, currentLang)}</strong> • ${item.cause}</p></div>
         <div class="info-box"><h4>🔍 Symptoms</h4><p>${item.symptoms}</p></div>
         <div class="info-box"><h4>🕒 Early Signs</h4><p>${item.earlySigns}</p></div>
         <div class="info-box"><h4>🌦️ Favorable Conditions</h4><p>${item.favorable}</p></div>
@@ -515,7 +573,7 @@ function showDisease(crop) {
       </div>
       <div class="info-box" style="margin-top:10px;background:#fff8e1;border-color:#ffe082;"><h4 style="color:#e65100;">🧭 Looks similar to</h4><p>${item.lookalike}</p><div style="margin-top:6px;">${(item.similar||[]).map(s=>`<span class="tag">${s}</span>`).join('')}</div></div>
       <div style="margin-top:9px;"><strong style="font-size:0.78rem;color:var(--text-light);">Related inputs:</strong> ${(item.relatedInputs||[]).map(n=>`<button class="tag" style="cursor:pointer;border:0;" onclick="showPage('fertilizers');setTimeout(()=>showFertDetail('${n}'),120)">${n}</button>`).join('')}</div>
-      <a class="whatsapp-share" href="https://wa.me/?text=AskKrishi: ${encodeURIComponent(item.name + ' – ' + item.firstStep)}" target="_blank">📲 Share</a>
+      <a class="whatsapp-share" href="https://wa.me/?text=AskKrishi: ${encodeURIComponent(translateDisease(item.name, currentLang) + ' – ' + item.firstStep)}" target="_blank">📲 Share</a>
     </div>`;
   });
   document.getElementById('disease-content').innerHTML = html;
