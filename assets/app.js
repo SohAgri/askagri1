@@ -207,21 +207,19 @@ function autoTranslatePage() {
   try {
     const map = LANG[currentLang] || {};
     if (!map) return;
-    // Translate leaf text nodes and set stable data-key attributes for future updates
+    // For all leaf nodes, if a translation exists replace text; always record the original text as a stable data-key
     document.querySelectorAll('body *').forEach(el => {
-      // Only translate leaf nodes (no element children)
       if (el.children.length === 0) {
         const txt = el.textContent && el.textContent.trim();
-        if (txt && map[txt]) {
-          el.textContent = map[txt];
-          // set a stable key pointing to the original English text so subsequent setLang uses data-key
+        if (txt) {
+          if (map[txt]) el.textContent = map[txt];
           if (!el.hasAttribute('data-key')) el.setAttribute('data-key', txt);
         }
-        // placeholders
+        // placeholders: translate if available, always record placeholder key
         if (el.placeholder) {
           const ph = el.placeholder.trim();
-          if (ph && map[ph]) {
-            el.placeholder = map[ph];
+          if (ph) {
+            if (map[ph]) el.placeholder = map[ph];
             if (!el.hasAttribute('data-key-placeholder')) el.setAttribute('data-key-placeholder', ph);
           }
         }
