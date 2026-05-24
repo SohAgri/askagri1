@@ -167,6 +167,10 @@ function setLang(lang) {
   currentLang = lang;
   localStorage.setItem('askkrishi_lang', lang);
   document.documentElement.lang = lang;
+  // Merge sector-specific translations (from assets/sector-translations.js) if present
+  if (typeof sectorTranslations !== 'undefined' && sectorTranslations[lang]) {
+    LANG[lang] = Object.assign({}, LANG[lang] || {}, sectorTranslations[lang]);
+  }
   
   // Update all data-key elements
   document.querySelectorAll('[data-key]').forEach(el => {
@@ -194,6 +198,23 @@ function setLang(lang) {
   loadSchemes();
   renderHomeCropGrid();
   renderDiseaseCropGrid();
+  // Try to auto-translate static page text that exactly matches translation keys
+  if (typeof autoTranslatePage === 'function') autoTranslatePage();
+}
+
+// Heuristic translator: replace exact-match text nodes with translations
+function autoTranslatePage() {
+  try {
+    const map = LANG[currentLang] || {};
+    if (!map) return;
+    document.querySelectorAll('body *').forEach(el => {
+      // Only translate leaf nodes (no element children)
+      if (el.children.length === 0) {
+        const txt = el.textContent && el.textContent.trim();
+        if (txt && map[txt]) el.textContent = map[txt];
+      }
+    });
+  } catch (e) { /* non-fatal */ }
 }
 
 // Initialize language on page load
