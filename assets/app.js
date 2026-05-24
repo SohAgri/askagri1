@@ -158,13 +158,16 @@ const LANG = {
   }
     };
 
-let currentLang = 'en';
+let currentLang = localStorage.getItem('askkrishi_lang') || 'en';
 const ASK_KRISHI_DONATION_URL = "https://razorpay.me/@askkrishi";
 
 function t(key) { return LANG[currentLang][key] || LANG['en'][key] || key; }
 
 function setLang(lang) {
   currentLang = lang;
+  localStorage.setItem('askkrishi_lang', lang);
+  document.documentElement.lang = lang;
+  
   // Update all data-key elements
   document.querySelectorAll('[data-key]').forEach(el => {
     const key = el.getAttribute('data-key');
@@ -175,10 +178,16 @@ function setLang(lang) {
     const key = el.getAttribute('data-key-placeholder');
     if (LANG[lang][key] !== undefined) el.placeholder = LANG[lang][key];
   });
-  // Update suggestions
+  // Update language selector
+  const langSelect = document.querySelector('.lang-select');
+  if (langSelect) {
+    const langMap = { en: 'English', hi: 'हिंदी', te: 'తెలుగు', od: 'ଓଡ଼ିଆ' };
+    langSelect.value = langMap[lang] || 'English';
+  }
+  // Update suggestions and questions
   renderSuggestions();
   renderQuickQuestions();
-  // Update welcome
+  // Update welcome message
   const wm = document.getElementById('welcomeMsg');
   if (wm) wm.textContent = t('welcome');
   // Re-render dynamic content
@@ -186,6 +195,20 @@ function setLang(lang) {
   renderHomeCropGrid();
   renderDiseaseCropGrid();
 }
+
+// Initialize language on page load
+window.addEventListener('DOMContentLoaded', () => {
+  const langSelect = document.querySelector('.lang-select');
+  if (langSelect) {
+    const langMap = { English: 'en', 'हिंदी': 'hi', 'తెలుగు': 'te', 'ଓଡ଼ିଆ': 'od' };
+    langSelect.value = { en: 'English', hi: 'हिंदी', te: 'తెలుగు', od: 'ଓଡ଼ିଆ' }[currentLang];
+    langSelect.addEventListener('change', (e) => {
+      const selectedLang = langMap[e.target.value];
+      if (selectedLang) setLang(selectedLang);
+    });
+  }
+  setLang(currentLang);
+});
 
 // ===== PAGE NAVIGATION =====
 
@@ -253,7 +276,12 @@ function setQuickChat(q) {
 // ===== REAL WEATHER =====
 async function loadWeather() {
   const weatherIcons = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️'};
-  const weatherDesc = {0:'Clear Sky',1:'Mostly Clear',2:'Partly Cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Drizzle',53:'Drizzle',55:'Drizzle',61:'Rain',63:'Moderate Rain',65:'Heavy Rain',80:'Showers',81:'Heavy Showers',82:'Violent Showers',95:'Thunderstorm'};
+  const weatherDesc = {
+    en: {0:'Clear Sky',1:'Mostly Clear',2:'Partly Cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Drizzle',53:'Drizzle',55:'Drizzle',61:'Rain',63:'Moderate Rain',65:'Heavy Rain',80:'Showers',81:'Heavy Showers',82:'Violent Showers',95:'Thunderstorm'},
+    hi: {0:'साफ आसमान',1:'ज्यादातर साफ',2:'आंशिक बादल',3:'बादल छाए',45:'कोहरा',48:'कोहरा',51:'बूंदाबांदी',53:'बूंदाबांदी',55:'बूंदाबांदी',61:'बारिश',63:'मध्यम बारिश',65:'भारी बारिश',80:'वर्षा',81:'भारी वर्षा',82:'तेज वर्षा',95:'तूफान'},
+    te: {0:'맑은 하늘',1:'చాలా స్పష్టం',2:'కొంత మేఘావృతం',3:'మేఘావృతం',45:'పొగమంచు',48:'పొగమంచు',51:'చిన్న వర్ష',53:'చిన్న వర్ష',55:'చిన్న వర్ష',61:'వర్ష',63:'మధ్యమ వర్ష',65:'భారీ వర్ష',80:'వర్షం',81:'భారీ వర్షం',82:'హింసాత్మక వర్షం',95:'చండవాత'},
+    od: {0:'맑� ଆକାଶ',1:'ଅଧିକାଂଶ ପରିଷ୍କାର',2:'ଆଂଶିକ ଆଉଜୁଲା',3:'ଆଉଜୁଲା',45:'କୁହ',48:'କୁହ',51:'ସୁକ୍ଷ୍ମ ବର୍ଷା',53:'ସୁକ୍ଷ୍ମ ବର୍ଷା',55:'ସୁକ୍ଷ୍ମ ବର୍ଷା',61:'ବର୍ଷା',63:'ମଧ୍ୟମ ବର୍ଷା',65:'ଭାରୀ ବର୍ଷା',80:'ବୃଷ୍ଟି',81:'ଭାରୀ ବୃଷ୍ଟି',82:'ହିଂସାତ୍ମକ ବୃଷ୍ଟି',95:'ଝଡ'}
+  };
 
   try {
     const pos = await new Promise((res, rej) => {
@@ -285,7 +313,8 @@ async function loadWeather() {
     document.getElementById('weather-loc').textContent = `📍 ${locName}`;
     document.getElementById('weather-temp').textContent = `${temp}°C`;
     document.getElementById('weatherIcon').textContent = weatherIcons[code] || '⛅';
-    document.getElementById('weather-desc').textContent = `${weatherDesc[code]||'Partly Cloudy'} · Humidity ${humidity}% · Wind ${wind} km/h`;
+    const desc = (weatherDesc[currentLang] && weatherDesc[currentLang][code]) || (weatherDesc['en'] && weatherDesc['en'][code]) || 'Partly Cloudy';
+    document.getElementById('weather-desc').textContent = `${desc} · Humidity ${humidity}% · Wind ${wind} km/h`;
 
     // Agri advice
     let agriKey = 'agri_warm';
@@ -300,8 +329,10 @@ async function loadWeather() {
     }
 
   } catch(e) {
-    document.getElementById('weather-loc').textContent = '📍 India (Enable location for local weather)';
-    document.getElementById('weather-desc').textContent = 'Allow location access for real-time weather';
+    const locMsg = { en: 'India (Enable location for local weather)', hi: 'भारत (स्थानीय मौसम के लिए स्थान सक्षम करें)', te: 'భారతదేశం (స్థానిక వాతావరణం కోసం స్థానాన్ని ప్రారంభించండి)', od: 'ଭାରତ (ସ୍ଥାନୀୟ ପାଣିଆ ପାଇଁ ଅବସ୍ଥାନ ସକ୍ଷମ କରନ୍ତୁ)' };
+    const descMsg = { en: 'Allow location access for real-time weather', hi: 'वास्तविक समय मौसम के लिए स्थान पहुंच अनुमति दें', te: 'రియల్-టైమ్ వాతావరణం కోసం స్థానం অ్యాక్సెస్ నిడిమ్', od: 'ବାସ୍ତବ ସମୟ ପାଣିଆ ପାଇଁ ଅବସ୍ଥାନ ଅଭିଗମ ଅନୁମତି ଦିନ୍ତୁ' };
+    document.getElementById('weather-loc').textContent = `📍 ${locMsg[currentLang] || locMsg.en}`;
+    document.getElementById('weather-desc').textContent = descMsg[currentLang] || descMsg.en;
     document.getElementById('weather-temp').textContent = '--°C';
   }
     }
