@@ -750,7 +750,9 @@ function showSeason(s, btn) {
   document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
   if (btn) btn.classList.add('active');
   const tips = seasonData[s];
-  document.getElementById('season-content').innerHTML = tips.map((tip, i) =>
+  const seasonEl = document.getElementById('season-content');
+  if (!seasonEl) return; // defensive: some pages don't include the seasonal widget
+  seasonEl.innerHTML = tips.map((tip, i) =>
     `<div class="tip-card"><div class="tip-num">${i+1}</div><div class="tip-content"><h4>${tip.title}</h4><p>${tip.body}</p></div></div>`
   ).join('');
     }
