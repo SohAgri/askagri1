@@ -342,30 +342,39 @@ async function loadWeather() {
     const code = c.weather_code;
     const precip = c.precipitation;
 
-    document.getElementById('weather-loc').textContent = `📍 ${locName}`;
-    document.getElementById('weather-temp').textContent = `${temp}°C`;
-    document.getElementById('weatherIcon').textContent = weatherIcons[code] || '⛅';
+    const elLoc = document.getElementById('weather-loc');
+    if (elLoc) elLoc.textContent = `📍 ${locName}`;
+    const elTemp = document.getElementById('weather-temp');
+    if (elTemp) elTemp.textContent = `${temp}°C`;
+    const elIcon = document.getElementById('weatherIcon');
+    if (elIcon) elIcon.textContent = weatherIcons[code] || '⛅';
     const desc = (weatherDesc[currentLang] && weatherDesc[currentLang][code]) || (weatherDesc['en'] && weatherDesc['en'][code]) || 'Partly Cloudy';
-    document.getElementById('weather-desc').textContent = `${desc} · Humidity ${humidity}% · Wind ${wind} km/h`;
+    const elDesc = document.getElementById('weather-desc');
+    if (elDesc) elDesc.textContent = `${desc} · Humidity ${humidity}% · Wind ${wind} km/h`;
 
     // Agri advice
     let agriKey = 'agri_warm';
     if (temp > 38) agriKey = 'agri_hot';
     else if (temp < 15) agriKey = 'agri_cool';
     else if (precip > 1 || code >= 61) agriKey = 'agri_rain';
-    document.getElementById('weather-agri').textContent = t(agriKey);
+    const elAgri = document.getElementById('weather-agri');
+    if (elAgri) elAgri.textContent = t(agriKey);
 
     // Card color for rain
     if (code >= 61 && code <= 82) {
-      document.getElementById('weatherCard').style.background = 'linear-gradient(135deg, #1a237e 0%, #1565c0 50%, #1976d2 100%)';
+      const wc = document.getElementById('weatherCard');
+      if (wc) wc.style.background = 'linear-gradient(135deg, #1a237e 0%, #1565c0 50%, #1976d2 100%)';
     }
 
   } catch(e) {
     const locMsg = { en: 'India (Enable location for local weather)', hi: 'भारत (स्थानीय मौसम के लिए स्थान सक्षम करें)', te: 'భారతదేశం (స్థానిక వాతావరణం కోసం స్థానాన్ని ప్రారంభించండి)', od: 'ଭାରତ (ସ୍ଥାନୀୟ ପାଣିଆ ପାଇଁ ଅବସ୍ଥାନ ସକ୍ଷମ କରନ୍ତୁ)' };
     const descMsg = { en: 'Allow location access for real-time weather', hi: 'वास्तविक समय मौसम के लिए स्थान पहुंच अनुमति दें', te: 'రియల్-టైమ్ వాతావరణం కోసం స్థానం অ్యాక్సెస్ నిడిమ్', od: 'ବାସ୍ତବ ସମୟ ପାଣିଆ ପାଇଁ ଅବସ୍ଥାନ ଅଭିଗମ ଅନୁମତି ଦିନ୍ତୁ' };
-    document.getElementById('weather-loc').textContent = `📍 ${locMsg[currentLang] || locMsg.en}`;
-    document.getElementById('weather-desc').textContent = descMsg[currentLang] || descMsg.en;
-    document.getElementById('weather-temp').textContent = '--°C';
+    const elLoc2 = document.getElementById('weather-loc');
+    if (elLoc2) elLoc2.textContent = `📍 ${locMsg[currentLang] || locMsg.en}`;
+    const elDesc2 = document.getElementById('weather-desc');
+    if (elDesc2) elDesc2.textContent = descMsg[currentLang] || descMsg.en;
+    const elTemp2 = document.getElementById('weather-temp');
+    if (elTemp2) elTemp2.textContent = '--°C';
   }
     }
 
