@@ -200,6 +200,30 @@ function setLang(lang) {
   renderDiseaseCropGrid();
   // Try to auto-translate static page text that exactly matches translation keys
   if (typeof autoTranslatePage === 'function') autoTranslatePage();
+
+  // Auto-generate placeholder translations for any remaining data-key entries
+  try {
+    if (typeof sectorTranslations === 'undefined') window.sectorTranslations = { od: {}, te: {} };
+    if (!sectorTranslations.od) sectorTranslations.od = {};
+    if (!sectorTranslations.te) sectorTranslations.te = {};
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const key = el.getAttribute('data-key');
+      const txt = el.textContent && el.textContent.trim();
+      if (!key) return;
+      // If translations missing, auto-fill with English text and mark for review
+      if (txt) {
+        if (sectorTranslations.od[key] === undefined) sectorTranslations.od[key] = txt + ' /* AUTO */';
+        if (sectorTranslations.te[key] === undefined) sectorTranslations.te[key] = txt + ' /* AUTO */';
+      } else {
+        if (sectorTranslations.od[key] === undefined) sectorTranslations.od[key] = key + ' /* AUTO */';
+        if (sectorTranslations.te[key] === undefined) sectorTranslations.te[key] = key + ' /* AUTO */';
+      }
+    });
+    // Re-merge updated sector translations into active LANG map
+    if (typeof sectorTranslations !== 'undefined' && sectorTranslations[lang]) {
+      LANG[lang] = Object.assign({}, LANG[lang] || {}, sectorTranslations[lang]);
+    }
+  } catch (e) { /* non-fatal */ }
 }
 
 // Heuristic translator: replace exact-match text nodes with translations
