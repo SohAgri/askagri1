@@ -1,0 +1,35 @@
+{
+  "odisha": [
+    {"crop":"🌾 Paddy","mandi":"Cuttack","state":"Odisha","min":2000,"max":2183,"trend":"up"},
+    {"crop":"🫘 Red Gram","mandi":"Kalahandi","state":"Odisha","min":6800,"max":7400,"trend":"down"},
+    {"crop":"🫘 Pigeonpea (Tur/Arhar)","mandi":"Koraput","state":"Odisha","min":7200,"max":7800,"trend":"stable"},
+    {"crop":"🌻 Sunflower","mandi":"Bargarh","state":"Odisha","min":5000,"max":6000,"trend":"stable"}
+  ],
+  "andhra": [
+    {"crop":"🌶️ Chilli Teja","mandi":"Guntur","state":"Andhra Pradesh","min":18000,"max":24000,"trend":"up"},
+    {"crop":"🌻 Sunflower","mandi":"Guntur","state":"Andhra Pradesh","min":5200,"max":6200,"trend":"stable"},
+    {"crop":"🌾 Bajra (Pearl Millet)","mandi":"Kurnool","state":"Andhra Pradesh","min":1800,"max":2200,"trend":"stable"}
+  ],
+  "north": [
+    {"crop":"🌿 Wheat","mandi":"Hapur APMC","state":"Uttar Pradesh","min":2050,"max":2280,"trend":"up"},
+    {"crop":"🌾 Sorghum (Jowar)","mandi":"Solapur","state":"Maharashtra","min":2600,"max":3200,"trend":"stable"}
+  ],
+  "south": [
+    {"crop":"🌾 Paddy","mandi":"Thanjavur","state":"Tamil Nadu","min":1900,"max":2183,"trend":"stable"},
+    {"crop":"🌻 Sunflower","mandi":"Guntur","state":"Andhra Pradesh","min":5200,"max":6200,"trend":"stable"}
+  ],
+  "east": [
+    {"crop":"🌾 Paddy","mandi":"Cuttack","state":"Odisha","min":2000,"max":2183,"trend":"up"},
+    {"crop":"🌾 Sorghum (Jowar)","mandi":"Ranchi","state":"Jharkhand","min":2500,"max":3050,"trend":"stable"}
+  ],
+  "west": [
+    {"crop":"🧅 Onion","mandi":"Lasalgaon","state":"Maharashtra","min":600,"max":1450,"trend":"up"},
+    {"crop":"🌾 Bajra (Pearl Millet)","mandi":"Ahmednagar","state":"Maharashtra","min":1850,"max":2250,"trend":"stable"}
+  ],
+  "all": [
+    {"crop":"🌻 Sunflower","mandi":"Guntur AP","state":"Andhra Pradesh","min":5200,"max":6200,"trend":"stable"},
+    {"crop":"🌾 Bajra (Pearl Millet)","mandi":"Ahmednagar MH","state":"Maharashtra","min":1850,"max":2250,"trend":"stable"},
+    {"crop":"🌾 Sorghum (Jowar)","mandi":"Solapur MH","state":"Maharashtra","min":2600,"max":3200,"trend":"stable"},
+    {"crop":"🫘 Pigeonpea (Tur/Arhar)","mandi":"Kurnool AP","state":"Andhra Pradesh","min":7000,"max":7600,"trend":"stable"}
+  ]
+}

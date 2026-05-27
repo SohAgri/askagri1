@@ -160,6 +160,8 @@ const LANG = {
 
 let currentLang = localStorage.getItem('askkrishi_lang') || 'en';
 const ASK_KRISHI_DONATION_URL = "https://razorpay.me/@askkrishi";
+// Configurable API endpoint: replace with your server-side Agmarknet/eNAM proxy URL
+const MANDI_API_URL = '/data/mandi-prices.json';
 
 function t(key) {
   const v = (LANG[currentLang] && LANG[currentLang][key]) || (LANG['en'] && LANG['en'][key]) || key;
@@ -1394,7 +1396,9 @@ const mandiDataNew={
   ],
 };
 function loadMandiNew(state,btn){
-  const data=mandiDataNew[state]||mandiDataNew.odisha;
+  // Prefer live data if available from configured API, else use local fallback
+  const live = (window.liveMandiData && (window.liveMandiData[state] || window.liveMandiData.all)) || null;
+  const data = live || mandiDataNew[state] || mandiDataNew.odisha;
   const tbody=document.getElementById('mandiBodyNew');if(!tbody)return;
   const stamp=document.querySelector('.mandi-update');
   if(stamp) stamp.textContent='Updated: 23 May 2026';
@@ -1465,6 +1469,29 @@ function districtMeta(d){
   const allied = d.crops.find(c=>['Fish','Aquaculture','Dairy','Poultry'].some(a=>c.includes(a))) || (d.name==='Balasore' ? 'Aquaculture + dairy linked model' : 'Dairy/goat/poultry opportunity');
   return { rainfall, climateType, horticulture: horticulture.length?horticulture:['Vegetables','Horticulture mix'], allied };
 }
+
+// Try to fetch live mandi prices (non-blocking). Expects JSON shaped like `mandiDataNew` above.
+async function fetchLiveMandiData(){
+  try{
+    const resp = await fetch(MANDI_API_URL, {cache: 'no-store'});
+    if(!resp.ok) return;
+    const j = await resp.json();
+    window.liveMandiData = j;
+    // If mandi page visible, refresh
+    if(document.getElementById('mandi')){
+      const active = document.querySelector('.mandi-tab.active');
+      const state = active ? (active.getAttribute('onclick') || '').match(/loadMandiNew\('([a-z]+)'/) : null;
+      const s = state && state[1] ? state[1] : 'odisha';
+      loadMandiNew(s, active);
+    }
+  }catch(e){
+    // ignore fetch errors (server may require a proxy due to CORS)
+    console.warn('Live mandi fetch failed', e);
+  }
+}
+
+// Kick off a background load for live mandi data
+fetchLiveMandiData();
 
 function showDistricts(state,btn){
   currentDistrictState=state;
