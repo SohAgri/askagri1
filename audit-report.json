@@ -1,0 +1,103 @@
+﻿{
+    "missing_keys":  [
+                         "100+ essential terms every farmer \u0026amp; student should know",
+                         "50+ major fruits, vegetables \u0026amp; spices — cultivation to harvest guide",
+                         "All 30 Odisha + 13 AP districts — soil, climate, crops \u0026amp; farming profile",
+                         "B.Sc Agri study materials — Agronomy, Pathology, Entomology, Soil Science, Horticulture, Genetics \u0026amp; Farm Economics",
+                         "Chemical \u0026amp; organic inputs — doses, timing, safety \u0026amp; organic alternatives",
+                         "Climate, soil, fertilizer schedule, pest management \u0026amp; expected yield",
+                         "Empowering women farmers \u0026amp; entrepreneurs — Odisha \u0026amp; Andhra Pradesh focus",
+                         "Feed \u0026amp; Nutrition",
+                         "HYV, hybrid \u0026amp; traditional varieties for paddy, wheat, vegetables \u0026amp; pulses",
+                         "Month-by-month guide — what to sow, transplant, manage \u0026amp; harvest across India",
+                         "Mushroom farming, beekeeping, drip irrigation, nursery \u0026amp; dairy micro-enterprises",
+                         "Poultry \u0026amp; Livestock Farming Guide",
+                         "Zero Budget Natural Farming, bio-inputs, vermicomposting \u0026amp; sustainable practices",
+                         "🍎 Fruits \u0026amp; Vegetables Database",
+                         "🐄 Poultry \u0026amp; Livestock",
+                         "🧪 Fertilizers, Pesticides \u0026amp; Organic Inputs"
+                     ],
+    "timestamp":  "2026-05-27T10:40:49.3506400+05:30",
+    "risky":  [
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\assets\\app.js",
+                      "pattern":  "document\\.getElementById\\(",
+                      "count":  106
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\assets\\app.js",
+                      "pattern":  "document\\.querySelector\\(",
+                      "count":  10
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\assets\\app.js",
+                      "pattern":  "\\.innerHTML\\b",
+                      "count":  48
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\assets\\app.js",
+                      "pattern":  "\\.textContent\\b",
+                      "count":  24
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\dairy.js",
+                      "pattern":  "document\\.getElementById\\(",
+                      "count":  1
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\dairy.js",
+                      "pattern":  "document\\.querySelector\\(",
+                      "count":  6
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\dairy.js",
+                      "pattern":  "\\.textContent\\b",
+                      "count":  1
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\fishery.js",
+                      "pattern":  "document\\.getElementById\\(",
+                      "count":  1
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\fishery.js",
+                      "pattern":  "document\\.querySelector\\(",
+                      "count":  4
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\fishery.js",
+                      "pattern":  "\\.textContent\\b",
+                      "count":  1
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\livestock.js",
+                      "pattern":  "document\\.getElementById\\(",
+                      "count":  1
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\livestock.js",
+                      "pattern":  "document\\.querySelector\\(",
+                      "count":  6
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\livestock.js",
+                      "pattern":  "\\.textContent\\b",
+                      "count":  1
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\poultry.js",
+                      "pattern":  "document\\.getElementById\\(",
+                      "count":  1
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\poultry.js",
+                      "pattern":  "document\\.querySelector\\(",
+                      "count":  6
+                  },
+                  {
+                      "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\poultry.js",
+                      "pattern":  "\\.textContent\\b",
+                      "count":  1
+                  }
+              ]
+}

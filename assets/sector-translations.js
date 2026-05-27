@@ -583,7 +583,7 @@ const sectorTranslations = {
 ;(function(){
   if (typeof sectorTranslations === 'undefined') window.sectorTranslations = { od: {}, te: {} };
   sectorTranslations.od = Object.assign({}, sectorTranslations.od || {}, {
-  "([^": "([^ /* AUTO */",
+  
   "🐟 Fishery": "🐟 Fishery /* AUTO */",
   "🐄 Livestock": "🐄 Livestock /* AUTO */",
   "🥛 Dairy": "🥛 Dairy /* AUTO */",
@@ -618,7 +618,7 @@ const sectorTranslations = {
   "Livestock Diseases": "Livestock Diseases /* AUTO */",
   });
   sectorTranslations.te = Object.assign({}, sectorTranslations.te || {}, {
-  "([^": "([^ /* AUTO */",
+  
   "🐟 Fishery": "🐟 Fishery /* AUTO */",
   "🐄 Livestock": "🐄 Livestock /* AUTO */",
   "🥛 Dairy": "🥛 Dairy /* AUTO */",

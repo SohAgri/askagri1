@@ -325,7 +325,9 @@ function renderQuickQuestions() {
 }
 
 function setQuickChat(q) {
-  document.getElementById('chatInput').value = q;
+  const ci = document.getElementById('chatInput');
+  if (!ci) return;
+  ci.value = q;
   sendChat();
 }
 
@@ -498,20 +500,27 @@ const knowledgeBase = {
 };
 
     function doSearch() {
-  const q = document.getElementById('searchInput').value.trim();
-  if (!q) return;
-  showPage('search-results');
-  document.getElementById('searchInput2').value = q;
-  renderResults(q);
+      const si = document.getElementById('searchInput');
+      if (!si) return;
+      const q = si.value.trim();
+      if (!q) return;
+      showPage('search-results');
+      const s2 = document.getElementById('searchInput2');
+      if (s2) s2.value = q;
+      renderResults(q);
 }
 function doSearch2() {
-  const q = document.getElementById('searchInput2').value.trim();
-  if (!q) return;
-  renderResults(q);
+      const s2 = document.getElementById('searchInput2');
+      if (!s2) return;
+      const q = s2.value.trim();
+      if (!q) return;
+      renderResults(q);
 }
 function quickSearch(q) {
-  document.getElementById('searchInput').value = q;
-  doSearch();
+      const si = document.getElementById('searchInput');
+      if (!si) return;
+      si.value = q;
+      doSearch();
 }
 function renderResults(q) {
   const ql = q.toLowerCase();
@@ -522,6 +531,7 @@ function renderResults(q) {
   }
   if (!found) found = knowledgeBase['default'];
   const c = document.getElementById('search-results-content');
+  if (!c) return;
   const shareUrl = `https://wa.me/?text=AskKrishi: ${encodeURIComponent(found.title)} - sohagri.github.io/askkrishi`;
   let html = `<h2 style="font-size:1rem;color:var(--text-light);margin-bottom:16px;">Results for: <strong style="color:var(--green)">"${q}"</strong></h2>`;
   found.content.forEach(item => html += `<div class="result-card"><h3>${item.h}</h3><p>${item.b}</p></div>`);
@@ -618,8 +628,10 @@ function translateDisease(text, lang) {
 function showDisease(crop) {
   const d = diseases[crop];
   if (!d) return;
-  document.getElementById('disease-title').textContent = translateDisease(d.title, currentLang);
-  document.getElementById('disease-subtitle').textContent = translateDisease(d.sub, currentLang);
+  const dtEl = document.getElementById('disease-title');
+  const dsEl = document.getElementById('disease-subtitle');
+  if (dtEl) dtEl.textContent = translateDisease(d.title, currentLang);
+  if (dsEl) dsEl.textContent = translateDisease(d.sub, currentLang);
   let html = '';
   d.items.forEach(item => {
     html += `<div class="result-card">
@@ -641,7 +653,8 @@ function showDisease(crop) {
       <a class="whatsapp-share" href="https://wa.me/?text=AskKrishi: ${encodeURIComponent(translateDisease(item.name, currentLang) + ' – ' + item.firstStep)}" target="_blank">📲 Share</a>
     </div>`;
   });
-  document.getElementById('disease-content').innerHTML = html;
+  const dc = document.getElementById('disease-content');
+  if (dc) dc.innerHTML = html;
   showPage('disease-page');
 }
 
