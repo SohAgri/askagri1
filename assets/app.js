@@ -160,8 +160,6 @@ const LANG = {
 
 let currentLang = localStorage.getItem('askkrishi_lang') || 'en';
 const ASK_KRISHI_DONATION_URL = "https://razorpay.me/@askkrishi";
-// Configurable API endpoint: replace with your server-side Agmarknet/eNAM proxy URL
-const MANDI_API_URL = '/data/mandi-prices.json';
 
 function t(key) {
   const v = (LANG[currentLang] && LANG[currentLang][key]) || (LANG['en'] && LANG['en'][key]) || key;
@@ -227,9 +225,10 @@ function setLang(lang) {
 
   // Auto-generate placeholder translations for any remaining data-key entries
   try {
-    if (typeof sectorTranslations === 'undefined') window.sectorTranslations = { od: {}, te: {} };
+    if (typeof sectorTranslations === 'undefined') window.sectorTranslations = { od: {}, te: {}, hi: {} };
     if (!sectorTranslations.od) sectorTranslations.od = {};
     if (!sectorTranslations.te) sectorTranslations.te = {};
+    if (!sectorTranslations.hi) sectorTranslations.hi = {};
     document.querySelectorAll('[data-key]').forEach(el => {
       const key = el.getAttribute('data-key');
       const txt = el.textContent && el.textContent.trim();
@@ -238,9 +237,11 @@ function setLang(lang) {
       if (txt) {
         if (sectorTranslations.od[key] === undefined) sectorTranslations.od[key] = txt + ' /* AUTO */';
         if (sectorTranslations.te[key] === undefined) sectorTranslations.te[key] = txt + ' /* AUTO */';
+        if (sectorTranslations.hi[key] === undefined) sectorTranslations.hi[key] = txt + ' /* AUTO */';
       } else {
         if (sectorTranslations.od[key] === undefined) sectorTranslations.od[key] = key + ' /* AUTO */';
         if (sectorTranslations.te[key] === undefined) sectorTranslations.te[key] = key + ' /* AUTO */';
+        if (sectorTranslations.hi[key] === undefined) sectorTranslations.hi[key] = key + ' /* AUTO */';
       }
     });
     // Re-merge updated sector translations into active LANG map
@@ -1338,8 +1339,6 @@ const mandiDataNew={
     {crop:'🌶️ Chilli',mandi:'Khammam',state:'Telangana',min:8000,max:15000,trend:'up'},
     {crop:'🟡 Turmeric',mandi:'Erode',state:'Tamil Nadu',min:8000,max:12000,trend:'up'},
     {crop:'🫚 Castor',mandi:'Mahbubnagar',state:'Telangana',min:6200,max:6635,trend:'up'},
-    {crop:'🌻 Sunflower',mandi:'Guntur',state:'Andhra Pradesh',min:5200,max:6200,trend:'stable'},
-    {crop:'🌾 Sorghum (Jowar)',mandi:'Solapur',state:'Maharashtra',min:2600,max:3200,trend:'stable'},
     {crop:'🫚 Groundnut',mandi:'Anantapur',state:'Andhra Pradesh',min:5700,max:6200,trend:'up'},
   ],
   east:[
@@ -1369,7 +1368,6 @@ const mandiDataNew={
     {crop:'🌿 Fennel (Saunf)',mandi:'Unjha',state:'Gujarat',min:12000,max:18000,trend:'up'},
     {crop:'🍎 Pomegranate',mandi:'Solapur',state:'Maharashtra',min:8000,max:16000,trend:'up'},
     {crop:'🫘 Chickpea',mandi:'Nagpur',state:'Maharashtra',min:4900,max:5600,trend:'up'},
-    {crop:'🌾 Bajra (Pearl Millet)',mandi:'Ahmednagar',state:'Maharashtra',min:1850,max:2250,trend:'stable'},
   ],
   all:[
     {crop:'🌾 Paddy (Odisha)',mandi:'Cuttack',state:'Odisha',min:2000,max:2183,trend:'up'},
@@ -1390,15 +1388,10 @@ const mandiDataNew={
     {crop:'🌿 Mustard',mandi:'Kota RJ',state:'Rajasthan',min:4600,max:5100,trend:'up'},
     {crop:'🫚 Groundnut',mandi:'Rajkot GJ',state:'Gujarat',min:5600,max:6200,trend:'up'},
     {crop:'🫘 Soybean',mandi:'Indore MP',state:'Madhya Pradesh',min:4200,max:4700,trend:'down'},
-    {crop:'🌻 Sunflower',mandi:'Guntur AP',state:'Andhra Pradesh',min:5200,max:6200,trend:'stable'},
-    {crop:'🌾 Bajra (Pearl Millet)',mandi:'Ahmednagar MH',state:'Maharashtra',min:1850,max:2250,trend:'stable'},
-    {crop:'🌾 Sorghum (Jowar)',mandi:'Solapur MH',state:'Maharashtra',min:2600,max:3200,trend:'stable'},
   ],
 };
 function loadMandiNew(state,btn){
-  // Prefer live data if available from configured API, else use local fallback
-  const live = (window.liveMandiData && (window.liveMandiData[state] || window.liveMandiData.all)) || null;
-  const data = live || mandiDataNew[state] || mandiDataNew.odisha;
+  const data=mandiDataNew[state]||mandiDataNew.odisha;
   const tbody=document.getElementById('mandiBodyNew');if(!tbody)return;
   const stamp=document.querySelector('.mandi-update');
   if(stamp) stamp.textContent='Updated: 23 May 2026';
@@ -1469,29 +1462,6 @@ function districtMeta(d){
   const allied = d.crops.find(c=>['Fish','Aquaculture','Dairy','Poultry'].some(a=>c.includes(a))) || (d.name==='Balasore' ? 'Aquaculture + dairy linked model' : 'Dairy/goat/poultry opportunity');
   return { rainfall, climateType, horticulture: horticulture.length?horticulture:['Vegetables','Horticulture mix'], allied };
 }
-
-// Try to fetch live mandi prices (non-blocking). Expects JSON shaped like `mandiDataNew` above.
-async function fetchLiveMandiData(){
-  try{
-    const resp = await fetch(MANDI_API_URL, {cache: 'no-store'});
-    if(!resp.ok) return;
-    const j = await resp.json();
-    window.liveMandiData = j;
-    // If mandi page visible, refresh
-    if(document.getElementById('mandi')){
-      const active = document.querySelector('.mandi-tab.active');
-      const state = active ? (active.getAttribute('onclick') || '').match(/loadMandiNew\('([a-z]+)'/) : null;
-      const s = state && state[1] ? state[1] : 'odisha';
-      loadMandiNew(s, active);
-    }
-  }catch(e){
-    // ignore fetch errors (server may require a proxy due to CORS)
-    console.warn('Live mandi fetch failed', e);
-  }
-}
-
-// Kick off a background load for live mandi data
-fetchLiveMandiData();
 
 function showDistricts(state,btn){
   currentDistrictState=state;

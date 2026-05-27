@@ -37,6 +37,14 @@ const sectorTranslations = {
       'poultry_backyard_label': 'Backyard' /* AUTO */,
       'AskKrishi Dairy Intelligence': 'AskKrishi Dairy Intelligence' /* AUTO */,
 
+  ,
+  hi: {
+    '🌻 Sunflower': 'सूर्यमुखी',
+    '🌾 Bajra (Pearl Millet)': 'बाजरा',
+    '🌾 Sorghum (Jowar)': 'ज्वार',
+    '🫘 Pigeonpea (Tur/Arhar)': 'अरहर/तुअर',
+    'Market / Mandi Prices': 'बाजार / मंडी के दाम'
+  }
     // SECTOR CARD DESCRIPTIONS
     'Crop-wise planning, seed-to-harvest scheduling, and practical yield guidance.': 'ଫସଲ ଅନୁଯାୟୀ ଯୋଜନା, ବିହନ ବୁଣିବା ଠାରୁ ଅସଲ ଅପେକ୍ଷା, ଏବଂ ବାস୍ତବିକ ଫସଲ ମାର୍ଗଦର୍ଶନ।',
     'Nursery, spacing, pruning, irrigation, and market-focused crop handling.': 'ନର୍ସରି, ଦୂରତା, ଛଁଟିଯାଇ, ସିଞ୍ଚନ, ଏବଂ ବଜାର-ଉନ୍ମୁଖ ଫସଲ ପ୍ରବନ୍ଧନ।',
