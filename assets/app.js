@@ -161,7 +161,12 @@ const LANG = {
 let currentLang = localStorage.getItem('askkrishi_lang') || 'en';
 const ASK_KRISHI_DONATION_URL = "https://razorpay.me/@askkrishi";
 
-function t(key) { return LANG[currentLang][key] || LANG['en'][key] || key; }
+function t(key) {
+  const v = (LANG[currentLang] && LANG[currentLang][key]) || (LANG['en'] && LANG['en'][key]) || key;
+  try {
+    return String(v).replace(/\s*\/\*\s*AUTO\s*\*\/\s*/g, '');
+  } catch (e) { return v; }
+}
 
 function setLang(lang) {
   currentLang = lang;
@@ -172,15 +177,17 @@ function setLang(lang) {
     LANG[lang] = Object.assign({}, LANG[lang] || {}, sectorTranslations[lang]);
   }
   
-  // Update all data-key elements
+  // Update all data-key elements (use cleaned translations)
   document.querySelectorAll('[data-key]').forEach(el => {
     const key = el.getAttribute('data-key');
-    if (LANG[lang][key] !== undefined) el.textContent = LANG[lang][key];
+    if (!key) return;
+    el.textContent = t(key);
   });
   // Update placeholders
   document.querySelectorAll('[data-key-placeholder]').forEach(el => {
     const key = el.getAttribute('data-key-placeholder');
-    if (LANG[lang][key] !== undefined) el.placeholder = LANG[lang][key];
+    if (!key) return;
+    el.placeholder = t(key);
   });
   // Update language selector
   const langSelect = document.querySelector('.lang-select');
@@ -236,14 +243,14 @@ function autoTranslatePage() {
       if (el.children.length === 0) {
         const txt = el.textContent && el.textContent.trim();
         if (txt) {
-          if (map[txt]) el.textContent = map[txt];
+          if (map[txt]) el.textContent = t(txt);
           if (!el.hasAttribute('data-key')) el.setAttribute('data-key', txt);
         }
         // placeholders: translate if available, always record placeholder key
         if (el.placeholder) {
           const ph = el.placeholder.trim();
           if (ph) {
-            if (map[ph]) el.placeholder = map[ph];
+            if (map[ph]) el.placeholder = t(ph);
             if (!el.hasAttribute('data-key-placeholder')) el.setAttribute('data-key-placeholder', ph);
           }
         }
