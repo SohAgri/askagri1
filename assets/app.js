@@ -168,6 +168,21 @@ function t(key) {
   } catch (e) { return v; }
 }
 
+function stripAutoFromString(s) {
+  try { return String(s).replace(/\s*\/\*\s*AUTO\s*\*\/\s*/g, ''); } catch(e) { return s; }
+}
+
+// Safe DOM helpers to avoid "Cannot set properties of null" errors on pages missing elements
+function setHTML(el, html) {
+  try { if (!el) return; el.innerHTML = html; } catch (e) { /* ignore */ }
+}
+function setText(el, text) {
+  try { if (!el) return; el.textContent = text; } catch (e) { /* ignore */ }
+}
+function setPlaceholder(el, text) {
+  try { if (!el) return; el.placeholder = text; } catch (e) { /* ignore */ }
+}
+
 function setLang(lang) {
   currentLang = lang;
   localStorage.setItem('askkrishi_lang', lang);
@@ -316,19 +331,25 @@ function renderDiseaseCropGrid() {
     }
 
     function renderSuggestions() {
-  const sugg = t('suggestions');
-  const el = document.getElementById('homeSuggestions');
-  if (!el) return;
-  el.innerHTML = sugg.map(s => `<span onclick="quickSearch('${s}')">${s}</span>`).join('');
+      const raw = (LANG[currentLang] && LANG[currentLang]['suggestions']) || (LANG['en'] && LANG['en']['suggestions']) || [];
+      const el = document.getElementById('homeSuggestions');
+      if (!el) return;
+      const sugg = Array.isArray(raw) ? raw : String(raw).split(',');
+      el.innerHTML = sugg.map(s => {
+        const txt = stripAutoFromString(s);
+        return `<span onclick="quickSearch('${txt.replace(/'/g, "\\'")})">${txt}</span>`;
+      }).join('');
 }
 
 function renderQuickQuestions() {
-  const qs = t('quickQuestions');
-  const el = document.getElementById('quickQs');
-  if (!el) return;
-  el.innerHTML = qs.map(q => `
-    <span onclick="setQuickChat('${q}')" style="display:inline-block;background:var(--green-pale);color:var(--green);padding:6px 14px;border-radius:14px;margin:3px;font-size:0.8rem;cursor:pointer;font-weight:600;border:1.5px solid var(--border);transition:background 0.2s;"
-    onmouseover="this.style.background='#c8e6c9'" onmouseout="this.style.background='var(--green-pale)'">${q}</span>`).join('');
+      const raw = (LANG[currentLang] && LANG[currentLang]['quickQuestions']) || (LANG['en'] && LANG['en']['quickQuestions']) || [];
+      const el = document.getElementById('quickQs');
+      if (!el) return;
+      const qs = Array.isArray(raw) ? raw : String(raw).split(',');
+      el.innerHTML = qs.map(q => {
+        const txt = stripAutoFromString(q);
+        return `<span onclick="setQuickChat('${txt.replace(/'/g, "\\'")})" style="display:inline-block;background:var(--green-pale);color:var(--green);padding:6px 14px;border-radius:14px;margin:3px;font-size:0.8rem;cursor:pointer;font-weight:600;border:1.5px solid var(--border);transition:background 0.2s;" onmouseover="this.style.background='#c8e6c9'" onmouseout="this.style.background='var(--green-pale)'>${txt}</span>`;
+      }).join('');
 }
 
 function setQuickChat(q) {
@@ -997,15 +1018,15 @@ async function analyzeImage() {
   const part = partSel ? partSel.value : 'auto';
   const region = regionSel ? regionSel.value : 'general';
 
-  btn.innerHTML = '<span class="loading"></span> Analyzing photo...';
-  btn.disabled = true;
+  if (btn) { setHTML(btn, '<span class="loading"></span> Analyzing photo...'); btn.disabled = true; }
 
   try {
     const analysis = await PHOTO_CHECK_ENGINE.analyze({ crop, plantPart: part, region });
     const { primary, topLikely, fallbackNeeded } = analysis;
 
-    resultBox.style.display = 'block';
-    resultBox.innerHTML = `
+    if (resultBox) {
+      resultBox.style.display = 'block';
+      setHTML(resultBox, `
       <h3>📷 Crop Photo Check Result <span style="font-size:0.72rem;background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:8px;margin-left:8px;">AI-assisted</span></h3>
       <p style="font-size:0.84rem;color:var(--text-light);margin-bottom:8px;">This is photo-based support for probable issue detection. Verify before spraying.</p>
       <div class="photo-chip-row" style="margin-bottom:12px;">
@@ -1032,7 +1053,7 @@ async function analyzeImage() {
     if (fallbackNeeded) {
       renderPhotoFollowup(topLikely);
     } else if (followupBox) {
-      followupBox.style.display = 'none';
+      try { followupBox.style.display = 'none'; } catch (e) { }
     }
 
   } catch (err) {
@@ -1042,8 +1063,7 @@ async function analyzeImage() {
     }
     renderPhotoFollowup(PHOTO_CHECK_LIBRARY[crop] || PHOTO_CHECK_LIBRARY.default);
   } finally {
-    btn.innerHTML = '📷 Check Crop Photo';
-    btn.disabled = false;
+    if (btn) { try { btn.innerHTML = '📷 Check Crop Photo'; btn.disabled = false; } catch (e) {} }
   }
 }
 
@@ -1126,7 +1146,7 @@ const assistantKnowledgeBase = [
 function renderAssistantExamples() {
   const el = document.getElementById('assistantExamples');
   if (!el) return;
-  el.innerHTML = assistantExamples.map(q => `<span onclick="askAssistantExample('${q.replace(/'/g, "\'")}')">${q}</span>`).join('');
+  setHTML(el, assistantExamples.map(q => `<span onclick="askAssistantExample('${q.replace(/'/g, "\\'")})">${q}</span>`).join(''));
 }
 
 function askAssistantExample(q) {
@@ -1196,25 +1216,27 @@ function appendMsg(text, type) {
   const div = document.createElement('div');
   div.className = `chat-msg ${type}`;
   if (type === 'ai') {
-    div.innerHTML = `<div class="ai-name">🌾 KrishiBot</div>${text.replace(/\n/g, '<br>')}`;
+    setHTML(div, `<div class="ai-name">🌾 KrishiBot</div>${text.replace(/\n/g, '<br>')}`);
   } else {
     div.textContent = text;
   }
-  msgs.appendChild(div);
+  if (msgs) msgs.appendChild(div);
   scrollChat();
 }
 
 function scrollChat() {
   const msgs = document.getElementById('chatMessages');
-  msgs.scrollTop = msgs.scrollHeight;
+  if (!msgs) return;
+  try { msgs.scrollTop = msgs.scrollHeight; } catch (e) { }
 }
 
 
 // ===== ASK FORM =====
 function submitQuestion() {
   const msg = document.getElementById('successMsg');
+  if (!msg) return;
   msg.style.display = 'block';
-  setTimeout(() => msg.style.display = 'none', 4000);
+  setTimeout(() => { try { msg.style.display = 'none'; } catch (e) {} }, 4000);
     }
 
   // ===== INIT =====

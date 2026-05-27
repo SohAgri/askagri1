@@ -239,7 +239,7 @@ const sectorTranslations = {
       'Built for farmers, students, and livestock entrepreneurs in India, with poultry positioned as one of the key deeper-dive sectors inside this hub.': 'ଭାରତରେ କୃଷକ, ଛାତ୍ର ଏବଂ ପଶୁପାଳନ ଉଦ୍ୟମୀଙ୍କ ପାଇଁ ତିଆରି; ଏହି ହବ୍ରେ ପୋଲ୍ଟ୍ରିକୁ ଗଭୀର ଅନ୍ତର୍ଗତ ସେକ୍ଟର ଭାବେ ରଖାଯାଇଛି।' /* AUTO */,
       'Farmer-friendly fish farming guidance for India: useful for fish farmers, students, and rural entrepreneurs.': 'ଭାରତ ପାଇଁ କୃଷକ-ମିତ୍ର ମତ୍ସ୍ୟ ଚାଷ ମାର୍ଗଦର୍ଶନ: ମତ୍ସ୍ୟ କୃଷକ, ଛାତ୍ର ଏବଂ ଗ୍ରାମୀଣ ଉଦ୍ୟମୀଙ୍କ ପାଇଁ ଉପଯୋଗୀ।' /* AUTO */,
       'Updated guidance for poultry, dairy and goat-based income.': 'ପୁଲ୍ଟ୍ରି, ଦୁଗ୍ଧ ଏବଂ ଛାଗଲ ଆଧାରିତ ଆୟ ପାଇଁ ଅଦ୍ୟତନ ମାର୍ଗଦର୍ଶନ।' /* AUTO */,
-      'What should I do today? Practical crop actions by stage, season, weather, and region.': 'ଆଜି ମୁଁ କ'ଣ କରିବି? ଦଶା, ଋତୁ, ପାଗ ଏବଂ ଅଞ୍ଚଳ ଅନୁଯାୟୀ ପ୍ରାୟୋଗିକ ପ୍ରକୃୟା।' /* AUTO */,
+      'What should I do today? Practical crop actions by stage, season, weather, and region.': "ଆଜି ମୁଁ କ'ଣ କରିବି? ଦଶା, ଋତୁ, ପାଗ ଏବଂ ଅଞ୍ଚଳ ଅନୁଯାୟୀ ପ୍ରାୟୋଗିକ ପ୍ରକୃୟା।" /* AUTO */,
       'AI-assisted photo-based support for probable crop issue detection': 'ସମ୍ଭାବ୍ୟ ପ୍ରବଲ ଫସଲ ସମସ୍ୟା ଚିହ୍ନଟ ପାଇଁ AI-ସାହାୟିତ ଫୋଟୋ ମୂଳକ ସହାୟତା' /* AUTO */,
       'Have farming questions or collaboration ideas? Reach out to us directly.': 'ଚାଷ ସମ୍ବନ୍ଧୀୟ ପ୍ରଶ୍ନ କିମ୍ବା ସହଯୋଗ ଧାରଣା ଅଛି? ସିଧାସଳଖ ଆମକୁ ସମ୍ପର୍କ କରନ୍ତୁ।' /* AUTO */,
       '🗺️ District Crop Guide': '🗺️ ଜିଲ୍ଲା ଫସଲ ଗାଇଡ୍' /* AUTO */,
