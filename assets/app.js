@@ -302,7 +302,17 @@ const crops = [
   { id:'cotton', icon:'🌸', en:'Cotton', hi:'कपास', te:'పత్తి', od:'କପା' },
   { id:'sugarcane', icon:'🎋', en:'Sugarcane', hi:'गन्ना', te:'చెరకు', od:'କ୍ଷୀରରଜ' },
   { id:'maize', icon:'🌽', en:'Maize', hi:'मक्का', te:'మొక్కజొన్న', od:'ମକା' },
+  { id:'soybean', icon:'🟤', en:'Soybean', hi:'सोयाबीन', te:'సోయాబీన్', od:'ସୟାବିନ' },
+  { id:'groundnut', icon:'🥜', en:'Groundnut/Peanut', hi:'मूंगफली', te:'పల్లీలు', od:'ଚଣା' },
+  { id:'mustard', icon:'🌼', en:'Mustard/Rapeseed', hi:'सरसों/सरसों', te:'ఆవాలు', od:'ସରିଷା' },
+  { id:'gram', icon:'🟠', en:'Gram/Chickpea', hi:'चना', te:'సెనగ', od:'ଚଣା' },
+  { id:'pigeonpea', icon:'🫘', en:'Pigeonpea (Tur/Arhar)', hi:'तुڑ/अरहर', te:'తువ్వర', od:'ତୁଆର' },
+  { id:'sorghum', icon:'🌾', en:'Sorghum/Jowar', hi:'ज्वार', te:'జొన్న', od:'ଜୱାର' },
+  { id:'bajra', icon:'🌾', en:'Pearl Millet (Bajra)', hi:'बाजरा', te:'సజ్జా', od:'ବାଜରା' },
+  { id:'sunflower', icon:'🌻', en:'Sunflower', hi:'सूर्यमुखी', te:'సూర్యకాంతి', od:'ସୂର୍ଯ୍ୟମୁଖୀ' },
+  { id:'banana', icon:'🍌', en:'Banana', hi:'केला', te:'అరటి', od:'କଳା' },
 ];
+
 
 function cropName(c) {
   return c[currentLang] || c.en;
@@ -311,23 +321,23 @@ function cropName(c) {
 function renderHomeCropGrid() {
   const grid = document.getElementById('homeCropGrid');
   if (!grid) return;
-  grid.innerHTML = crops.slice(0,8).map(c => `
+  setHTML(grid, crops.slice(0,8).map(c => `
     <div class="crop-card" onclick="showDisease('${c.id}')">
       <div class="icon">${c.icon}</div>
       <div class="name">${c.en}</div>
       <div class="name-local">${c[currentLang] || ''}</div>
-    </div>`).join('');
+    </div>`).join(''));
 }
 
 function renderDiseaseCropGrid() {
   const grid = document.getElementById('diseaseCropGrid');
   if (!grid) return;
-  grid.innerHTML = crops.map(c => `
+  setHTML(grid, crops.map(c => `
     <div class="crop-card" onclick="showDisease('${c.id}')">
       <div class="icon">${c.icon}</div>
       <div class="name">${c.en}</div>
       <div class="name-local">${c[currentLang] || ''}</div>
-    </div>`).join('');
+    </div>`).join(''));
     }
 
     function renderSuggestions() {
@@ -335,10 +345,10 @@ function renderDiseaseCropGrid() {
       const el = document.getElementById('homeSuggestions');
       if (!el) return;
       const sugg = Array.isArray(raw) ? raw : String(raw).split(',');
-      el.innerHTML = sugg.map(s => {
+      setHTML(el, sugg.map(s => {
         const txt = stripAutoFromString(s);
         return `<span onclick="quickSearch('${txt.replace(/'/g, "\\'")})">${txt}</span>`;
-      }).join('');
+      }).join(''));
 }
 
 function renderQuickQuestions() {
@@ -346,10 +356,10 @@ function renderQuickQuestions() {
       const el = document.getElementById('quickQs');
       if (!el) return;
       const qs = Array.isArray(raw) ? raw : String(raw).split(',');
-      el.innerHTML = qs.map(q => {
+      setHTML(el, qs.map(q => {
         const txt = stripAutoFromString(q);
         return `<span onclick="setQuickChat('${txt.replace(/'/g, "\\'")})" style="display:inline-block;background:var(--green-pale);color:var(--green);padding:6px 14px;border-radius:14px;margin:3px;font-size:0.8rem;cursor:pointer;font-weight:600;border:1.5px solid var(--border);transition:background 0.2s;" onmouseover="this.style.background='#c8e6c9'" onmouseout="this.style.background='var(--green-pale)'>${txt}</span>`;
-      }).join('');
+      }).join(''));
 }
 
 function setQuickChat(q) {
@@ -565,7 +575,7 @@ function renderResults(q) {
   found.content.forEach(item => html += `<div class="result-card"><h3>${item.h}</h3><p>${item.b}</p></div>`);
   if (found.tags) html += `<div style="margin-bottom:12px;">${found.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
   html += `<a class="whatsapp-share" href="${shareUrl}" target="_blank">📲 Share on WhatsApp</a>`;
-  c.innerHTML = html;
+  setHTML(c, html);
     }
 
     // ===== DISEASE DATA =====
@@ -682,7 +692,7 @@ function showDisease(crop) {
     </div>`;
   });
   const dc = document.getElementById('disease-content');
-  if (dc) dc.innerHTML = html;
+  if (dc) setHTML(dc, html);
   showPage('disease-page');
 }
 
@@ -729,15 +739,15 @@ function filterMandi() {
 function renderMandiTable(data) {
   const tbody = document.getElementById('mandiBody');
   if (!tbody) return;
-  tbody.innerHTML = '';
+  setHTML(tbody, '');
   if (data.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-light);padding:20px;">No data found for this filter.</td></tr>`;
+    setHTML(tbody, `<tr><td colspan="6" style="text-align:center;color:var(--text-light);padding:20px;">No data found for this filter.</td></tr>`);
     return;
   }
   data.forEach(r => {
     const tr = document.createElement('tr');
     const isUp = r.trend === 'up';
-    tr.innerHTML = `<td><strong>${r.crop}</strong></td><td>${r.mandi}</td><td>${r.state}</td><td>₹${r.min}</td><td class="${isUp?'price-up':'price-down'}">₹${r.max} ${isUp?'▲':'▼'}</td><td>${isUp?`<span class="trend-up">${t('trends_rising')}</span>`:`<span class="trend-down">${t('trends_falling')}</span>`}</td>`;
+    setHTML(tr, `<td><strong>${r.crop}</strong></td><td>${r.mandi}</td><td>${r.state}</td><td>₹${r.min}</td><td class="${isUp?'price-up':'price-down'}">₹${r.max} ${isUp?'▲':'▼'}</td><td>${isUp?`<span class="trend-up">${t('trends_rising')}</span>`:`<span class="trend-down">${t('trends_falling')}</span>`}</td>`);
     tbody.appendChild(tr);
   });
     }
@@ -768,11 +778,11 @@ function loadSchemes() {
       </div>
     </div>`;
   });
-  el.innerHTML = html;
+  setHTML(el, html);
   // Also render home schemes preview
   const homeSchemes = document.getElementById('homeSchemes');
   if (homeSchemes) {
-    homeSchemes.innerHTML = schemesData.slice(0,2).map(s => `
+    setHTML(homeSchemes, schemesData.slice(0,2).map(s => `
       <div class="scheme-card" onclick="showPage('schemes')">
         <div class="scheme-icon">${s.icon}</div>
         <div class="scheme-info">
@@ -780,7 +790,7 @@ function loadSchemes() {
           <p>${s.desc.substring(0,100)}...</p>
           <span class="scheme-badge">${s.badge}</span>
         </div>
-      </div>`).join('');
+      </div>`).join(''));
   }
     } 
 
@@ -817,9 +827,9 @@ function showSeason(s, btn) {
   const tips = seasonData[s];
   const seasonEl = document.getElementById('season-content');
   if (!seasonEl) return; // defensive: some pages don't include the seasonal widget
-  seasonEl.innerHTML = tips.map((tip, i) =>
+  setHTML(seasonEl, tips.map((tip, i) =>
     `<div class="tip-card"><div class="tip-num">${i+1}</div><div class="tip-content"><h4>${tip.title}</h4><p>${tip.body}</p></div></div>`
-  ).join('');
+  ).join(''));
     }
     // ===== CROP SCANNER (LOCAL DEMO) =====
 const scannerConfig = {
@@ -984,7 +994,7 @@ function renderPhotoFollowup(topLikely) {
   const box = document.getElementById('scanFollowup');
   if (!box) return;
   box.style.display = 'block';
-  box.innerHTML = `
+  setHTML(box, `
     <h3>🧭 Smart fallback questions</h3>
     <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:10px;">Photo model is uncertain. Use these checks to narrow probable issue before any spray decision.</p>
     <div class="info-box" style="margin-bottom:10px;">
@@ -1063,7 +1073,7 @@ async function analyzeImage() {
     }
     renderPhotoFollowup(PHOTO_CHECK_LIBRARY[crop] || PHOTO_CHECK_LIBRARY.default);
   } finally {
-    if (btn) { try { btn.innerHTML = '📷 Check Crop Photo'; btn.disabled = false; } catch (e) {} }
+    if (btn) { try { setHTML(btn, '📷 Check Crop Photo'); btn.disabled = false; } catch (e) {} }
   }
 }
 
@@ -1257,7 +1267,7 @@ const newsItems=[
 ];
 function renderNewsTicker(){
   const el=document.getElementById('newsTicker');if(!el)return;
-  el.innerHTML=newsItems.map(n=>`<span class="news-item"><span class="news-dot">●</span>${n}</span>`).join('');
+  setHTML(el, newsItems.map(n=>`<span class="news-item"><span class="news-dot">●</span>${n}</span>`).join(''));
   }
 
     // ===== EXPANDED MANDI DATA (All regions) =====
@@ -1326,6 +1336,8 @@ const mandiDataNew={
     {crop:'🌶️ Chilli',mandi:'Khammam',state:'Telangana',min:8000,max:15000,trend:'up'},
     {crop:'🟡 Turmeric',mandi:'Erode',state:'Tamil Nadu',min:8000,max:12000,trend:'up'},
     {crop:'🫚 Castor',mandi:'Mahbubnagar',state:'Telangana',min:6200,max:6635,trend:'up'},
+    {crop:'🌻 Sunflower',mandi:'Guntur',state:'Andhra Pradesh',min:5200,max:6200,trend:'stable'},
+    {crop:'🌾 Sorghum (Jowar)',mandi:'Solapur',state:'Maharashtra',min:2600,max:3200,trend:'stable'},
     {crop:'🫚 Groundnut',mandi:'Anantapur',state:'Andhra Pradesh',min:5700,max:6200,trend:'up'},
   ],
   east:[
@@ -1355,6 +1367,7 @@ const mandiDataNew={
     {crop:'🌿 Fennel (Saunf)',mandi:'Unjha',state:'Gujarat',min:12000,max:18000,trend:'up'},
     {crop:'🍎 Pomegranate',mandi:'Solapur',state:'Maharashtra',min:8000,max:16000,trend:'up'},
     {crop:'🫘 Chickpea',mandi:'Nagpur',state:'Maharashtra',min:4900,max:5600,trend:'up'},
+    {crop:'🌾 Bajra (Pearl Millet)',mandi:'Ahmednagar',state:'Maharashtra',min:1850,max:2250,trend:'stable'},
   ],
   all:[
     {crop:'🌾 Paddy (Odisha)',mandi:'Cuttack',state:'Odisha',min:2000,max:2183,trend:'up'},
@@ -1375,6 +1388,9 @@ const mandiDataNew={
     {crop:'🌿 Mustard',mandi:'Kota RJ',state:'Rajasthan',min:4600,max:5100,trend:'up'},
     {crop:'🫚 Groundnut',mandi:'Rajkot GJ',state:'Gujarat',min:5600,max:6200,trend:'up'},
     {crop:'🫘 Soybean',mandi:'Indore MP',state:'Madhya Pradesh',min:4200,max:4700,trend:'down'},
+    {crop:'🌻 Sunflower',mandi:'Guntur AP',state:'Andhra Pradesh',min:5200,max:6200,trend:'stable'},
+    {crop:'🌾 Bajra (Pearl Millet)',mandi:'Ahmednagar MH',state:'Maharashtra',min:1850,max:2250,trend:'stable'},
+    {crop:'🌾 Sorghum (Jowar)',mandi:'Solapur MH',state:'Maharashtra',min:2600,max:3200,trend:'stable'},
   ],
 };
 function loadMandiNew(state,btn){
@@ -1382,7 +1398,7 @@ function loadMandiNew(state,btn){
   const tbody=document.getElementById('mandiBodyNew');if(!tbody)return;
   const stamp=document.querySelector('.mandi-update');
   if(stamp) stamp.textContent='Updated: 23 May 2026';
-  tbody.innerHTML=data.map(r=>{
+  setHTML(tbody, data.map(r=>{
     const ti=r.trend==='up'?'<span style="color:#2e7d32;font-weight:700;">▲ Rising</span>':r.trend==='down'?'<span style="color:#c62828;font-weight:700;">▼ Falling</span>':'<span style="color:#f57c00;font-weight:700;">─ Stable</span>';
     const mc=r.trend==='up'?'price-up':r.trend==='down'?'price-down':'';
     return `<tr><td>${r.crop}</td><td>${r.mandi}</td><td>${r.state}</td><td class="${mc}">₹${r.min.toLocaleString()}</td><td class="${mc}">₹${r.max.toLocaleString()}</td><td>${ti}</td></tr>`;
@@ -1455,7 +1471,7 @@ function showDistricts(state,btn){
   const data=districts[state];
   const grid=document.getElementById('districtGrid');if(!grid)return;
   const badge=state==='odisha'?'<span class="state-badge">Odisha</span>':'<span class="ap-badge">A.P.</span>';
-  grid.innerHTML=data.map(d=>{
+  setHTML(grid, data.map(d=>{
     const meta=districtMeta(d);
     return `<div class="district-card" onclick="showDistrictDetail('${d.name}','${state}')">
       <h4>${d.name} ${badge}</h4>
@@ -1478,7 +1494,7 @@ function showDistrictDetail(name,state){
   const balasoreBoost=d.name==='Balasore' ? `<div class="info-box" style="margin-top:8px;"><h4>⭐ Balasore Focus</h4><p>Coastal influence supports paddy-jute-vegetable systems, with strong scope for aquaculture-linked allied income and market-led banana/potato planning.</p></div>` : '';
   const det=document.getElementById('districtDetail');
   det.style.display='block';
-  det.innerHTML=`<button class="result-back" onclick="document.getElementById('districtDetail').style.display='none'">← Back to Districts</button>
+  setHTML(det, `<button class="result-back" onclick="document.getElementById('districtDetail').style.display='none'">← Back to Districts</button>
   <div class="result-card">
     <h3>🗺️ ${d.name} — Agricultural Intelligence View</h3>
     <div class="info-grid">
@@ -1691,11 +1707,11 @@ function renderCropDistrictTip(cropId){
   const state=stateSel.value;
   const list=(districts[state]||[]).map(d=>d.name);
   const current=districtSel.value;
-  districtSel.innerHTML='<option value="">Select district</option>'+list.map(n=>`<option value="${n}">${n}</option>`).join('');
+  setHTML(districtSel, '<option value="">Select district</option>'+list.map(n=>`<option value="${n}">${n}</option>`).join(''));
   if(list.includes(current)) districtSel.value=current;
 
   const tip=getDistrictTipForCrop(cropId,state,districtSel.value);
-  tipBox.innerHTML=`<strong>Rainfall hint:</strong> ${tip.rain}<br><strong>Soil hint:</strong> ${tip.soil}<br><strong>District tip:</strong> ${tip.district}`;
+  setHTML(tipBox, `<strong>Rainfall hint:</strong> ${tip.rain}<br><strong>Soil hint:</strong> ${tip.soil}<br><strong>District tip:</strong> ${tip.district}`);
 }
 
 let currentCropFilter='all';
@@ -1707,7 +1723,7 @@ function filterCropGuide(cat,btn){
 function renderCropGuide(cat){
   const data=cat==='all'?cropGuideData:cropGuideData.filter(c=>c.category===cat);
   const grid=document.getElementById('cropGuideGrid');if(!grid)return;
-  grid.innerHTML=data.map(c=>`<div class="fv-card" onclick="showCropDetail('${c.id}')"><div class="icon">${c.icon}</div><div class="name">${c.name}</div><span class="type-badge">${c.category}</span></div>`).join('');
+  setHTML(grid, data.map(c=>`<div class="fv-card" onclick="showCropDetail('${c.id}')"><div class="icon">${c.icon}</div><div class="name">${c.name}</div><span class="type-badge">${c.category}</span></div>`).join(''));
   document.getElementById('cropGuideDetail').style.display='none';
     }
     function showCropDetail(id){
@@ -1716,7 +1732,7 @@ function renderCropGuide(cat){
   const support=getDecisionSupport(c);
   const districtTip=getDistrictTipForCrop(c.id,'odisha','');
   det.style.display='block';
-  det.innerHTML=`<button class="result-back" onclick="document.getElementById('cropGuideDetail').style.display='none'">← Back</button>
+  setHTML(det, `<button class="result-back" onclick="document.getElementById('cropGuideDetail').style.display='none'">← Back</button>
   <div class="result-card" id="crop-top">
     <h3>${c.icon} ${c.name}</h3>
     <p style="margin-bottom:10px;">${c.intro}</p>
@@ -1848,13 +1864,13 @@ function filterFV(type,btn){
    function renderFV(type){
   const data=type==='all'?fvData:fvData.filter(c=>c.type===type);
   const grid=document.getElementById('fvGrid');if(!grid)return;
-  grid.innerHTML=data.map(c=>`<div class="fv-card" onclick="showFVDetail('${c.id}')"><div class="icon">${c.icon}</div><div class="name">${c.name}</div><span class="type-badge">${c.type}</span></div>`).join('');
+  setHTML(grid, data.map(c=>`<div class="fv-card" onclick="showFVDetail('${c.id}')"><div class="icon">${c.icon}</div><div class="name">${c.name}</div><span class="type-badge">${c.type}</span></div>`).join(''));
   const det=document.getElementById('fvDetail');if(det)det.style.display='none';
 }
 function showFVDetail(id){
   const c=fvData.find(x=>x.id===id);if(!c)return;
   const det=document.getElementById('fvDetail');det.style.display='block';
-  det.innerHTML=`<button class="result-back" onclick="document.getElementById('fvDetail').style.display='none'">← Back</button>
+  setHTML(det, `<button class="result-back" onclick="document.getElementById('fvDetail').style.display='none'">← Back</button>
   <div class="result-card"><h3>${c.icon} ${c.name} — Cultivation Guide</h3>
     <div class="info-grid">
       <div class="info-box"><h4>🌤️ Climate</h4><p>${c.climate}</p></div>
@@ -1898,11 +1914,11 @@ async function renderFert(type = 'all') {
     await ensureFertData();
     const data = type === 'all' ? fertData : fertData.filter(i => i.type === type || i.category===type);
     if (!data.length) {
-      grid.innerHTML = `<div class="result-card"><p>No input data found for this filter.</p></div>`;
+      setHTML(grid, `<div class="result-card"><p>No input data found for this filter.</p></div>`);
       if (det) det.style.display = 'none';
       return;
     }
-    grid.innerHTML = data.map(i => `
+    setHTML(grid, data.map(i => `
       <div class="fert-card" onclick="showFertDetail('${(i.name || '').replace(/'/g, "&#39;")}')">
         <span class="fert-tag">${i.type}</span>
         <h4>${i.name}</h4>
@@ -1912,7 +1928,7 @@ async function renderFert(type = 'all') {
     `).join('');
     if (det) det.style.display = 'none';
   } catch (err) {
-    grid.innerHTML = `<div class="result-card"><h3>⚠️ Unable to load inputs</h3><p>Please refresh the page and try again.</p></div>`;
+    setHTML(grid, `<div class="result-card"><h3>⚠️ Unable to load inputs</h3><p>Please refresh the page and try again.</p></div>`);
     if (det) det.style.display = 'none';
   }
 }
@@ -1922,7 +1938,7 @@ function showFertDetail(name) {
   const det = document.getElementById('fertDetail');
   if (!item || !det) return;
   det.style.display = 'block';
-  det.innerHTML = `
+  setHTML(det, `
     <button class="result-back" onclick="document.getElementById('fertDetail').style.display='none'">← Back</button>
     <div class="result-card">
       <h3>🧪 ${item.name}</h3>
@@ -1968,7 +1984,7 @@ const organicData=[
 ];
 function renderOrganic(){
   const grid=document.getElementById('organicGrid');if(!grid)return;
-  grid.innerHTML=organicData.map(o=>`<div class="organic-card"><h4>🌿 ${o.title}</h4><div class="organic-tag">${o.tag}</div><p>${o.desc}</p></div>`).join('');
+  setHTML(grid, organicData.map(o=>`<div class="organic-card"><h4>🌿 ${o.title}</h4><div class="organic-tag">${o.tag}</div><p>${o.desc}</p></div>`).join(''));
 }
 
 // ===== SPECIAL FARMING (Mushroom, Beekeeping, Drip, Nursery, Dairy) =====
@@ -1981,7 +1997,7 @@ const specialData=[
 ];
 function renderSpecial(){
   const grid=document.getElementById('specialGrid');if(!grid)return;
-  grid.innerHTML=specialData.map(s=>`<div class="special-card">
+  setHTML(grid, specialData.map(s=>`<div class="special-card">
     <h3>${s.title}</h3>
     <p>${s.content}</p>
     <ul>${s.steps.map(st=>`<li>${st}</li>`).join('')}</ul>
@@ -2036,7 +2052,7 @@ function filterSeeds(cat,btn){
 function renderSeeds(cat){
   const data=cat==='all'?seedData:seedData.filter(s=>s.crop===cat);
   const grid=document.getElementById('seedGrid');if(!grid)return;
-  grid.innerHTML=data.map(s=>`<div class="seed-card">
+  setHTML(grid, data.map(s=>`<div class="seed-card">
     <h4>${s.icon} ${s.name}</h4>
     <div style="margin-bottom:7px;">${s.vars.map(v=>`<span class="seed-var">${v.split('—')[0].trim().split('(')[0].trim()}</span>`).join('')}</div>
     ${s.vars.map(v=>`<p style="font-size:0.73rem;color:var(--text-light);margin-bottom:3px;padding-bottom:3px;border-bottom:1px dashed var(--border);">▸ ${v}</p>`).join('')}
@@ -2054,7 +2070,7 @@ const womenCategories=[
 ];
 function renderWomen(){
   const grid=document.getElementById('womenGrid');if(!grid)return;
-  grid.innerHTML=womenCategories.map(cat=>`<div class="women-card">
+  setHTML(grid, womenCategories.map(cat=>`<div class="women-card">
     <div class="women-icon">${cat.title.split(' ')[0]}</div>
     <div class="women-title">${cat.title}</div>
     <div class="women-sub">${cat.desc}</div>
@@ -2106,7 +2122,7 @@ const notesData={
 function showSubject(subject,btn){
   const data=notesData[subject];if(!data)return;
   const cont=document.getElementById('notesContent');
-  cont.innerHTML=data.map(note=>`<div class="notes-card">
+  setHTML(cont, data.map(note=>`<div class="notes-card">
     <h3>📖 ${note.title}</h3>
     <p>${note.content}</p>
     <h4>📌 Key Points for Exam:</h4>
@@ -2136,7 +2152,7 @@ function renderCalendar(filter='all'){
   const grid=document.getElementById('calendarGrid');if(!grid)return;
   currentCalendarFilter=filter;
   const list=calendarData.filter(m=>filter==='all' || m.season===filter);
-  grid.innerHTML=list.map(m=>`<div class="cal-card">
+  setHTML(grid, list.map(m=>`<div class="cal-card">
     <div class="cal-month">${m.month} <span class="cal-season ${m.season}">${m.label}</span></div>
     <div class="cal-item"><strong>🧑‍🌾 Crop operations:</strong> ${m.ops.join('; ')}</div>
     <div class="cal-item"><strong>🌱 Sowing / transplant:</strong> ${m.sowing.join('; ')}</div>
@@ -2216,7 +2232,7 @@ let allGlossaryTerms=[...glossaryTerms];
 function renderGlossary(filter=''){
   const grid=document.getElementById('glossaryGrid');if(!grid)return;
   const data=filter?glossaryTerms.filter(t=>t.term.toLowerCase().includes(filter.toLowerCase())||t.def.toLowerCase().includes(filter.toLowerCase())):glossaryTerms;
-  grid.innerHTML=data.map(t=>`<div class="gloss-card"><div class="gloss-term">${t.term}</div><div class="gloss-def">${t.def}</div></div>`).join('');
+  setHTML(grid, data.map(t=>`<div class="gloss-card"><div class="gloss-term">${t.term}</div><div class="gloss-def">${t.def}</div></div>`).join(''));
 }
 function filterGlossary(val){renderGlossary(val);}
 
@@ -2238,7 +2254,7 @@ const faqData=[
 ];
 function renderFAQ(){
   const list=document.getElementById('faqList');if(!list)return;
-  list.innerHTML=faqData.map((faq,i)=>`<div class="faq-card">
+  setHTML(list, faqData.map((faq,i)=>`<div class="faq-card">
     <div class="faq-q" onclick="toggleFAQ(${i},this)">${faq.q} <span>▾</span></div>
     <div class="faq-a" id="faq-a-${i}">${faq.a}</div>
   </div>`).join('');
@@ -2564,12 +2580,12 @@ function populateDailyAdvisoryInputs(){
   const weatherSel = document.getElementById('dailyWeather');
   if(!cropSel || !seasonSel || !regionSel || !weatherSel) return;
 
-  cropSel.innerHTML = Object.entries(DAILY_ADVISORY_LIBRARY.crops)
+  setHTML(cropSel, Object.entries(DAILY_ADVISORY_LIBRARY.crops)
     .map(([id, cfg]) => `<option value="${id}">${cfg.label}</option>`)
-    .join('');
-  seasonSel.innerHTML = DAILY_ADVISORY_CONFIG.seasons.map(s => `<option value="${s.id}">${s.label}</option>`).join('');
-  weatherSel.innerHTML = DAILY_ADVISORY_CONFIG.weatherModes.map(w => `<option value="${w.id}">${w.label}</option>`).join('');
-  regionSel.innerHTML = DAILY_ADVISORY_CONFIG.regions.map(r => `<option value="${r.id}">${r.label}</option>`).join('');
+    .join(''));
+  setHTML(seasonSel, DAILY_ADVISORY_CONFIG.seasons.map(s => `<option value="${s.id}">${s.label}</option>`).join(''));
+  setHTML(weatherSel, DAILY_ADVISORY_CONFIG.weatherModes.map(w => `<option value="${w.id}">${w.label}</option>`).join(''));
+  setHTML(regionSel, DAILY_ADVISORY_CONFIG.regions.map(r => `<option value="${r.id}">${r.label}</option>`).join(''));
 
   cropSel.value = 'paddy';
   seasonSel.value = 'kharif';
@@ -2584,9 +2600,9 @@ function updateDailyStageOptions(){
   if(!cropId || !stageSel) return;
   const crop = DAILY_ADVISORY_LIBRARY.crops[cropId];
   if(!crop) return;
-  stageSel.innerHTML = Object.keys(crop.stages)
+  setHTML(stageSel, Object.keys(crop.stages)
     .map(stageId => `<option value="${stageId}">${stageId.replace(/_/g,' ').replace(/\b\w/g,m=>m.toUpperCase())}</option>`)
-    .join('');
+    .join(''));
 }
 
 function buildDailyAdvisory(cropId, stageId, seasonId, weatherId, regionId){
@@ -2630,7 +2646,7 @@ function renderDailyAdvisoryResult(){
   if(!box) return;
   const advisory = buildDailyAdvisory(cropId, stageId, seasonId, weatherId, regionId);
   if(!advisory){
-    box.innerHTML = `<p class="daily-result-empty">Unable to generate advisory for this selection. Please try another crop-stage combination.</p>`;
+    setHTML(box, `<p class="daily-result-empty">Unable to generate advisory for this selection. Please try another crop-stage combination.</p>`);
     return;
   }
 
@@ -2639,7 +2655,7 @@ function renderDailyAdvisoryResult(){
   const regionLabel = DAILY_ADVISORY_CONFIG.regions.find(r => r.id === regionId)?.label || regionId;
   const stageLabel = stageId.replace(/_/g,' ').replace(/\b\w/g,m=>m.toUpperCase());
 
-  box.innerHTML = `
+  setHTML(box, `
     <div class="daily-badge">Today’s Crop Guidance · ${escapeHtml(advisory.crop.label)}</div>
     <div class="daily-risk-section">
       <h4>⚠️ Risk Alerts Today</h4>
@@ -2687,7 +2703,7 @@ function initDailyAdvisory(){
   populateDailyAdvisoryInputs();
   const box = document.getElementById('dailyResult');
   if(box){
-    box.innerHTML = `<p class="daily-result-empty">Choose crop, stage, season, region, and weather mode. Then tap <strong>Get Today's Farm Plan</strong> for practical actions.</p>`;
+    setHTML(box, `<p class="daily-result-empty">Choose crop, stage, season, region, and weather mode. Then tap <strong>Get Today's Farm Plan</strong> for practical actions.</p>`);
   }
 }
 

@@ -2,7 +2,7 @@
     "missing_keys":  [
 
                      ],
-    "timestamp":  "2026-05-27T11:06:13.0247016+05:30",
+    "timestamp":  "2026-05-27T17:31:03.2225237+05:30",
     "risky":  [
                   {
                       "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\assets\\app.js",
@@ -17,12 +17,12 @@
                   {
                       "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\assets\\app.js",
                       "pattern":  "\\.innerHTML\\b",
-                      "count":  48
+                      "count":  1
                   },
                   {
                       "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\assets\\app.js",
                       "pattern":  "\\.textContent\\b",
-                      "count":  24
+                      "count":  25
                   },
                   {
                       "file":  "C:\\Users\\rudra\\OneDrive\\Documents\\GitHub\\askagri1\\dairy.js",
