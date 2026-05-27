@@ -1,0 +1,13 @@
+{
+  "generatedAt": "2026-05-27T00:00:00Z",
+  "summary": "Playwright headless checks across site pages. No uncaught page errors or console exceptions observed in this run.",
+  "pages": [
+    {"title":"AskKrishi™ 🌾 – Kisan Ka Saathi","url":"file:///C:/Users/rudra/OneDrive/Documents/GitHub/askagri1/index.html","logs":[]},
+    {"title":"AskKrishi™ 🌾 – Kisan Ka Saathi","url":"file:///C:/Users/rudra/OneDrive/Documents/GitHub/askagri1/index.html#crop-guide","logs":[]},
+    {"title":"Dairy | AskKrishi","url":"file:///C:/Users/rudra/OneDrive/Documents/GitHub/askagri1/dairy.html","logs":[]},
+    {"title":"Fishery | AskKrishi","url":"file:///C:/Users/rudra/OneDrive/Documents/GitHub/askagri1/fishery.html","logs":[]},
+    {"title":"Livestock | AskKrishi","url":"file:///C:/Users/rudra/OneDrive/Documents/GitHub/askagri1/livestock.html","logs":[]},
+    {"title":"Poultry | AskKrishi","url":"file:///C:/Users/rudra/OneDrive/Documents/GitHub/askagri1/poultry.html","logs":[]},
+    {"title":"Poultry & Livestock Farming Guide | AskKrishi","url":"file:///C:/Users/rudra/OneDrive/Documents/GitHub/askagri1/poultry-livestock.html","logs":[]}
+  ]
+}
