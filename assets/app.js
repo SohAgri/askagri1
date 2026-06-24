@@ -573,7 +573,7 @@ function renderResults(q) {
   if (!found) found = knowledgeBase['default'];
   const c = document.getElementById('search-results-content');
   if (!c) return;
-  const shareUrl = `https://wa.me/?text=AskKrishi: ${encodeURIComponent(found.title)} - sohagri.github.io/askkrishi`;
+  const shareUrl = `https://wa.me/?text=AskKrishi: ${encodeURIComponent(found.title)} - https://askkrishi.in/`;
   let html = `<h2 style="font-size:1rem;color:var(--text-light);margin-bottom:16px;">Results for: <strong style="color:var(--green)">"${q}"</strong></h2>`;
   found.content.forEach(item => html += `<div class="result-card"><h3>${item.h}</h3><p>${item.b}</p></div>`);
   if (found.tags) html += `<div style="margin-bottom:12px;">${found.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
