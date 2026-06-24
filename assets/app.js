@@ -350,7 +350,7 @@ function renderDiseaseCropGrid() {
       const sugg = Array.isArray(raw) ? raw : String(raw).split(',');
       setHTML(el, sugg.map(s => {
         const txt = stripAutoFromString(s);
-        return `<span onclick="quickSearch('${txt.replace(/'/g, "\\'")})">${txt}</span>`;
+            return `<span onclick="quickSearch('${txt.replace(/'/g, "\\'")}')">${txt}</span>`;
       }).join(''));
 }
 
@@ -361,7 +361,7 @@ function renderQuickQuestions() {
       const qs = Array.isArray(raw) ? raw : String(raw).split(',');
       setHTML(el, qs.map(q => {
         const txt = stripAutoFromString(q);
-        return `<span onclick="setQuickChat('${txt.replace(/'/g, "\\'")})" style="display:inline-block;background:var(--green-pale);color:var(--green);padding:6px 14px;border-radius:14px;margin:3px;font-size:0.8rem;cursor:pointer;font-weight:600;border:1.5px solid var(--border);transition:background 0.2s;" onmouseover="this.style.background='#c8e6c9'" onmouseout="this.style.background='var(--green-pale)'>${txt}</span>`;
+        return `<span onclick="setQuickChat('${txt.replace(/'/g, "\\'")}')" style="display:inline-block;background:var(--green-pale);color:var(--green);padding:6px 14px;border-radius:14px;margin:3px;font-size:0.8rem;cursor:pointer;font-weight:600;border:1.5px solid var(--border);transition:background 0.2s;" onmouseover="this.style.background='#c8e6c9'" onmouseout="this.style.background='var(--green-pale)'">${txt}</span>`;
       }).join(''));
 }
 
@@ -1006,7 +1006,7 @@ function renderPhotoFollowup(topLikely) {
     </div>
     ${PHOTO_CHECK_FOLLOWUPS.map(item => `<div class="info-box" style="margin-bottom:8px;"><h4>${item.q}</h4><div class="photo-chip-row">${item.options.map(opt=>`<span class="photo-chip">${opt}</span>`).join('')}</div></div>`).join('')}
     <p style="font-size:0.78rem;color:var(--text-light);margin-top:10px;">Tip: re-upload a close image of the affected part in daylight for better probable matching.</p>
-  `;
+  `);
 }
 
 async function analyzeImage() {
@@ -1061,7 +1061,7 @@ async function analyzeImage() {
         <button class="photo-link-btn" onclick="localStorage.setItem('askkrishi_ai_prompt','I uploaded a ${cropLabelFromId(crop)} photo and got probable issue: ${primary.problem}. What should I verify next?');applyPendingAiPrompt();">🤖 Ask AI follow-up</button>
       </div></div>
       <div class="info-box" style="margin-top:10px;"><h4>Trust & safety</h4><p>Educational photo-based support only. This is a probable issue result, not a guaranteed diagnosis. Verify pest/disease before spraying, local conditions matter, and for severe outbreaks consult local agriculture expert/KVK.</p></div>
-    `;
+    `);
 
     if (fallbackNeeded) {
       renderPhotoFollowup(topLikely);
@@ -1399,7 +1399,7 @@ function loadMandiNew(state,btn){
     const ti=r.trend==='up'?'<span style="color:#2e7d32;font-weight:700;">▲ Rising</span>':r.trend==='down'?'<span style="color:#c62828;font-weight:700;">▼ Falling</span>':'<span style="color:#f57c00;font-weight:700;">─ Stable</span>';
     const mc=r.trend==='up'?'price-up':r.trend==='down'?'price-down':'';
     return `<tr><td>${r.crop}</td><td>${r.mandi}</td><td>${r.state}</td><td class="${mc}">₹${r.min.toLocaleString()}</td><td class="${mc}">₹${r.max.toLocaleString()}</td><td>${ti}</td></tr>`;
-  }).join('');
+  }).join(''));
   document.querySelectorAll('.mandi-tab').forEach(t=>t.classList.remove('active'));
   if(btn)btn.classList.add('active');
     }
@@ -1478,7 +1478,7 @@ function showDistricts(state,btn){
       <p style="font-size:0.71rem;color:var(--text-light);">🤝 Allied: ${meta.allied}</p>
       <div class="district-crop-tags">${d.crops.map(c=>'<span class="tag">'+c+'</span>').join('')}</div>
     </div>`;
-  }).join('');
+  }).join(''));
   document.getElementById('districtDetail').style.display='none';
   document.querySelectorAll('.state-tab').forEach(t=>t.classList.remove('active'));
   if(btn)btn.classList.add('active');
@@ -1515,7 +1515,7 @@ function showDistrictDetail(name,state){
     ${balasoreBoost}
     <div style="margin-top:9px;">${d.crops.map(c=>'<span class="tag">'+c+'</span>').join('')}</div>
     <a class="whatsapp-share" style="margin-top:10px;" href="https://wa.me/?text=${encodeURIComponent('AskKrishi: '+d.name+' – Crops: '+d.crops.join(', '))}" target="_blank">📲 Share</a>
-  </div>`;
+  </div>`);
   det.scrollIntoView({behavior:'smooth'});
 }
 
@@ -1804,7 +1804,7 @@ function renderCropGuide(cat){
     </div>
 
     <a class="whatsapp-share" style="margin-top:10px;" href="https://wa.me/?text=${encodeURIComponent('AskKrishi Crop Guide: '+c.name+' – '+c.nutrient)}" target="_blank">📲 Share Guide</a>
-  </div>`;
+  </div>`);
   det.scrollIntoView({behavior:'smooth'});
   renderCropDistrictTip(c.id);
 }
@@ -1877,7 +1877,7 @@ function showFVDetail(id){
     </div>
     <div class="info-box" style="margin-top:8px;background:#fff8e1;border-color:#ffe082;"><h4 style="color:#e65100;">🌿 Organic Methods</h4><p>Vermicompost 3-4 t/ha. Neem oil 5ml/L for pest control. Bio-inoculants (Azospirillum, VAM mycorrhiza) for nutrient uptake. Mulching for moisture conservation and weed suppression.</p></div>
     <a class="whatsapp-share" style="margin-top:10px;" href="https://wa.me/?text=${encodeURIComponent('AskKrishi: '+c.name+' – '+c.fertilizer)}" target="_blank">📲 Share</a>
-  </div>`;
+  </div>`);
   det.scrollIntoView({behavior:'smooth'});
     }
 
@@ -1922,7 +1922,7 @@ async function renderFert(type = 'all') {
         <p>${i.mainFunction || i.desc}</p>
         <p style="font-size:0.72rem;color:var(--green);margin-top:6px;">Use case: ${i.bestUseCase || 'Educational guidance'}</p>
       </div>
-    `).join('');
+    `).join(''));
     if (det) det.style.display = 'none';
   } catch (err) {
     setHTML(grid, `<div class="result-card"><h3>⚠️ Unable to load inputs</h3><p>Please refresh the page and try again.</p></div>`);
@@ -1959,7 +1959,7 @@ function showFertDetail(name) {
       <div class="info-box" style="margin-top:8px;background:#fff8e1;border-color:#ffe082;"><h4 style="color:#e65100;">Good practice</h4><p>Identify the problem first, use only when needed, rotate chemistry, and protect pollinators and beneficial insects.</p></div>
       <div style="margin-top:9px;"><strong style="font-size:0.78rem;color:var(--text-light);">Linked crops:</strong> ${(item.commonCrops||[]).map(c=>`<span class='tag'>${c}</span>`).join('')}</div>
     </div>
-  `;
+  `);
   det.scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -2003,7 +2003,7 @@ function renderSpecial(){
       <span class="profit-badge">📈 Income: ${s.profit}</span>
     </div>
     <p style="font-size:0.73rem;color:var(--green);margin-top:7px;font-weight:600;">🔗 ${s.link}</p>
-  </div>`).join('');
+  </div>`).join(''));
   }
 
  // ===== SEED VARIETIES =====
@@ -2054,7 +2054,7 @@ function renderSeeds(cat){
     <div style="margin-bottom:7px;">${s.vars.map(v=>`<span class="seed-var">${v.split('—')[0].trim().split('(')[0].trim()}</span>`).join('')}</div>
     ${s.vars.map(v=>`<p style="font-size:0.73rem;color:var(--text-light);margin-bottom:3px;padding-bottom:3px;border-bottom:1px dashed var(--border);">▸ ${v}</p>`).join('')}
     <div style="margin-top:7px;background:var(--green-pale);border-radius:10px;padding:7px;font-size:0.73rem;color:var(--text-light);">💡 ${s.note}</div>
-  </div>`).join('');
+  </div>`).join(''));
     }
 
   // ===== WOMEN IN AGRICULTURE =====
@@ -2073,7 +2073,7 @@ function renderWomen(){
     <div class="women-sub">${cat.desc}</div>
     <ul class="women-items">${cat.items.map(i=>`<li>${i}</li>`).join('')}</ul>
     <div class="income-badge">💰 Potential: ${cat.income}</div>
-  </div>`).join('');
+  </div>`).join(''));
 }
 
 // ===== STUDENT NOTES =====
@@ -2124,7 +2124,7 @@ function showSubject(subject,btn){
     <p>${note.content}</p>
     <h4>📌 Key Points for Exam:</h4>
     <ul>${note.points.map(p=>`<li>${p}</li>`).join('')}</ul>
-  </div>`).join('');
+  </div>`).join(''));
   document.querySelectorAll('.subject-tab').forEach(t=>t.classList.remove('active'));
   if(btn)btn.classList.add('active');
 }
@@ -2158,7 +2158,7 @@ function renderCalendar(filter='all'){
     <div class="cal-item"><strong>🛡️ Pest / disease watch:</strong> ${m.pest}</div>
     <div class="cal-item"><strong>🌾 Harvest / post-harvest:</strong> ${m.harvest}</div>
     <div class="cal-item"><strong>📍 Regional note:</strong> ${m.region}</div>
-  </div>`).join('');
+  </div>`).join(''));
 }
 function filterCalendar(filter,btn){
   renderCalendar(filter);
@@ -2254,7 +2254,7 @@ function renderFAQ(){
   setHTML(list, faqData.map((faq,i)=>`<div class="faq-card">
     <div class="faq-q" onclick="toggleFAQ(${i},this)">${faq.q} <span>▾</span></div>
     <div class="faq-a" id="faq-a-${i}">${faq.a}</div>
-  </div>`).join('');
+  </div>`).join(''));
 }
 function toggleFAQ(i,el){
   const ans=document.getElementById('faq-a-'+i);
@@ -2693,7 +2693,7 @@ function renderDailyAdvisoryResult(){
       <div class="daily-links">${advisory.links.map(link => `<button type="button" class="daily-link" onclick="${link.action}">${escapeHtml(link.label)}</button>`).join('')}</div>
     </div>
     <div class="daily-region-note"><strong>Selection:</strong> ${escapeHtml(stageLabel)} · ${escapeHtml(seasonLabel)} · ${escapeHtml(weatherLabel)} · ${escapeHtml(regionLabel)}<br>${escapeHtml(advisory.regionNote)}</div>
-  `;
+  `);
 }
 
 function initDailyAdvisory(){
