@@ -1462,11 +1462,26 @@ footer a { color: #81c784; text-decoration: none; }
         <span>●</span><span>●</span><span>●</span> KrishiBot is preparing answer...
       </div>
       <div id="chatError" style="display:none;background:#ffebee;border:1.5px solid #ffcdd2;color:#b71c1c;padding:9px 12px;font-size:0.78rem;">Unable to process now. Please try again in a moment.</div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0;">
+        <select id="assistantMode" style="padding:10px;border:1.5px solid var(--border);border-radius:10px;">
+          <option value="farmer">Farmer Mode</option>
+          <option value="student">Student Mode</option>
+        </select>
+        <input id="ctxState" type="text" placeholder="State (optional)" style="padding:10px;border:1.5px solid var(--border);border-radius:10px;">
+        <input id="ctxDistrict" type="text" placeholder="District (optional)" style="padding:10px;border:1.5px solid var(--border);border-radius:10px;">
+        <input id="ctxCrop" type="text" placeholder="Crop (optional)" style="padding:10px;border:1.5px solid var(--border);border-radius:10px;">
+        <input id="ctxCropStage" type="text" placeholder="Crop stage (optional)" style="padding:10px;border:1.5px solid var(--border);border-radius:10px;">
+        <input id="ctxDaysAfterSowing" type="number" min="0" placeholder="Days after sowing (optional)" style="padding:10px;border:1.5px solid var(--border);border-radius:10px;">
+      </div>
       <div class="chat-input-row">
         <input class="chat-input" id="chatInput" type="text" data-key-placeholder="chat_placeholder" placeholder="Ask about crop disease, fertilizers, schemes..."
           onkeydown="if(event.key==='Enter') sendChat()">
         <button class="search-voice-btn" onclick="startVoice('chatInput')" style="border-radius:50%;">🎙️</button>
         <button class="chat-send" onclick="sendChat()">➤</button>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;">
+        <button type="button" class="fv-btn" onclick="retryLastChat()">Retry last</button>
+        <button type="button" class="fv-btn" onclick="clearChatConversation()">Clear chat</button>
       </div>
     </div>
 

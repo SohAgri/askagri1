@@ -1080,10 +1080,11 @@ function setPhotoFollowupPrompt() {
 }
 
 
-    // ===== AI AGRICULTURE ASSISTANT (LOCAL DEMO) =====
+    // ===== AI AGRICULTURE ASSISTANT =====
 const assistantConfig = {
-  mode: 'local', // future: 'api'
-  apiEndpoint: '',
+  mode: 'auto', // auto -> try API first, fallback local
+  apiEndpoint: '/api/ai/chat',
+  timeoutMs: 20000,
 };
 
 const assistantExamples = [
@@ -1182,23 +1183,90 @@ Then I will give a practical step-by-step answer.`;
 }
 
 async function getAssistantResponseAPI(question) {
-  throw new Error('API mode not configured yet');
+  const payload = {
+    message: question,
+    language: currentLang,
+    mode: getAssistantMode(),
+    context: getAssistantContext(),
+    history: chatHistory.slice(-8),
+  };
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), assistantConfig.timeoutMs || 20000);
+  try {
+    const resp = await fetch(assistantConfig.apiEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+    if (!resp.ok) throw new Error('AI API request failed');
+    const data = await resp.json();
+    if (!data || typeof data.answer !== 'string' || !data.answer.trim()) {
+      throw new Error('AI API returned invalid response');
+    }
+    return data.answer.trim();
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 async function getAssistantResponse(question) {
-  if (assistantConfig.mode === 'api') {
-    return getAssistantResponseAPI(question);
+  if (assistantConfig.mode !== 'local') {
+    try {
+      return await getAssistantResponseAPI(question);
+    } catch (err) {
+      if (assistantConfig.mode === 'api') throw err;
+    }
   }
   return getAssistantResponseLocal(question);
 }
 
 let chatHistory = [];
+let lastUserQuestion = '';
+let chatBusy = false;
+
+function getAssistantMode() {
+  const modeEl = document.getElementById('assistantMode');
+  if (!modeEl) return 'farmer';
+  return modeEl.value === 'student' ? 'student' : 'farmer';
+}
+
+function getAssistantContext() {
+  const pick = id => {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  };
+
+  const daysRaw = pick('ctxDaysAfterSowing');
+  const daysNum = Number(daysRaw);
+  return {
+    state: pick('ctxState') || undefined,
+    district: pick('ctxDistrict') || undefined,
+    crop: pick('ctxCrop') || undefined,
+    cropStage: pick('ctxCropStage') || undefined,
+    daysAfterSowing: Number.isFinite(daysNum) && daysNum > 0 ? daysNum : undefined,
+  };
+}
+
+function escapeHTML(text) {
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 async function sendChat() {
+  if (chatBusy) return;
   const input = document.getElementById('chatInput');
+  if (!input) return;
   const q = input.value.trim();
   if (!q) return;
   input.value = '';
+  lastUserQuestion = q;
+  chatBusy = true;
 
   appendMsg(q, 'user');
   chatHistory.push({ role: 'user', content: q });
@@ -1219,20 +1287,23 @@ async function sendChat() {
     if (typing) typing.style.display = 'none';
     if (errBox) errBox.style.display = 'block';
     appendMsg('Sorry, I could not answer right now. Please try again.', 'ai');
+  } finally {
+    chatBusy = false;
   }
   scrollChat();
 }
 
 function appendMsg(text, type) {
   const msgs = document.getElementById('chatMessages');
+  if (!msgs) return;
   const div = document.createElement('div');
   div.className = `chat-msg ${type}`;
   if (type === 'ai') {
-    setHTML(div, `<div class="ai-name">🌾 KrishiBot</div>${text.replace(/\n/g, '<br>')}`);
+    setHTML(div, `<div class="ai-name">🌾 KrishiBot</div>${escapeHTML(text).replace(/\n/g, '<br>')}`);
   } else {
     div.textContent = text;
   }
-  if (msgs) msgs.appendChild(div);
+  msgs.appendChild(div);
   scrollChat();
 }
 
@@ -1240,6 +1311,24 @@ function scrollChat() {
   const msgs = document.getElementById('chatMessages');
   if (!msgs) return;
   try { msgs.scrollTop = msgs.scrollHeight; } catch (e) { }
+}
+
+function clearChatConversation() {
+  const msgs = document.getElementById('chatMessages');
+  if (!msgs) return;
+  chatHistory = [];
+  msgs.innerHTML = '';
+  appendMsg(t('welcome'), 'ai');
+  const errBox = document.getElementById('chatError');
+  if (errBox) errBox.style.display = 'none';
+}
+
+function retryLastChat() {
+  if (!lastUserQuestion || chatBusy) return;
+  const input = document.getElementById('chatInput');
+  if (!input) return;
+  input.value = lastUserQuestion;
+  sendChat();
 }
 
 
