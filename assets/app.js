@@ -1048,7 +1048,7 @@ async function analyzeImage() {
         <button class="photo-link-btn" onclick="localStorage.setItem('askkrishi_ai_prompt','I uploaded a ${cropLabelFromId(crop)} photo and got probable issue: ${primary.problem}. What should I verify next?');applyPendingAiPrompt();">🤖 Ask AI follow-up</button>
       </div></div>
       <div class="info-box" style="margin-top:10px;"><h4>Trust & safety</h4><p>Educational photo-based support only. This is a probable issue result, not a guaranteed diagnosis. Verify pest/disease before spraying, local conditions matter, and for severe outbreaks consult local agriculture expert/KVK.</p></div>
-    `;
+    `);
 
     if (fallbackNeeded) {
       renderPhotoFollowup(topLikely);
@@ -2764,29 +2764,37 @@ function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const pg=document.getElementById(id);if(pg)pg.classList.add('active');
   document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
-  if (window.location.hash !== `#${id}`) history.replaceState(null, '', `#${id}`);
+  try {
+    if (window.location.hash !== `#${id}`) history.replaceState(null, '', `#${id}`);
+  } catch (e) {
+    window.location.hash = id;
+  }
   window.scrollTo(0,0);
-  if(id==='mandi')loadMandiNew('odisha');
-  if(id==='district-guide')showDistricts('odisha',document.querySelector('.state-tab'));
-  if(id==='crop-guide')renderCropGuide('all');
-  if(id==='fruits-veg')renderFV('all');
-  if(id==='fertilizers')renderFert('all');
-  if(id==='organic-farming')renderOrganic();
-  if(id==='special-farming')renderSpecial();
-  if(id==='seed-varieties')renderSeeds('all');
-  if(id==='women-agri')renderWomen();
-  if(id==='student-notes')showSubject('agronomy',document.querySelector('.subject-tab'));
-  if(id==='calendar')renderCalendar();
-  if(id==='glossary')renderGlossary();
-  if(id==='faq')renderFAQ();
-  if(id==='schemes'){loadSchemes();} 
-  if(id==='seasonal')showSeason('kharif',document.querySelector('.season-tab'));
-  if(id==='daily-advisory') renderDailyAdvisoryResult();
-  if(id==='diseases')renderDiseaseCropGrid();
-  if(id==='fishery'){
-    const fisherySearch=document.getElementById('fisherySearch');
-    if(fisherySearch) fisherySearch.value='';
-    filterFisheryContent('');
+  try {
+    if(id==='mandi' && typeof loadMandiNew === 'function')loadMandiNew('odisha');
+    if(id==='district-guide' && typeof showDistricts === 'function')showDistricts('odisha',document.querySelector('.state-tab'));
+    if(id==='crop-guide' && typeof renderCropGuide === 'function')renderCropGuide('all');
+    if(id==='fruits-veg' && typeof renderFV === 'function')renderFV('all');
+    if(id==='fertilizers' && typeof renderFert === 'function')renderFert('all');
+    if(id==='organic-farming' && typeof renderOrganic === 'function')renderOrganic();
+    if(id==='special-farming' && typeof renderSpecial === 'function')renderSpecial();
+    if(id==='seed-varieties' && typeof renderSeeds === 'function')renderSeeds('all');
+    if(id==='women-agri' && typeof renderWomen === 'function')renderWomen();
+    if(id==='student-notes' && typeof showSubject === 'function')showSubject('agronomy',document.querySelector('.subject-tab'));
+    if(id==='calendar' && typeof renderCalendar === 'function')renderCalendar();
+    if(id==='glossary' && typeof renderGlossary === 'function')renderGlossary();
+    if(id==='faq' && typeof renderFAQ === 'function')renderFAQ();
+    if(id==='schemes' && typeof loadSchemes === 'function'){loadSchemes();} 
+    if(id==='seasonal' && typeof showSeason === 'function')showSeason('kharif',document.querySelector('.season-tab'));
+    if(id==='daily-advisory' && typeof renderDailyAdvisoryResult === 'function') renderDailyAdvisoryResult();
+    if(id==='diseases' && typeof renderDiseaseCropGrid === 'function')renderDiseaseCropGrid();
+    if(id==='fishery'){
+      const fisherySearch=document.getElementById('fisherySearch');
+      if(fisherySearch) fisherySearch.value='';
+      if (typeof filterFisheryContent === 'function') filterFisheryContent('');
+    }
+  } catch (e) {
+    console.warn('Page render failed for', id, e);
   }
   if(id==='ai-chat'){setTimeout(()=>{const ci=document.getElementById('chatInput');if(ci)ci.focus();},300);}
 }
