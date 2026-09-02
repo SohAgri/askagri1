@@ -1036,19 +1036,24 @@ async function analyzeImage() {
       </div>
       <div class="info-box" style="margin-top:10px;"><h4>A. Most Likely Problem</h4><p style="font-size:1.01rem;font-weight:800;color:var(--green);">${primary.problem}</p></div>
       <div class="info-box" style="margin-top:10px;"><h4>B. Confidence / Likelihood</h4><p><strong>${primary.confidence}</strong> (probable issue match, not guaranteed diagnosis)</p></div>
-      <div class="info-box" style="margin-top:10px;"><h4>C. Why it looks like this</h4><ul class="photo-result-list">${primary.reasons.map(i=>`<li>${i}</li>`).join('')}</ul></div>
-      <div class="info-box" style="margin-top:10px;"><h4>D. What to check next</h4><ul class="photo-result-list">${primary.checks.map(i=>`<li>${i}</li>`).join('')}</ul></div>
-      <div class="info-box" style="margin-top:10px;"><h4>E. First action today</h4><ul class="photo-result-list">${primary.firstAction.map(i=>`<li>${i}</li>`).join('')}</ul></div>
-      <div class="info-box" style="margin-top:10px;background:#fff8e1;border-color:#ffe082;"><h4 style="color:#996200;">F. Avoid these mistakes</h4><ul class="photo-result-list">${primary.avoid.map(i=>`<li>${i}</li>`).join('')}</ul></div>
+      <div class="info-box" style="margin-top:10px;"><h4>C. Why it looks like this</h4><ul class="photo-result-list">${primary.reasons.map(item => '<li>' + item + '</li>').join('')}</ul></div>
+      <div class="info-box" style="margin-top:10px;"><h4>D. What to check next</h4><ul class="photo-result-list">${primary.checks.map(item => '<li>' + item + '</li>').join('')}</ul></div>
+      <div class="info-box" style="margin-top:10px;"><h4>E. First action today</h4><ul class="photo-result-list">${primary.firstAction.map(item => '<li>' + item + '</li>').join('')}</ul></div>
+      <div class="info-box" style="margin-top:10px;background:#fff8e1;border-color:#ffe082;"><h4 style="color:#996200;">F. Avoid these mistakes</h4><ul class="photo-result-list">${primary.avoid.map(item => '<li>' + item + '</li>').join('')}</ul></div>
       <div class="info-box" style="margin-top:10px;"><h4>G. Related AskKrishi links</h4><div class="photo-chip-row">
-        <button class="photo-link-btn" onclick="showPage('${primary.related.crop}')">📘 Crop guide</button>
-        <button class="photo-link-btn" onclick="showPage('${primary.related.disease}')">🦠 Disease guide</button>
-        <button class="photo-link-btn" onclick="showPage('${primary.related.pest}')">🐛 Related pest/input page</button>
-        <button class="photo-link-btn" onclick="showPage('${primary.related.advisory}')">🧭 Daily Advisory</button>
-        <button class="photo-link-btn" onclick="localStorage.setItem('askkrishi_ai_prompt','I uploaded a ${cropLabelFromId(crop)} photo and got probable issue: ${primary.problem}. What should I verify next?');applyPendingAiPrompt();">🤖 Ask AI follow-up</button>
+        <button class="photo-link-btn" data-photo-page="${primary.related.crop}">📘 Crop guide</button>
+        <button class="photo-link-btn" data-photo-page="${primary.related.disease}">🦠 Disease guide</button>
+        <button class="photo-link-btn" data-photo-page="${primary.related.pest}">🐛 Related pest/input page</button>
+        <button class="photo-link-btn" data-photo-page="${primary.related.advisory}">🧭 Daily Advisory</button>
+        <button class="photo-link-btn" data-photo-followup>🤖 Ask AI follow-up</button>
       </div></div>
       <div class="info-box" style="margin-top:10px;"><h4>Trust & safety</h4><p>Educational photo-based support only. This is a probable issue result, not a guaranteed diagnosis. Verify pest/disease before spraying, local conditions matter, and for severe outbreaks consult local agriculture expert/KVK.</p></div>
     `);
+      resultBox.querySelectorAll('[data-photo-page]').forEach(button => {
+        button.addEventListener('click', () => showPage(button.dataset.photoPage));
+      });
+      resultBox.querySelector('[data-photo-followup]')?.addEventListener('click', setPhotoFollowupPrompt);
+    }
 
     if (fallbackNeeded) {
       renderPhotoFollowup(topLikely);
@@ -1065,6 +1070,13 @@ async function analyzeImage() {
   } finally {
     if (btn) { try { btn.innerHTML = '📷 Check Crop Photo'; btn.disabled = false; } catch (e) {} }
   }
+}
+
+function setPhotoFollowupPrompt() {
+  const crop = cropLabelFromId(inferCropForDemo());
+  const problem = document.querySelector('#analysisResult .info-box p')?.textContent?.trim() || 'the reported crop issue';
+  localStorage.setItem('askkrishi_ai_prompt', `I uploaded a ${crop} photo and got probable issue: ${problem}. What should I verify next?`);
+  applyPendingAiPrompt();
 }
 
 
